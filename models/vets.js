@@ -1,11 +1,11 @@
 module.exports = function(sequelize, DataTypes) {
-  var Homes = sequelize.define("Homes", {
-    lat: {
-      type: DataTypes.INTEGER,
+  var Vets = sequelize.define("Vets", {
+    practice_name: {
+      type: DataTypes.STRING,
       allowNull: false
     },
-    long: {
-      type: DataTypes.INTEGER,
+    phone_number: {
+      type: DataTypes.STRING,
       allowNull: false
     },
     street: {
@@ -24,18 +24,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    home_name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    master_key: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    invitation_key: {
+    email: {
       type: DataTypes.STRING
+    },
+    emergency_clinic: {
+      type: DataTypes.BOOLEAN
     }
   });
 
-  return Homes;
+  return Vets;
 };
