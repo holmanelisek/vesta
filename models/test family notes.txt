@@ -1,0 +1,64 @@
+Test Family: 
+
+Home Name: Holman House
+
+Users: 
+
+username: mom50
+    email: mom@gmail.com
+    password: lovemykids1
+    firstname: Laura
+    lastname: Holman
+    age: 50
+    phonenumber: 1230984567
+    parent: true
+    points: 0
+username: dad52
+    email: dad@gmail.com
+    password: kidsareokay1
+    firstname: Scott
+    lastname: Holman
+    age: 52
+    phonenumber: 0987654321
+    parent: true
+    points: 0
+username: elise1
+    email: elise@gmail.com
+    password: oldestkid
+    firstname: Elise 
+    lastname: Holman
+    age: 23
+    phonenumber: 3305621234
+    parent: false
+    points: 200
+username: lydia2
+    email: lydia@gmail.com
+    password: middlechild
+    firstname: Lydia 
+    lastname: Holman
+    age: 20
+    phonenumber: 2161234567
+    parent: false
+    points: 10
+username: corinne3
+    email: corinne@gmail.com
+    password: baby
+    firstname: Corinne 
+    lastname: Holman
+    age: 18
+    phonenumber: 3301234567
+    parent: false
+    points: 1
+
+
+Pets: 
+
+name: Rocket
+    age: 7
+    animal type: dog
+name: Scout
+    age: 4
+    animal type: dog
+name: Blue
+    age: 2
+    animal type: dog
