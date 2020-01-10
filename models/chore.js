@@ -69,11 +69,34 @@ module.exports = function(sequelize, DataTypes){
 //TO DO
 //view all chores
     //sequel get request (filter repeats?)
-//view chores based on house ID (sort by start date?)
+        //Post.findAll({})
+        //or
+        //Post.findAll({
+            //where: {
+                //home id: 
+            //}
+        //})
+    //view chores based on house ID (sort by start date?)
     //sequel get request with defined foreign key
 //mark chore as completed
+    //Post.update({
+        //completed: true
+        //completed_by: ID OF USER
+    //})
     //push TRUE to completed, push user ID to completed_by
 //confirm chore as completed/delete chore/add points to user account
+    //Post.update({
+        //points
+    //},{
+        //where: {
+            //user_id: ID OF COMPLETED BY
+        //}
+    //})
+    //Post.destroy({
+        //where: {
+            //chore_id: 
+        //}
+    //})
     //pull completed chore/chore ID
     //if points exist, add points to completed_by user ID
     //delete that instance of chore
