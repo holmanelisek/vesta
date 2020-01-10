@@ -61,11 +61,22 @@ module.exports = function(sequelize, DataTypes){
             }
         })
     }
+
+    return Chore;
 }
 
 
 //TO DO
 //view all chores
+    //sequel get request (filter repeats?)
 //view chores based on house ID (sort by start date?)
+    //sequel get request with defined foreign key
 //mark chore as completed
+    //push TRUE to completed, push user ID to completed_by
 //confirm chore as completed/delete chore/add points to user account
+    //pull completed chore/chore ID
+    //if points exist, add points to completed_by user ID
+    //delete that instance of chore
+    //re initialize all call
+
+
