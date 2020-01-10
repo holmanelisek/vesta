@@ -1,4 +1,6 @@
 import React from 'react';
+import Home from "./pages/home";
+import Admin from "./pages/admin";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 //Import for templste code.
 //import logo from './logo.svg';
@@ -9,9 +11,8 @@ function App() {
   <div>
     <Nav />
     <Switch>
-      <Route exact path="/" component={Books} />
-      <Route exact path="/books" component={Books} />
-      <Route exact path="/books/:id" component={Detail} />
+      <Route exact path="/" component={Home} />
+      <Route exact path="/admin" component={Admin} />
       <Route component={NoMatch} />
     </Switch>
   </div>
