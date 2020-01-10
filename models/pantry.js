@@ -2,9 +2,7 @@ module.exports = function(sequelize, DataTypes) {
   var Pantry = sequelize.define("Pantry", {
     home_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      references: "Homes",
-      referencesKey: "id"
+      allowNull: false
     },
     upc: {
       type: DataTypes.INTEGER,
