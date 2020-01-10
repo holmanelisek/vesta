@@ -21,7 +21,13 @@ module.exports = function(sequelize, DataTypes) {
     best_by: {
       type: DataTypes.STRING
     },
-    date_in: {}
+    date_in: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    date_out: {
+      type: DataTypes.STRING
+    }
   });
 
   return Pantry;

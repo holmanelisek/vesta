@@ -8,6 +8,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    home_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     admin_user_id: {
       type: DataTypes.INTEGER,
       references: "User",
