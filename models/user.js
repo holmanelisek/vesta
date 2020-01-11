@@ -53,7 +53,7 @@ module.exports = function(sequelize, DataTypes) {
     third_home_id: {
       type: DataTypes.INTEGER
     },
-    forth_home_id: {
+    fourth_home_id: {
       type: DataTypes.INTEGER
     }
   });

@@ -40,21 +40,23 @@ Object.keys(db).forEach(function(modelName) {
 db.User.belongsTo(db.Homes, {
   as: "main",
   foreignKey: "home_id"
+  // TODO in the future this will be required
+  // required: true
 });
 
 db.User.belongsTo(db.Homes, {
   as: "two",
-  foreignKey: "secondary_id"
+  foreignKey: "second_home_id"
 });
 
 db.User.belongsTo(db.Homes, {
   as: "three",
-  foreignKey: "tertiary_id"
+  foreignKey: "third_home_id"
 });
 
 db.User.belongsTo(db.Homes, {
   as: "four",
-  foreignKey: "quaternary_id"
+  foreignKey: "fourth_home_id"
 });
 
 // PETS ASSOCIATIONS
