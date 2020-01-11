@@ -18,10 +18,10 @@ module.exports = function(sequelize, DataTypes) {
       required: true,
       allowNull: false
     },
-    primary_vet: {
+    primary_vet_id: {
       type: DataTypes.INTEGER
     },
-    emergency_vet: {
+    emergency_vet_id: {
       type: DataTypes.INTEGER
     }
   });
