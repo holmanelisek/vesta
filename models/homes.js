@@ -1,12 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
   var Homes = sequelize.define("Homes", {
     lat: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER
     },
     longitude: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER
     },
     street: {
       type: DataTypes.STRING,
