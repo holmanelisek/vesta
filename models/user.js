@@ -47,13 +47,13 @@ module.exports = function(sequelize, DataTypes) {
     home_id: {
       type: DataTypes.INTEGER
     },
-    secondary_id: {
+    second_home_id: {
       type: DataTypes.INTEGER
     },
-    tertiary_id: {
+    third_home_id: {
       type: DataTypes.INTEGER
     },
-    quaternary_id: {
+    forth_home_id: {
       type: DataTypes.INTEGER
     }
   });
