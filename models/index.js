@@ -87,6 +87,11 @@ db.Chore.belongsTo(db.Homes, {
   foreignKey: "home_id"
 });
 
+db.Chore.belongsTo(db.User, {
+  as: "user",
+  foreignKey: "created_by"
+});
+
 // NOTES ASSOCIATIONS
 db.Notes.belongsTo(db.Homes, {
   as: "home",
