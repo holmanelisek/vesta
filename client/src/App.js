@@ -5,12 +5,21 @@ import Admin from "./pages/Admin";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Wrapper from "./components/Wrapper";
+import ScrollspyNav from "react-scrollspy-nav";
 
 function App() {
   return (
     <Router>
       <div>
-        <Navbar />
+        <ScrollspyNav
+            scrollTargetIds={["section_1", "section_2", "section_3"]}
+            offset={-56}
+            activeNavClass="is-active"
+            scrollDuration="100"
+            headerBackground="true"
+        >
+          <Navbar />
+        </ScrollspyNav>
         <Wrapper>
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
