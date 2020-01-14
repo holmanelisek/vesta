@@ -11,15 +11,15 @@ function App() {
   return (
     <Router>
       <div>
-        <ScrollspyNav
+        {/* <ScrollspyNav
             scrollTargetIds={["about","services","team"]}
             offset={-56}
             activeNavClass="is-active"
             scrollDuration="400"
             headerBackground="true"
-        >
+        > */}
           <Navbar />
-        </ScrollspyNav>
+        {/* </ScrollspyNav> */}
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
