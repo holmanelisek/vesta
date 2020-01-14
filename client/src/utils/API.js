@@ -2,20 +2,22 @@ import axios from "axios";
 
 export default {
   //Gets user_data only returns data if signed in
-  isSignedIn: function() {
+  isSignedIn: () => {
     return axios.get("/api/api/user_data");
   },
   // Post route to sign in
-  signIn: function(signInData) {
-    console.log(signInData);
+  signIn: signInData => {
     return axios.post("/api/api/login", signInData);
   },
   //Post route to sign up
-  signUp: function(signUpData) {
+  signUp: signUpData => {
     console.log(signUpData);
     return axios.post("/api/api/signup", signUpData);
   },
-  testApi: function(){
+  testApi: () => {
     return axios.get("https://dog.ceo/api/breeds/image/random");
+  },
+  signOut: () => {
+    return axios.get("/api/logout");
   }
 };

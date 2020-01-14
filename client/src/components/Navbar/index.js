@@ -26,6 +26,15 @@ class Navbar extends Component{
         }).catch();
     }
 
+    handleSignOutSubmit = event => {
+        event.preventDefault();
+        API.signOut()
+          .then( res => {
+                this.setState({isSignedIn: false, data: []});
+                window.location.reload(false)
+            })
+      }
+
     //Function for displaying menu links based on if user is logged in or not.
     isSignedIn = () => {
         if(this.state.isSignedIn){
@@ -51,7 +60,7 @@ class Navbar extends Component{
                     </li>
                     <li className="nav-item">
                         {/* Figure out how to sign users out */}
-                        <a className="nav-link" href="#" data-toggle="modal" data-target="#modalRegisterForm" >Sign Out</a>
+                        <a className="nav-link" href="#" onClick={this.handleSignOutSubmit} >Sign Out</a>
                     </li>
                 </ul>
             )

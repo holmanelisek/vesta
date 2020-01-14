@@ -20,10 +20,10 @@ function SignIn(props) {
                                     value={props.username}
                                     onChange = {props.handleInputChange}
                                     type="text"
-                                    name="username"
-                                    id="usernames" 
+                                    name="email"
+                                    id="email" 
                                     className="form-control"
-                                    placeholder="Username"/>
+                                    placeholder="Email"/>
                             </div>
                             {/* Password Input */}
                             <div className="md-form mb-4">

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import  { Redirect, Link } from 'react-router-dom'
 import Hero from "../components/Hero";
 import Container from "../components/Container";
 import SignIn from "../components/SignIn";
@@ -11,7 +12,7 @@ class Home extends Component {
     password: "",
     firstname: "",
     lastname: "",
-    email: ""
+    email: "",
   };
 
   //Function to change the state values on input change
@@ -26,12 +27,13 @@ class Home extends Component {
     //API post for signing in
     API.signIn({
       //This is the data the API server requires for signing up, change them based on the what the server requires.
-      username: this.state.username,
+      email: this.state.email,
       password: this.state.password
     }).then(response => {
-      if(response.data) {
-        //Do something with the response data
-      }
+        console.log(response.data)
+        if(response.data.username){
+          window.location.reload(false);
+        }
     }).catch(err => {
       //Do something with the err
       console.log(err)
@@ -50,6 +52,7 @@ class Home extends Component {
         fName: this.state.firstname,
         lName: this.state.lastname
       }).then( response => {
+
       }).catch( err => {
         //Do something with error
     });
