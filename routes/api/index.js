@@ -21,8 +21,8 @@ router.post("/api/signup", function(req, res) {
     firstName: req.body.fName,
     lastName: req.body.lName
   })
-    .then(function() {
-      res.redirect(307, "/api/login");
+    .then(function(dbUser) {
+      res.json(dbUser);
     })
     .catch(function(err) {
       res.status(401).json(err);
