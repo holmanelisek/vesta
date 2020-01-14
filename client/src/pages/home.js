@@ -45,9 +45,11 @@ class Home extends Component {
     API.signUp({
         //This is the data the API server requires for signing up, change them based on the what the server requires.
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        username: this.state.username,
+        fName: this.state.firstname,
+        lName: this.state.lastname
       }).then( response => {
-        //Do something with response
       }).catch( err => {
         //Do something with error
     });
@@ -55,7 +57,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div id="page-top">
         <Hero backgroundImage="https://images.pexels.com/photos/1595391/pexels-photo-1595391.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260">
           <h1>Vesta</h1>
           <h2>Some good marketing should go here</h2>
@@ -243,7 +245,7 @@ class Home extends Component {
         {/* SignUp Component */}
         <SignUp
           // Passing through functions
-          handleFormSubmit={this.handleSignUpSubmit}
+          handleSignUpSubmit={this.handleSignUpSubmit}
           handleInputChange={this.handleInputChange}
         />
       </div>

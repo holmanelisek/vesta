@@ -5,71 +5,35 @@ import "./style.css";
 
 class Navbar extends Component{
     state = {
-        isSignedIn: true
+        isSignedIn: false,
+        data: []
     };
 
     componentDidMount(){
-    //This API call is disabled until we can run the server
-        // API.isSignedIn().then(res => {
-        //     //If res.email is true then render this menu
-        //     if(res.email){
-        //         return (
-        //             <ul className="navbar-nav text-uppercase ml-auto">
-        //                 <li className="nav-item">
-        //                     <a className="nav-link" href="#page-top">Home</a>
-        //                 </li>
-        //                 <li className="nav-item">
-        //                     <a className="nav-link" href="#about">About</a>
-        //                 </li>
-        //                 <li className="nav-item">
-        //                     <a className="nav-link " href="#services">Features</a>
-        //                 </li>
-        //                 <li className="nav-item">
-        //                     <a className="nav-link" href="#team">Team</a>
-        //                 </li>
-        //                 <li className="nav-item">
-        //                     {/* Input href for the homehub page */}
-        //                     <a className="nav-link" href="#" data-toggle="modal" data-target="#modalLoginForm">Home Hub</a>
-        //                 </li>
-        //                 <li className="nav-item">
-        //                     {/* Figure out how to sign users out */}
-        //                     <a className="nav-link" href="#" data-toggle="modal" data-target="#modalRegisterForm" >Sign Out</a>
-        //                 </li>
-        //             </ul>
-        //         )
-        //     //If res.email is not true render this menu
-        //     }else{
-        //         return (
-        //             <ul className="navbar-nav text-uppercase ml-auto">
-        //                 <li className="nav-item">
-        //                     <a className="nav-link" href="#page-top">Home</a>
-        //                 </li>
-        //                 <li className="nav-item">
-        //                     <a className="nav-link" href="#about">About</a>
-        //                 </li>
-        //                 <li className="nav-item">
-        //                     <a className="nav-link " href="#services">Features</a>
-        //                 </li>
-        //                 <li className="nav-item">
-        //                     <a className="nav-link" href="#team">Team</a>
-        //                 </li>
-        //                 <li className="nav-item">
-        //                     <a className="nav-link" href="#" data-toggle="modal" data-target="#modalLoginForm">Sign In</a>
-        //                 </li>
-        //                 <li className="nav-item">
-        //                     <a className="nav-link" href="#" data-toggle="modal" data-target="#modalRegisterForm" >Sign Up</a>
-        //                 </li>
-        //             </ul>
-        //         )
-        //     }
-        // }).catch();
+        this.checkSignIn();
+    }
 
-    //Use this IF statement to test our the menu
+    checkSignIn = () => {
+        console.log("API CALL");
+        API.isSignedIn().then(res => {
+            console.log("API RESPONSE")
+            console.log(res.data.messege)
+            //If res.email is true then render this menu
+            if(res.data.id){
+                this.setState({isSignedIn: true});
+            //If res.email is not true render this menu
+            }
+        }).catch();
+    }
+
+    //Function for displaying menu links based on if user is logged in or not.
+    isSignedIn = () => {
         if(this.state.isSignedIn){
             return (
                 <ul className="navbar-nav text-uppercase ml-auto">
                     <li className="nav-item">
-                        {<Link to="/" className="nav-link">Home</Link>}
+                        {/* {<Link to="/" className="nav-link">Home</Link>} */}
+                        <a className="nav-link" href="#page-top">Home</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#about">About</a>
@@ -82,8 +46,8 @@ class Navbar extends Component{
                     </li>
                     <li className="nav-item">
                         {/* Input href for the homehub page */}
-                        {/* <a className="nav-link" href={<Link to={"/"}></Link>} data-toggle="modal">Home Hub</a> */}
-                        {<Link to="/admin" className="nav-link">Home Hub</Link>}
+                        <a className="nav-link" href="/admin">Home Hub</a>
+                        {/* {<Link to="/admin" className="nav-link">Home Hub</Link>} */}
                     </li>
                     <li className="nav-item">
                         {/* Figure out how to sign users out */}
@@ -127,7 +91,7 @@ class Navbar extends Component{
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        {this.componentDidMount()};
+                        {this.isSignedIn()};
                     </div>
                 </div>
             </nav>
