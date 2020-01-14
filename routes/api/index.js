@@ -14,7 +14,6 @@ router.post("/api/login", passport.authenticate("local"), function(req, res) {
 // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
 // otherwise send back an error
 router.post("/api/signup", function(req, res) {
-  console.log("sign up")
   db.User.create({
     email: req.body.email,
     password: req.body.password,
@@ -40,7 +39,7 @@ router.get("/logout", function(req, res) {
 router.get("/api/user_data", function(req, res) {
   if (!req.user) {
     // The user is not logged in, send back an empty object
-    res.json({messege: "No Logged In"});
+    res.json({});
   } else {
     // Otherwise send back the user's email and id
     // Sending back a password, even a hashed password, isn't a good idea
