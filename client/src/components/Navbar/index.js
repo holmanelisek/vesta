@@ -17,7 +17,7 @@ class Navbar extends Component{
         console.log("API CALL");
         API.isSignedIn().then(res => {
             console.log("API RESPONSE")
-            console.log(res.data.messege)
+            console.log(res.data)
             //If res.email is true then render this menu
             if(res.data.id){
                 this.setState({isSignedIn: true});

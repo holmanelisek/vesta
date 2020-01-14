@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Hero from "../components/Hero";
 import Container from "../components/Container";
 import SignIn from "../components/SignIn";
-import SignUp from "../components/SignUp";
+import SignUp from "../components/Signup";
 import API from "../utils/API";
 
 class Home extends Component {

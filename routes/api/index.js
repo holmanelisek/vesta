@@ -18,8 +18,8 @@ router.post("/api/signup", function(req, res) {
     email: req.body.email,
     password: req.body.password,
     username: req.body.username,
-    firstName: req.body.fName,
-    lastName: req.body.lName
+    first_name: req.body.fName,
+    last_name: req.body.lName
   })
     .then(function(dbUser) {
       res.json(dbUser);
@@ -39,7 +39,7 @@ router.get("/logout", function(req, res) {
 router.get("/api/user_data", function(req, res) {
   if (!req.user) {
     // The user is not logged in, send back an empty object
-    res.json({});
+    res.json({response: "User Not Logged In"});
   } else {
     // Otherwise send back the user's email and id
     // Sending back a password, even a hashed password, isn't a good idea
