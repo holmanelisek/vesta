@@ -71,7 +71,7 @@ function SignUp(props){
                     </div>
                     <div className="modal-footer d-flex justify-content-center">
                         {/* Submit Button */}
-                        <button type="submit" onClick={props.handleFormSubmit} className="btn btn-deep-orange">Sign up</button>
+                        <button type="submit" onClick={props.handleSignUpSubmit} className="btn btn-deep-orange">Sign up</button>
                     </div>
                 </div>
             </div>

@@ -6,19 +6,19 @@ import API from "../utils/API";
 
 class Admin extends Component {
     state = {
-      isSignedIn: true
+      isSignedIn: false
     };
   
-    // componentDidMount(){
-    //   API.isSignedIn()
-    //   .then(res => {
-    //     if(!res.email){
-    //       this.setState({isSignedIn: true})
-    //     }
-    //   }).catch(err => {
+    componentDidMount(){
+      API.isSignedIn()
+      .then(res => {
+        if(!res.email){
+          this.setState({isSignedIn: true})
+        }
+      }).catch(err => {
 
-    //   })
-    // }
+      })
+    }
 
     //Function to change the state values on input change
     handleInputChange = event => {
