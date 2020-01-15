@@ -4,6 +4,9 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      brand: {
+          type: DataTypes.STRING,
+      },
       title: {
           type: DataTypes.STRING,
           allowNull: false
@@ -11,9 +14,6 @@ module.exports = function(sequelize, DataTypes) {
       upc: {
           type: DataTypes.STRING,
           allowNull: false
-      },
-      brand: {
-          type: DataTypes.STRING,
       }
     });
   
