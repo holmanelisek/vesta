@@ -26,3 +26,5 @@ INSERT INTO notes (home_id,user_id,urgent,note,createdAt,updatedAt) VALUES (1,3,
 
 INSERT INTO pantries (home_id,upc,item_name,quantity,best_by,date_in,createdAt,updatedAt) VALUES (1,"5000011187","Nestle Hot Cocoa Mix",1,"October 19,2020","2020-01-11 12:15:00","2020-01-11 12:15:00","2020-01-11 12:15:00");
 INSERT INTO pantries (home_id,item_name,quantity,date_in,date_out,createdAt,updatedAt) VALUES (1,"Chinese Leftovers",1,"2020-01-11 12:15:00","2020-01-14 12:15:00","2020-01-11 12:15:00","2020-01-11 12:15:00");
+
+INSERT INTO UPCDATA (home_id,brand,title,upc) VALUES (1,"Voss","ARTESIAN WATER FROM NORWAY","682430400102");
