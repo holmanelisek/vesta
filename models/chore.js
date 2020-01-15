@@ -52,7 +52,6 @@ module.exports = function(sequelize, DataTypes) {
     },
     completed_by: {
       type: DataTypes.INTEGER,
-      allowNull: false
     }
   });
 
