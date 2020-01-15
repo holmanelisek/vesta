@@ -108,6 +108,11 @@ db.Notes.belongsTo(db.Chore, {
   foreignKey: "chore_id"
 });
 
+// db.UpcData.belongsTo(db.Homes, {
+//   as: "home",
+//   foreignKey: "home_id"
+// });
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
