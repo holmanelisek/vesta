@@ -5,8 +5,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     upc: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.STRING,
     },
     item_name: {
       type: DataTypes.STRING,
