@@ -54,7 +54,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER
     }
   });
-
   return Chore;
 };
 
