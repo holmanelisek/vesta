@@ -1,8 +1,4 @@
 import React, { Component } from "react";
-import Hero from "../components/Hero";
-import Container from "../components/Container";
-import { Link, Redirect } from "react-router-dom";
-import API from "../utils/API";
 
 class NoMatch extends Component {
     render() {
