@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import API from "../../utils/API";
 import "./style.css";
 
@@ -9,40 +9,25 @@ class Navbar extends Component{
         data: []
     };
 
-    componentDidMount(){
-        this.checkSignIn();
-    }
-
-    checkSignIn = () => {
-        console.log("API CALL");
-        API.isSignedIn().then(res => {
-            console.log("API RESPONSE")
-            console.log(res.data)
-            //If res.email is true then render this menu
-            if(res.data.id){
-                this.setState({isSignedIn: true});
-            //If res.email is not true render this menu
-            }
-        }).catch();
-    }
-
     handleSignOutSubmit = event => {
         event.preventDefault();
         API.signOut()
           .then( res => {
-                this.setState({isSignedIn: false, data: []});
-                window.location.reload(false)
+                //this.setState({isSignedIn: false, data: []});
+                //this.props.history.push("/");
+                window.location.reload();
             })
       }
 
     //Function for displaying menu links based on if user is logged in or not.
     isSignedIn = () => {
-        if(this.state.isSignedIn){
+        console.log(this.props.authenticated)
+        console.log(this.props);
+        if(this.props.authenticated){
             return (
                 <ul className="navbar-nav text-uppercase ml-auto">
                     <li className="nav-item">
-                        {/* {<Link to="/" className="nav-link">Home</Link>} */}
-                        <a className="nav-link" href="#page-top">Home</a>
+                        {<Link to="/" className="nav-link" onClick={()=> this.props.history.push("/")}>Home</Link>}
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#about">About</a>
@@ -54,9 +39,7 @@ class Navbar extends Component{
                         <a className="nav-link" href="#team">Team</a>
                     </li>
                     <li className="nav-item">
-                        {/* Input href for the homehub page */}
-                        <a className="nav-link" href="/admin">Home Hub</a>
-                        {/* {<Link to="/admin" className="nav-link">Home Hub</Link>} */}
+                        {<Link to="/Homehub" className="nav-link">Home Hub</Link>}
                     </li>
                     <li className="nav-item">
                         {/* Figure out how to sign users out */}
@@ -69,7 +52,8 @@ class Navbar extends Component{
             return (
                 <ul className="navbar-nav text-uppercase ml-auto">
                     <li className="nav-item">
-                        <a className="nav-link" href="#page-top">Home</a>
+                        {/* <a className="nav-link" href="#page-top">Home</a> */}
+                        {<Link to="/" className="nav-link">Home</Link>}
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#about">About</a>
@@ -108,4 +92,4 @@ class Navbar extends Component{
     }
 }
 
-export default Navbar;
+export default withRouter(Navbar);
