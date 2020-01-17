@@ -77,19 +77,19 @@ class Navbar extends Component{
     
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-dark" id="homeNavBar">
+            <nav className="navbar navbar-expand-lg navbar-dark fixed-top nav-color" id="homeNavBar">
                 <div className="container">
-                    <a className="navbar-brand float" href="#page-top"><img src="../assets/images/vesta-logo-icon-white.png" id="header-icon"/></a>
+                    <a className="navbar-brand float" href="#page-top"><img src="../assets/images/vesta-logo-icon-white.png" id="nav-icon"/></a>
 
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        {this.isSignedIn()};
+                        {this.isSignedIn()}
                     </div>
                 </div>
             </nav>
-        );
+        )
     }
 }
 
