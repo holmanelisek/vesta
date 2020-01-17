@@ -1,4 +1,4 @@
-#header-icon {
+#nav-icon {
   width: 15%;
 }
 
@@ -8,4 +8,8 @@ li {
 
 ul {
     white-space: nowrap;
+}
+
+.nav-color {
+  background-color: #4280a4;
 }
