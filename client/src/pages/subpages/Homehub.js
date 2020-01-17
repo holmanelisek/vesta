@@ -62,11 +62,11 @@ class Homehub extends Component {
                 {/* chores content goes here */}
                 <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
                   <ul className="list-group list-group-flush">
-                    <li className="list-group-item list-group-item-success">First and most important chores go here with a green background.<br />
+                    <li className="list-group-item list-group-item">First and most important chores go here with a green background.<br />
                       <button type="button" className="btn btn-secondary" style={{ margin: 5 }}>More Info...</button>
                       <button type="button" className="btn btn-success" style={{ margin: 5 }}>Completed!</button>
                     </li>
-                    <li className="list-group-item list-group-item-primary">Second and secondary chores go here with a blue background.<br />
+                    <li className="list-group-item list-group-item">Second and secondary chores go here with a blue background.<br />
                       <button type="button" className="btn btn-secondary" style={{ margin: 5 }}>More Info...</button>
                       <button type="button" className="btn btn-success" style={{ margin: 5 }}>Completed!</button>
                     </li>
@@ -124,18 +124,32 @@ class Homehub extends Component {
 
                 {/* pantry data goes here */}
                 <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
-                  <h4>Items needed from the store:</h4>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item list-group-item-danger"><h4>Milk</h4>
-                      <button type="button" className="btn btn-success" style={{ margin: 5 }}>Purchased!</button>
-                    </li>
-                    <li className="list-group-item list-group-item-danger"><h4>Eggs</h4>
-                      <button type="button" className="btn btn-success" style={{ margin: 5 }}>Purchased!</button>
-                    </li>
-                    <li className="list-group-item list-group-item-danger"><h4>Orange Juice</h4>
-                      <button type="button" className="btn btn-success" style={{ margin: 5 }}>Purchased!</button>
-                    </li>
-                  </ul>
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-6">
+                        <h4>Items in pantry:</h4>
+                        <ul className="list-group list-group-flush">
+                          <li className="list-group-item list-group-item-success"><h4>Cookies</h4>
+                            <button type="button" className="btn btn-success" style={{ margin: 5 }}>Purchased!</button>
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="col-6">
+                        <h4>Items needed:</h4>
+                        <ul className="list-group list-group-flush">
+                          <li className="list-group-item list-group-item-danger"><h4>Milk</h4>
+                            <button type="button" className="btn btn-success" style={{ margin: 5 }}>Purchased!</button>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <br/>
+                  <div className="row">
+                    <div className="col-12">
+                      <p>Recipe Info Here</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
