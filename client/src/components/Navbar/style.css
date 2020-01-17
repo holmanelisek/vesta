@@ -1,0 +1,11 @@
+#header-icon {
+  width: 15%;
+}
+
+li {
+    padding: 5px;
+}
+
+ul {
+    white-space: nowrap;
+}
