@@ -1,11 +1,58 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import API from "../../utils/API";
+import Chores from '../../components/Chores/index'
 
 class Homehub extends Component {
   state = {
     isSignedIn: false,
+    chores: [],
+    // users: []
   };
+
+  findUncompletedChores = item => {
+    return !item.completed
+  }
+
+  // storeUsernames = array => {
+  //     return array.username;
+  // }
+
+  // grabUsers = userHome => {
+  //     API.getAllHomeUsers({
+  //         home_id: userHome
+  //     })
+  //         .then(res => {
+  //             let usersArray = res.data.map(this.storeUsernames)
+  //             this.setState({ users: usersArray });
+  //             console.log(this.state.users);
+  //         })
+  // }
+
+  getChores = userHome => {
+    API.getAllChores({
+      home_id: userHome
+    })
+      .then(res => {
+        console.log(res.data)
+        let choresArray = res.data.filter(this.findUncompletedChores)
+        this.setState({ chores: choresArray });
+        console.log(this.state.chores);
+      })
+  };
+
+  componentDidMount() {
+    API.isSignedIn()
+      .then(res => {
+        if (!res.email) {
+          this.setState({ isSignedIn: true })
+        }
+      }).catch(err => {
+
+
+      })
+    this.getChores(1);
+  }
 
   handleAuth = () => {
     // API.isSignedIn()
@@ -60,18 +107,21 @@ class Homehub extends Component {
               <div className="tab-content" id="myTabContent" style={{ paddingTop: 20 }}>
 
                 {/* chores content goes here */}
-                <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item list-group-item">First and most important chores go here with a green background.<br />
-                      <button type="button" className="btn btn-secondary" style={{ margin: 5 }}>More Info...</button>
-                      <button type="button" className="btn btn-success" style={{ margin: 5 }}>Completed!</button>
-                    </li>
-                    <li className="list-group-item list-group-item">Second and secondary chores go here with a blue background.<br />
-                      <button type="button" className="btn btn-secondary" style={{ margin: 5 }}>More Info...</button>
-                      <button type="button" className="btn btn-success" style={{ margin: 5 }}>Completed!</button>
-                    </li>
-                  </ul>
-                </div>
+                {this.state.chores.map(chore => (
+                  <Chores
+                    key={chore.id}
+                    // users={this.state.users}
+                    id={chore.id}
+                    choreName={chore.chore_name}
+                    createdBy={chore.created_by}
+                    assignedUser={chore.assigned_user}
+                    pointValue={chore.point_value}
+                    starTDateTime={chore.start_date_time}
+                    endDateTime={chore.end_date_time}
+                    repeatInterval={chore.repeat_interval}
+                    getChores={this.getChores}
+                  />
+                ))}
 
                 {/* pet data goes here */}
                 <div className="tab-pane fade" id="pets" role="tabpanel" aria-labelledby="pets-tab">
@@ -144,7 +194,7 @@ class Homehub extends Component {
                       </div>
                     </div>
                   </div>
-                  <br/>
+                  <br />
                   <div className="row">
                     <div className="col-12">
                       <p>Recipe Info Here</p>
