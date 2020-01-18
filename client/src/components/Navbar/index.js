@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, Switch, Route } from "react-router-dom";
+import HomeHubNav from "./nav-comp/homehubnav";
+import HomeNav from "./nav-comp/homenav";
 import API from "../../utils/API";
 import "./style.css";
 
@@ -26,7 +28,7 @@ class Navbar extends Component{
         if(this.props.authenticated){
             return (
                 <ul className="navbar-nav text-uppercase ml-auto">
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         {<Link to="/" className="nav-link" onClick={()=> this.props.history.push("/")}>Home</Link>}
                     </li>
                     <li className="nav-item">
@@ -37,7 +39,11 @@ class Navbar extends Component{
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#team">Team</a>
-                    </li>
+                    </li> */}
+                    <Switch>
+                        <Route path="/" exact render={props => (<HomeNav onClickHome = {()=> this.props.history.push("/")}/>)}/>
+                        <Route path="/homehub" exact render={props => (<HomeHubNav onClickHome = {()=> this.props.history.push("/")}/>)}/>
+                    </Switch>
                     <li className="nav-item">
                         {<Link to="/Homehub" className="nav-link">Home Hub</Link>}
                     </li>
