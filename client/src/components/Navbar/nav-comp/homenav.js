@@ -1,5 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom";
+import "../style.css";
 
 function homenav (props){
     return (
@@ -15,6 +16,9 @@ function homenav (props){
             </li>
             <li className="nav-item">
                 <a className="nav-link" href="#team">Team</a>
+            </li>
+            <li className="nav-item">
+                {<Link to="/Homehub" className="nav-link">Home Hub</Link>}
             </li>
         </ul>
     )
