@@ -79,7 +79,7 @@ class Chores extends React.Component {
 
     render (){
         return (
-            <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
+            <div>
                 <ul className="list-group list-group-flush">
                     <li className="list-group-item list-group-item-success">{this.props.choreName}<br />
                         <button type="button" className="btn btn-secondary" style={{ margin: 5 }} onClick={this.openModal}>More Info...</button>

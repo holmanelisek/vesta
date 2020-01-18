@@ -17,6 +17,9 @@ function homenav (props){
             <li className="nav-item">
                 <a className="nav-link" href="#team">Team</a>
             </li>
+            <li className="nav-item">
+                {<Link to="/Homehub" className="nav-link">Home Hub</Link>}
+            </li>
         </ul>
     )
 }

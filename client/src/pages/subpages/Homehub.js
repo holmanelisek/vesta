@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
+import Pets from "../../components/Pets";
 import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
 
@@ -7,6 +8,7 @@ class Homehub extends Component {
   state = {
     isSignedIn: false,
     chores: [],
+    petData: [],
     // users: []
   };
 
@@ -41,17 +43,20 @@ class Homehub extends Component {
       })
   };
 
+  getPetData(homeid){
+    console.log("Getting pet data")
+    console.log(homeid)
+    API.getAllPets({home_id: homeid}).then( res => {
+      this.setState({petData: res.data})
+      console.log(this.state.petData)
+    }).catch()
+  }
+
   componentDidMount() {
-    API.isSignedIn()
-      .then(res => {
-        if (!res.email) {
-          this.setState({ isSignedIn: true })
-        }
-      }).catch(err => {
-
-
-      })
-    this.getChores(1);
+    if (this.props.authenticated) {
+      this.getChores(1);
+      this.getPetData(1);
+    }
   }
 
   handleAuth = () => {
@@ -107,67 +112,33 @@ class Homehub extends Component {
               <div className="tab-content" id="myTabContent" style={{ paddingTop: 20 }}>
 
                 {/* chores content goes here */}
-                {this.state.chores.map(chore => (
-                  <Chores
-                    key={chore.id}
-                    // users={this.state.users}
-                    id={chore.id}
-                    choreName={chore.chore_name}
-                    createdBy={chore.created_by}
-                    assignedUser={chore.assigned_user}
-                    pointValue={chore.point_value}
-                    starTDateTime={chore.start_date_time}
-                    endDateTime={chore.end_date_time}
-                    repeatInterval={chore.repeat_interval}
-                    getChores={this.getChores}
-                  />
-                ))}
+                <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
+                  {this.state.chores.map(chore => (
+                    <Chores
+                      key={chore.id}
+                      // users={this.state.users}
+                      id={chore.id}
+                      choreName={chore.chore_name}
+                      createdBy={chore.created_by}
+                      assignedUser={chore.assigned_user}
+                      pointValue={chore.point_value}
+                      starTDateTime={chore.start_date_time}
+                      endDateTime={chore.end_date_time}
+                      repeatInterval={chore.repeat_interval}
+                      getChores={this.getChores}
+                    />
+                  ))}
+                </div>
 
                 {/* pet data goes here */}
                 <div className="tab-pane fade" id="pets" role="tabpanel" aria-labelledby="pets-tab">
                   <div className="container" style={{ textAlign: "center" }}>
                     <div className="row">
-
-                      <div className="col-sm-3">
-                        <div className="card">
-                          <img src={'https://i.pinimg.com/originals/ae/c4/53/aec453161b2f33ffc6219d8a758307a9.jpg'} class="card-img-top img-responsive" alt="Cute Puppy" />
-                          <div className="card-body">
-                            <h5 className="card-title">Dog the Pup</h5>
-                            <p className="card-text">Dog likes long walks and lots of pets. His vet is named Dr. Wunderdawg. Their office is located at 1234 Fido Lane.</p>
-                            <a href="#" className="btn btn-primary">More Info...</a>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-sm-3">
-                        <div className="card">
-                          <img src={'https://i.pinimg.com/originals/ae/c4/53/aec453161b2f33ffc6219d8a758307a9.jpg'} class="card-img-top img-responsive" alt="Cute Puppy" />
-                          <div className="card-body">
-                            <h5 className="card-title">Dog the Pup</h5>
-                            <p className="card-text">Dog likes long walks and lots of pets. His vet is named Dr. Wunderdawg. Their office is located at 1234 Fido Lane.</p>
-                            <a href="#" className="btn btn-primary">More Info...</a>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-sm-3">
-                        <div className="card">
-                          <img src={'https://i.pinimg.com/originals/ae/c4/53/aec453161b2f33ffc6219d8a758307a9.jpg'} class="card-img-top img-responsive" alt="Cute Puppy" />
-                          <div className="card-body">
-                            <h5 className="card-title">Dog the Pup</h5>
-                            <p className="card-text">Dog likes long walks and lots of pets. His vet is named Dr. Wunderdawg. Their office is located at 1234 Fido Lane.</p>
-                            <a href="#" className="btn btn-primary">More Info...</a>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-sm-3">
-                        <div className="card">
-                          <img src={'https://i.pinimg.com/originals/ae/c4/53/aec453161b2f33ffc6219d8a758307a9.jpg'} class="card-img-top img-responsive" alt="Cute Puppy" />
-                          <div className="card-body">
-                            <h5 className="card-title">Dog the Pup</h5>
-                            <p className="card-text">Dog likes long walks and lots of pets. His vet is named Dr. Wunderdawg. Their office is located at 1234 Fido Lane.</p>
-                            <a href="#" className="btn btn-primary">More Info...</a>
-                          </div>
-                        </div>
-                      </div>
+                      {this.state.petData.map(pet => (
+                          <Pets 
+                            pet = {pet}
+                            />
+                        ))};
                     </div>
                   </div>
                 </div>
