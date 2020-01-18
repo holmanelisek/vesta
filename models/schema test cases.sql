@@ -24,7 +24,6 @@ INSERT INTO notes (home_id,user_id,urgent,note,createdAt,updatedAt) VALUES (1,1,
 INSERT INTO notes (home_id,user_id,chore_id,urgent,note,createdAt,updatedAt) VALUES (1,1,4,false,"let me know how much it is and I can pay you back","2020-01-11 12:15:00","2020-01-11 12:15:00");
 INSERT INTO notes (home_id,user_id,urgent,note,createdAt,updatedAt) VALUES (1,3,false,"Graduation is coming up, if we want to make dinner reservations for afterwards we should talk about where.","2020-01-11 12:15:00","2020-01-11 12:15:00");
 
-INSERT INTO pantries (home_id,upc,item_name,quantity,best_by,date_in,createdAt,updatedAt) VALUES (1,"5000011187","Nestle Hot Cocoa Mix",1,"October 19,2020","2020-01-11 12:15:00","2020-01-11 12:15:00","2020-01-11 12:15:00");
-INSERT INTO pantries (home_id,item_name,quantity,date_in,date_out,createdAt,updatedAt) VALUES (1,"Chinese Leftovers",1,"2020-01-11 12:15:00","2020-01-14 12:15:00","2020-01-11 12:15:00","2020-01-11 12:15:00");
-
-INSERT INTO UPCDATA (home_id,brand,title,upc) VALUES (1,"Voss","ARTESIAN WATER FROM NORWAY","682430400102");
+INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"granny smith apples",3,"unit","2020-01-20 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00")
+INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"raspberries",1,"cup","2020-01-21 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00")
+INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"vanilla extract",16,"tablespoons","2020-01-28 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00")
