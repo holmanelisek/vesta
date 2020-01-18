@@ -1,5 +1,7 @@
 import React from "react";
 import Container from "../Container";
+import "./index.css";
+
 
 function Information (){
     return (
@@ -8,10 +10,9 @@ function Information (){
             <div className="row" id="about">
             <div className="col-md-12">
                 <section className="my-5">
-                <h1>Vesta Home Management</h1><br />
-                <p>Here is where we tell you fun stuff about Vesta.</p>
-                <p>It's an app to keep your family in order. That said, we can't help you if your kid is a brat.</p>
-                <p>This isn't an app to teach her kid how NOT to be a brat, but it WILL help you organize their chores lists.</p>
+                <h1>What is Vesta?</h1><br />
+                <h3><span className="subheader">The Vesta Home Management Hub helps you keep your family in order.</span></h3><br/>
+                <p>Create your Home, give out the "keys," and keep track of chores, pets, pantry items, and more.</p>
                 </section>
             </div>
             </div>
