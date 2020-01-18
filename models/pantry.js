@@ -4,9 +4,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    upc: {
-      type: DataTypes.STRING,
-    },
     item_name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -14,6 +11,10 @@ module.exports = function(sequelize, DataTypes) {
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    quantity_unit: {
+      type: DataTypes.STRING,
+      defaultValue: "unit",
     },
     best_by: {
       type: DataTypes.STRING
