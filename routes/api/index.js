@@ -6,14 +6,14 @@ var router = require("express").Router();
 // Using the passport.authenticate middleware with our local strategy.
 // If the user has valid login credentials, send them to the members page.
 // Otherwise the user will be sent an error
-router.post("/login", passport.authenticate("local"), function(req, res) {
+router.post("/login", passport.authenticate("local"), function (req, res) {
   res.json(req.user);
 });
 
 // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
 // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
 // otherwise send back an error
-router.post("/signup", function(req, res) {
+router.post("/signup", function (req, res) {
   db.User.create({
     email: req.body.email,
     password: req.body.password,
@@ -21,22 +21,22 @@ router.post("/signup", function(req, res) {
     first_name: req.body.fName,
     last_name: req.body.lName
   })
-    .then(function(dbUser) {
+    .then(function (dbUser) {
       res.json(dbUser);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       res.status(401).json(err);
     });
 });
 
 // Route for logging user out
-router.get("/logout", function(req, res) {
+router.get("/logout", function (req, res) {
   req.logout();
   res.json({ message: "Logging out" });
 });
 
 // Route for getting some data about our user to be used client side
-router.get("/user_data", function(req, res) {
+router.get("/user_data", function (req, res) {
   if (!req.user) {
     // The user is not logged in, send back an empty object
     res.json({ response: "User Not Logged In" });
@@ -52,28 +52,28 @@ router.get("/user_data", function(req, res) {
   }
 });
 
-router.post("/get/users", function(req, res) {
+router.post("/get/users", function (req, res) {
   db.User.findAll({
     where: {
       home_id: req.body.home_id
     }
-  }).then(function(dbUser) {
+  }).then(function (dbUser) {
     res.json(dbUser);
   });
 });
 
 // Grabbing all chores by the user's home_id
-router.post("/get/chores", function(req, res) {
+router.post("/get/chores", function (req, res) {
   db.Chore.findAll({
     where: {
       home_id: req.body.home_id
     }
-  }).then(function(dbChore) {
+  }).then(function (dbChore) {
     res.json(dbChore);
   });
 });
 
-router.post("/add/chores", function(req, res) {
+router.post("/add/chores", function (req, res) {
   db.Chore.create({
     home_id: req.body.home_id,
     chore_name: req.body.chore_name,
@@ -85,26 +85,43 @@ router.post("/add/chores", function(req, res) {
     repeats: req.body.repeats,
     repeat_interval: req.body.repeat_interval
   })
-    .then(function(dbChore) {
+    .then(function (dbChore) {
       res.json(dbChore);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       res.status(401).json(err);
     });
 });
 
+// Post for changing the 'completed' to true
+router.post("/edit/complete-chore", function (req, res) {
+  db.Chore.update({
+    completed: 1
+  }, {
+    where: {
+      id: req.body.choreData
+    }
+  })
+    .then(function (dbChore) {
+      res.json(dbChore);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+});
+
 // Grabbing all pets by the user's home_id
-router.post("/get/pets", function(req, res) {
+router.post("/get/pets", function (req, res) {
   db.Pets.findAll({
     where: {
       home_id: req.body.home_id
     }
-  }).then(function(dbPets) {
+  }).then(function (dbPets) {
     res.json(dbPets);
   });
 });
 
-router.post("/add/pets", function(req, res) {
+router.post("/add/pets", function (req, res) {
   db.Pets.create({
     home_id: req.body.home_id,
     pet_name: req.body.pet_name,
@@ -113,26 +130,26 @@ router.post("/add/pets", function(req, res) {
     primary_vet_id: req.body.primary_vet_id,
     emergency_vet_id: req.body.emergency_vet_id
   })
-    .then(function(dbPets) {
+    .then(function (dbPets) {
       res.json(dbPets);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       res.status(401).json(err);
     });
 });
 
 // Grabbing all pantry items by the user's home_id
-router.post("/get/pantry", function(req, res) {
+router.post("/get/pantry", function (req, res) {
   db.Pantry.findAll({
     where: {
       home_id: req.body.home_id
     }
-  }).then(function(dbPantry) {
+  }).then(function (dbPantry) {
     res.json(dbPantry);
   });
 });
 
-router.post("add/pantry", function(req, res) {
+router.post("add/pantry", function (req, res) {
   db.Pantry.create({
     home_id: req.body.home_id,
     upc: req.body.upc,
@@ -142,10 +159,10 @@ router.post("add/pantry", function(req, res) {
     date_in: req.body.date_in,
     date_out: req.body.date_out
   })
-    .then(function(dbPantry) {
+    .then(function (dbPantry) {
       res.json(dbPantry);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       res.status(401).json(err);
     });
 });
