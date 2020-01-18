@@ -21,7 +21,7 @@ export default {
 
   // USER CALLS
   // Returns all other users in the current user's home
-  grabAllHomeUsers: home_id => {
+  getAllHomeUsers: home_id => {
     return axios.post("/api/get/users", home_id);
   },
 
@@ -33,6 +33,10 @@ export default {
   // Adds new chore to user's home
   addChore: choreData => {
     return axios.post("/api/add/chores", choreData);
+  },
+  // Used for marking a chore complete
+  markChoreComplete: choreData => {
+    return axios.post("/api/edit/complete-chore", choreData);
   },
 
   // PET CALLS
