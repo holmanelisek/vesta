@@ -1,15 +1,7 @@
-#nav-icon {
-  width: 15%;
-}
+#nav-icon {width: 15%;}
 
-li {
-    padding: 5px;
-}
+li {padding: 10px;}
 
-ul {
-    white-space: nowrap;
-}
+ul {white-space: nowrap;}
 
-.nav-color {
-  background-color: #4280a4;
-}
+.nav-color {background-color: #4280a4;}
