@@ -45,9 +45,6 @@ class Navbar extends Component{
                         <Route path="/homehub" exact render={props => (<HomeHubNav onClickHome = {()=> this.props.history.push("/")}/>)}/>
                     </Switch>
                     <li className="nav-item">
-                        {<Link to="/Homehub" className="nav-link">Home Hub</Link>}
-                    </li>
-                    <li className="nav-item">
                         {/* Figure out how to sign users out */}
                         <a className="nav-link" href="#" onClick={this.handleSignOutSubmit} >Sign Out</a>
                     </li>
