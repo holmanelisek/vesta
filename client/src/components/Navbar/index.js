@@ -15,8 +15,6 @@ class Navbar extends Component{
         event.preventDefault();
         API.signOut()
           .then( res => {
-                //this.setState({isSignedIn: false, data: []});
-                //this.props.history.push("/");
                 window.location.reload();
             })
       }
@@ -28,18 +26,6 @@ class Navbar extends Component{
         if(this.props.authenticated){
             return (
                 <ul className="navbar-nav text-uppercase ml-auto">
-                    {/* <li className="nav-item">
-                        {<Link to="/" className="nav-link" onClick={()=> this.props.history.push("/")}>Home</Link>}
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#about">About</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link " href="#services">Features</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#team">Team</a>
-                    </li> */}
                     <Switch>
                         <Route path="/" exact render={props => (<HomeNav onClickHome = {()=> this.props.history.push("/")}/>)}/>
                         <Route path="/homehub" exact render={props => (<HomeHubNav onClickHome = {()=> this.props.history.push("/")}/>)}/>
@@ -55,7 +41,6 @@ class Navbar extends Component{
             return (
                 <ul className="navbar-nav text-uppercase ml-auto">
                     <li className="nav-item">
-                        {/* <a className="nav-link" href="#page-top">Home</a> */}
                         {<Link to="/" className="nav-link">Home</Link>}
                     </li>
                     <li className="nav-item">

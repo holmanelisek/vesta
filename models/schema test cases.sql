@@ -86,7 +86,7 @@ INSERT INTO notes
 VALUES
     (1, 3, false, "Graduation is coming up, if we want to make dinner reservations for afterwards we should talk about where.", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 
-INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"granny smith apples",3,"unit","2020-01-20 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00")
-INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"raspberries",1,"cup","2020-01-21 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00")
-INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"vanilla extract",16,"tablespoons","2020-01-28 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00")
+INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"granny smith apples",3,"unit","2020-01-20 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00");
+INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"raspberries",1,"cup","2020-01-21 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00");
+INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"vanilla extract",16,"tablespoons","2020-01-28 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00");
 
