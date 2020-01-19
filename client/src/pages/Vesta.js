@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/Signup";
 import Home from "./subpages/Home";
+import Homeless from "./subpages/Homeless";
 import Homehub from "./subpages/Homehub";
 import NoMatch from "./subpages/NoMatch";
 import Footer from "../components/Footer";
@@ -16,11 +17,13 @@ class Vesta extends Component {
     super();
 
     this.state = {
-      username: "",
-      password: "",
-      firstname: "",
-      lastname: "",
-      email: "",
+      user_id: undefined,
+      username: undefined,
+      password: undefined,
+      firstname: undefined,
+      lastname: undefined,
+      email: undefined,
+      home_id: undefined,
       authenticated: false,
       modalShow: false,
       modalFunc: true
@@ -38,7 +41,13 @@ class Vesta extends Component {
       API.isSignedIn().then(res => {
           //If res.email is true then render this menu
           if(res.data.id && !this.state.authenticated){
-              this.setState({authenticated: true});
+              this.setState({
+                authenticated: true,
+                firstname: res.data.first_name,
+                lastname: res.data.last_name,
+                home_id: res.data.home_id,
+                user_id: res.data.id
+              });
           //If res.email is not true render this menu
           }
       }).catch();
@@ -58,12 +67,20 @@ class Vesta extends Component {
       //This is the data the API server requires for signing in, change them based on the what the server requires.
       email: this.state.email,
       password: this.state.password
-    }).then(response => {
-        //console.log(response.data)
-        if(response.data.username){
-          this.setState({authenticated: true});
+    }).then(res => {
+        this.setState({
+          authenticated: true,
+          firstname: res.data.first_name,
+          lastname: res.data.last_name,
+          home_id: res.data.home_id,
+          user_id: res.data.id
+        });
+        if(res.data.home_id === null){
           this.handleClose()
-          this.props.history.push("/Homehub")
+          this.props.history.push("/Homeless")
+        }else{
+        this.handleClose()
+        this.props.history.push("/Homehub")
         }
     }).catch(err => {
       //Do something with the err
@@ -82,10 +99,16 @@ class Vesta extends Component {
         username: this.state.username,
         fName: this.state.firstname,
         lName: this.state.lastname
-      }).then( response => {
-        this.setState({authenticated: true});
+      }).then( res => {
+        this.setState({
+          authenticated: true,
+          firstname: res.data.first_name,
+          lastname: res.data.last_name,
+          home_id: res.data.home_id,
+          user_id: res.data.id
+        });
         this.handleClose()
-        this.props.history.push("/Homehub")
+        this.props.history.push("/Homeless")
       }).catch( err => {
         //Do something with error
     });
@@ -128,6 +151,13 @@ class Vesta extends Component {
         >
           <Navbar 
             authenticated={this.state.authenticated} 
+            user_id={this.state.user_id} 
+            username={this.state.username} 
+            password= {this.state.password} 
+            firstname= {this.state.firstname} 
+            lastname= {this.state.lastname} 
+            email= {this.state.email} 
+            home_id= {this.state.home_id} 
             clickModalSignIn = {this.handleSignInShow}
             clickModalSignUp = {this.handleSignUpShow}
             clickSignout = {this.handleSignOutSubmit}
@@ -137,7 +167,8 @@ class Vesta extends Component {
         {/* Page Content Routes */}
         <div id="page-top">
         <Switch>
-          <Route path="/" exact component={Home}/>
+          <Route path="/" exact render={Home}/>
+          <Route path="/Homeless" exact render={props => (<Homeless {...props} authenticated={this.state.authenticated}/>)} />
           <Route path="/Homehub" exact render={props => (<Homehub {...props} authenticated={this.state.authenticated}/>)}/>
           <Route component={NoMatch}/>
         </Switch>
