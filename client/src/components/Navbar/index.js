@@ -1,8 +1,5 @@
-import React, { Component } from "react";
-import { Link, withRouter, Switch, Route } from "react-router-dom";
-import HomeHubNav from "./nav-comp/homehubnav";
-import HomeNav from "./nav-comp/homenav";
-import API from "../../utils/API";
+import React from "react";
+import { Link, withRouter} from "react-router-dom";
 import "./style.css";
 
 function Navbar (props){
@@ -14,7 +11,9 @@ function Navbar (props){
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                            {/* Checks for user authentication */}
                             {props.authenticated ?
+                                    // If authentication then give this menu
                                     props.history.location.pathname === "/" ? 
                                         <ul className="navbar-nav text-uppercase ml-auto">
                                             <li className="nav-item">
@@ -30,13 +29,28 @@ function Navbar (props){
                                                 <a className="nav-link" href="#team">Team</a>
                                             </li>
                                             <li className="nav-item">
-                                                {<Link to="/Homehub" className="nav-link">Home Hub</Link>}
+                                                {/* Gives Home hub link if user belongs to a home, Home Setting link if user is homeless */}
+                                                {props.home_id !== null ?
+                                                    <Link to="/Homehub" className="nav-link">Home Hub</Link>
+                                                :
+                                                    <Link to="/Homeless" className="nav-link">Home Setting</Link>
+                                                }
                                             </li>
                                             <li className="nav-item">
                                                 <a className="nav-link" href="#" onClick={props.clickSignout} >Sign Out</a>
                                             </li>
                                         </ul>
+                                    // Checks the path and displays links accordingly
                                     :props.history.location.pathname === "/Homehub" ?
+                                            <ul className="navbar-nav text-uppercase ml-auto">
+                                                <li className="nav-item">
+                                                    {<Link to="/" className="nav-link">Home</Link>}
+                                                </li>
+                                                <li className="nav-item">
+                                                    <a className="nav-link" href="#" onClick={props.clickSignout} >Sign Out</a>
+                                                </li> 
+                                            </ul>
+                                    :props.history.location.pathname === "/Homeless" ?
                                             <ul className="navbar-nav text-uppercase ml-auto">
                                                 <li className="nav-item">
                                                     {<Link to="/" className="nav-link">Home</Link>}
@@ -47,6 +61,7 @@ function Navbar (props){
                                             </ul>
                                     :null
                             : 
+                                // If unauthorized give this menu
                                 <ul className="navbar-nav text-uppercase ml-auto">
                                     <li className="nav-item">
                                         <a className="nav-link" href="#page-top">Home</a>
