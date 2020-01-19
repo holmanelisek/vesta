@@ -2,6 +2,11 @@
 
 li {padding: 10px;}
 
+li li {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
 ul {white-space: nowrap;}
 
 .nav-color {background-color: #4280a4;}
