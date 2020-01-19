@@ -4,7 +4,7 @@ import "../style.css";
 
 function homenav (props){
     return (
-        <ul className="navbar-nav text-uppercase ml-auto">
+        <ul className=" navbar-nav text-uppercase ml-auto">
             <li className="nav-item">
                 {<Link to="/" className="nav-link" onClick={()=> props.onClickHome }>Home</Link>}
             </li>
