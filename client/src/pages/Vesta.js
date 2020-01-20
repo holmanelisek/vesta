@@ -26,7 +26,7 @@ class Vesta extends Component {
       home_id: undefined,
       authenticated: false,
       modalShow: false,
-      modalFunc: true
+      modalFunc: undefined
     };
 
     this.handleClose = this.handleClose.bind(this);
@@ -128,12 +128,12 @@ class Vesta extends Component {
   }
 
   handleSignInShow = () =>{
-    this.setState({modalFunc: true})
+    this.setState({modalFunc: "SignIn"})
     this.setState({modalShow: true})
   }
 
   handleSignUpShow = () =>{
-    this.setState({modalFunc: false})
+    this.setState({modalFunc: "SignUp"})
     this.setState({modalShow: true})
   }
 
@@ -168,7 +168,7 @@ class Vesta extends Component {
         <div id="page-top">
         <Switch>
           <Route path="/" exact render={Home}/>
-          <Route path="/Homeless" exact render={props => (<Homeless {...props} authenticated={this.state.authenticated}/>)} />
+          <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state}/>)} />
           <Route path="/Homehub" exact render={props => (<Homehub {...props} authenticated={this.state.authenticated}/>)}/>
           <Route component={NoMatch}/>
         </Switch>
@@ -179,22 +179,25 @@ class Vesta extends Component {
         <Modal show={this.state.modalShow} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
-              { this.state.modalFunc ?
-                <div>Sign In</div>:<div>Sign Up</div>
+              { this.state.modalFunc === "SignIn" ?
+                <div>Sign In</div>:
+                  this.state.modalFunc === "SignUp" ? <div>Sign Up</div>: null
               }</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            { this.state.modalFunc ?<SignIn
-            // Passing through functions
-            handleFormSubmit={this.handleSignInSubmit}
-            handleInputChange={this.handleInputChange}
-            />
-            :
-            <SignUp
-            // Passing through functions
-            handleSignUpSubmit={this.handleSignUpSubmit}
-            handleInputChange={this.handleInputChange}
-            />
+            { this.state.modalFunc === "SignIn" ?
+              <SignIn
+              // Passing through functions
+              handleFormSubmit={this.handleSignInSubmit}
+              handleInputChange={this.handleInputChange}
+              />
+              :this.state.modalFunc === "SignUp" ?
+                <SignUp
+                // Passing through functions
+                handleSignUpSubmit={this.handleSignUpSubmit}
+                handleInputChange={this.handleInputChange}
+                />
+                : null
             }
           </Modal.Body>
         </Modal>

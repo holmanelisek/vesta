@@ -29,6 +29,44 @@ router.post("/signup", function (req, res) {
     });
 });
 
+// Route for joining a home
+router.post("/users/join_home", (req, res)=> {
+  db.User.update({
+    home_id: req.body.home_id},
+    {
+      where: {
+      id: req.body.user_id
+    }
+  }).then(reponse => {
+    res.json({
+      data: reponse,
+      message: "Joined Successfully",
+      success: true
+    }).catch(err => {
+      res.status(401).json(err);
+    })
+  })
+})
+
+// Route for finding home by invitation key
+router.get("/home/find_by_key/:id", (req, res) => {
+  db.Homes.findOne({
+    where: {
+      invitation_key: req.params.id
+    }
+  }).then(house => {
+    res.json({
+        id: house.id,
+        home_name: house.home_name,
+        city: house.city,
+        state: house.state
+      })
+    })
+    .catch(err => {
+      res.json(err)
+  })
+})
+
 // Route for logging user out
 router.get("/logout", function (req, res) {
   req.logout();
@@ -53,6 +91,7 @@ router.get("/user_data", function (req, res) {
   }
 });
 
+//Get all users by home id
 router.post("/get/users", function (req, res) {
   db.User.findAll({
     where: {
