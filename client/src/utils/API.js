@@ -33,9 +33,13 @@ export default {
 //-----Home Calls-----//
   //Find home by invitation key aka home key
   findHomeByInvKey: id => {
-    console.log("Find Home")
-    console.log(id)
     return axios.get("/api/home/find_by_key/"+id)
+  },
+
+  //Create a new home
+  createNewHome: homeData => {
+    console.log(homeData);
+    return axios.post("/api/home/create", homeData)
   },
 
 //-----CHORE CALLS----//

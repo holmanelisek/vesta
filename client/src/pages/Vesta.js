@@ -39,8 +39,9 @@ class Vesta extends Component {
 
   authentication = () => {
       API.isSignedIn().then(res => {
+        console.log(res);
           //If res.email is true then render this menu
-          if(res.data.id && !this.state.authenticated){
+          if(res.data.id){
               this.setState({
                 authenticated: true,
                 firstname: res.data.first_name,
@@ -76,9 +77,11 @@ class Vesta extends Component {
           user_id: res.data.id
         });
         if(res.data.home_id === null){
+          this.authentication();
           this.handleClose()
           this.props.history.push("/Homeless")
         }else{
+        this.authentication();
         this.handleClose()
         this.props.history.push("/Homehub")
         }
@@ -104,7 +107,7 @@ class Vesta extends Component {
           authenticated: true,
           firstname: res.data.first_name,
           lastname: res.data.last_name,
-          home_id: res.data.home_id,
+          home_id: null,
           user_id: res.data.id
         });
         this.handleClose()
@@ -168,8 +171,8 @@ class Vesta extends Component {
         <div id="page-top">
         <Switch>
           <Route path="/" exact render={Home}/>
-          <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state}/>)} />
-          <Route path="/Homehub" exact render={props => (<Homehub {...props} authenticated={this.state.authenticated}/>)}/>
+          <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)} />
+          <Route path="/Homehub" exact render={props => (<Homehub {...props} authenticated={this.state.authenticated} authenticate={this.authentication}/>)}/>
           <Route component={NoMatch}/>
         </Switch>
         </div>

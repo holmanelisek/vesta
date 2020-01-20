@@ -42,9 +42,26 @@ router.post("/users/join_home", (req, res)=> {
       data: reponse,
       message: "Joined Successfully",
       success: true
-    }).catch(err => {
-      res.status(401).json(err);
     })
+  }).catch(err => {
+    res.status(401).json(err);
+  })
+})
+
+// Route to create home
+router.post("/home/create", (req, res)=>{
+  db.Homes.create({
+    home_name: req.body.home_name,
+    master_key: req.body.master_key,
+    invitation_key: req.body.invitation_key,
+    street: req.body.street,
+    city: req.body.city,
+    state: req.body.state,
+    zip: req.body.zip
+  }).then(homeData => {
+    res.json(homeData)
+  }).catch( err=>{
+    res.status(401).json(err);
   })
 })
 
