@@ -1,6 +1,6 @@
 import React from "react";
 
-function CreateHome(props){
+export function CreateHome(props){
     return (        
         <div>
             <div className="modal-body mx-2">
@@ -80,9 +80,44 @@ function CreateHome(props){
             </div>
             <div className="modal-footer d-flex justify-content-center">
                 {/* Submit Button */}
-                <button type="submit" onClick={props.handleCreateSubmit} className="btn btn-deep-orange">Sign up</button>
+                <button type="submit" onClick={props.handleCreateSubmit} className="btn btn-deep-orange">Submit</button>
             </div>
         </div>)
 }
 
-export default CreateHome;
+export function CreateHomeKey(props){
+    return (      
+        <div>
+            <div className="modal-body mx-2">
+                {/* Home Key Input*/}
+                <div className="my-2">
+                    <div>{props.homeinfo.homeName}</div>
+                    <div>{props.homeinfo.homeStreet} {props.homeinfo.homeUnit}</div>
+                    <div>{props.homeinfo.homeCity}, {props.homeinfo.homeState} {props.homeinfo.homeZip} </div>
+                </div>
+                <hr />
+                <div className="my-2">
+                    <div>Home key to invite others to your home</div>
+                    <div>{props.homeinfo.homeKey}</div>
+                </div>
+                <hr />
+                <div className="my-2">
+                    <label htmlFor="masterKey">Create a master key to allow admin functions</label>
+                    <input
+                        value={props.masterKey}
+                        onChange = {props.handleInputChange}
+                        type="text" 
+                        name ="masterKey"
+                        id="masterKey" 
+                        className="form-control validate"
+                        placeholder="Master Key"
+                        required
+                    />
+                </div>
+            </div>
+            <div className="modal-footer d-flex justify-content-center">
+                {/* Submit Button */}
+                <button type="submit" onClick={props.createHomeSend} className="btn btn-deep-orange">Create Home</button>
+            </div>
+        </div>)
+}
