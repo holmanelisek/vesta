@@ -3,6 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import Pets from "../../components/Pets";
 import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
+import AddChore from '../../components/AddChore/index'
 
 class Homehub extends Component {
   constructor(){
@@ -22,6 +23,12 @@ class Homehub extends Component {
       homeCity: undefined,
       homeState: undefined,
       primary_vets: undefined,
+      selectedOption: '',
+        users: [],
+        chore_name: '',
+        created_by: '',
+        point_value: '',
+        startDate: new Date(),
     };
 
   }
@@ -163,6 +170,8 @@ class Homehub extends Component {
 
                     {/* chores content goes here */}
                     <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
+                      <AddChore handleClick={this.handleClick} />
+                                            <hr />
                       {this.state.chores.map(chore => (
                         <Chores
                           key={chore.id}
