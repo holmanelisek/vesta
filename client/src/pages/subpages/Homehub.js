@@ -5,12 +5,61 @@ import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
 
 class Homehub extends Component {
-  state = {
-    isSignedIn: false,
-    chores: [],
-    petData: [],
-    // users: []
-  };
+  constructor(){
+    super();
+
+    this.state = {
+      chores: [],
+      petData: [],
+      // users: []
+      user_id: undefined,
+      username: undefined,
+      firstname: undefined,
+      lastname: undefined,
+      email: undefined,
+      home_id: undefined,
+      homeName: undefined,
+      homeCity: undefined,
+      homeState: undefined,
+    };
+
+  }
+
+  componentDidMount() {
+    console.log(this.props.state);
+    if (this.props.authenticated) {
+      this.updateStateValues(this.props.state)
+      this.getChores(this.props.state.home_id);
+      this.getPetData(this.props.state.home_id);
+      this.handleFindHome(this.props.state.home_id)
+    }
+  }
+
+  updateStateValues = (values) =>{
+    this.setState({
+      user_id: values.user_id,
+      username: values.username,
+      firstname: values.firstname,
+      lastname: values.lastname,
+      email: values.email,
+      home_id: values.home_id,
+    });
+  }
+
+  handleFindHome = (homeid) => {
+    API.findHomeById(homeid)
+        .then(response=> {
+            console.log(response.data)
+            this.setState({
+                homeName: response.data.home_name,
+                homeCity: response.data.city,
+                homeState: response.data.state,
+                home_id: response.data.id,
+            })
+        }).catch(err => {
+            console.log(err)
+        })
+  }
 
   findUncompletedChores = item => {
     return !item.completed
@@ -31,9 +80,9 @@ class Homehub extends Component {
   //         })
   // }
 
-  getChores = userHome => {
+  getChores = (homeid) => {
     API.getAllChores({
-      home_id: userHome
+      home_id: homeid
     })
       .then(res => {
         console.log(res.data)
@@ -43,20 +92,12 @@ class Homehub extends Component {
       })
   };
 
-  getPetData(homeid){
+  getPetData = (homeid) => {
     console.log("Getting pet data")
-    console.log(homeid)
     API.getAllPets({home_id: homeid}).then( res => {
       this.setState({petData: res.data})
       console.log(this.state.petData)
     }).catch()
-  }
-
-  componentDidMount() {
-    if (this.props.authenticated) {
-      this.getChores(1);
-      this.getPetData(1);
-    }
   }
 
   //Function to change the state values on input change
@@ -71,6 +112,7 @@ class Homehub extends Component {
           <div>
             <div style={{ textAlign: "center", height: 200, clear: "both", paddingTop: 120 }} className="jumbotron">
               <h1>Home Hub</h1>
+              <h4>{this.state.homeName}</h4>
             </div>
             {/*contents go here */}
             <div style={{ clear: "both" }}>
@@ -118,7 +160,7 @@ class Homehub extends Component {
                               <Pets 
                                 pet = {pet}
                                 />
-                            ))};
+                            ))}
                         </div>
                       </div>
                     </div>
@@ -161,7 +203,7 @@ class Homehub extends Component {
             <Redirect to="/"/>
           }
       </div>
-    );
+    )
   }
 }
 

@@ -89,6 +89,25 @@ router.get("/home/find_by_key/:id", (req, res) => {
   })
 })
 
+// Route for finding home by home id
+router.get("/home/find_by_id/:id", (req, res) => {
+  db.Homes.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then(house => {
+    res.json({
+        id: house.id,
+        home_name: house.home_name,
+        city: house.city,
+        state: house.state
+      })
+    })
+    .catch(err => {
+      res.json(err)
+  })
+})
+
 // Route for logging user out
 router.get("/logout", function (req, res) {
   req.logout();
