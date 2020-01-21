@@ -30,7 +30,9 @@ class Homeless extends Component{
         this.setState({ [name]: value.trim() });
     }
 
+    //Function to join users to this home
     handleJoinSubmit = () => {
+        //Api call to find user by id then inserting home id into the home_id field in database
         API.joinHome({
                 home_id: this.state.home_id,
                 user_id: this.props.state.user_id
@@ -43,9 +45,10 @@ class Homeless extends Component{
             })
     }
 
+    //Find home information by invitation key aka home key
     handleFindHome = event => {
         event.preventDefault();
-        API.findHomeByInvKey(this.state.homeKey)
+        API.findHomeByInvKey(this.props.homeKey)
             .then(response=> {
                 console.log(response.data)
                 this.setState({
@@ -60,6 +63,7 @@ class Homeless extends Component{
             })
     }
 
+    //Function to create a random home key using Crypto
     handleCreateSubmit = event => {
         event.preventDefault();
         this.setState({
@@ -68,8 +72,10 @@ class Homeless extends Component{
         });
     }
 
+    //Function to send the new home information to the server
     createHomeSend = event => {
         event.preventDefault();
+        //Post to our server to create a new home
         API.createNewHome({
             home_name: this.state.homeName,
             master_key: this.state.masterKey,
@@ -86,6 +92,7 @@ class Homeless extends Component{
 
     }
 
+    //Closes current modal and resets all the states
     handleClose = () =>{
         this.setState({
             modalShow: false,
@@ -101,6 +108,7 @@ class Homeless extends Component{
         })
       }
 
+    //Function to open the Create Home Modal
     handleCreateModal = () =>{
         this.setState({
             modalFunc: "Create",
@@ -108,6 +116,7 @@ class Homeless extends Component{
         })
     }
 
+    //Function to open the Find Home Modal
     handleFindHomeModal = () =>{
         this.props.authenticate();
         console.log(this.props)
@@ -117,6 +126,7 @@ class Homeless extends Component{
         })
     }
 
+    //Switch statement to conditionally render the modal title based on what button user pressed
     modalTitleSwitch = modal => {
         switch(modal){
             case "Join":
@@ -140,6 +150,7 @@ class Homeless extends Component{
         }
     }
 
+     //Switch statement to conditionally render the modal body based on what button user pressed
     modalBodySwitch = modal =>{
         switch(modal){
             case "Join":
