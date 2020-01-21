@@ -21,6 +21,7 @@ class Homehub extends Component {
       homeName: undefined,
       homeCity: undefined,
       homeState: undefined,
+      primary_vets: undefined,
     };
 
   }
@@ -80,6 +81,18 @@ class Homehub extends Component {
   //         })
   // }
 
+  //Removes duplicate vet ids from pets array
+  removeDuplicates = (array) => {
+    let finalArray = array.reduce((tempArray, arrayValue)=>{
+      if(tempArray.indexOf(arrayValue.primary_vet_id) === -1){
+        tempArray.push(arrayValue.primary_vet_id)
+      }
+      return tempArray;
+    }, [])
+    //Return array with no repeat vet IDs
+    return finalArray;
+  }
+
   getChores = (homeid) => {
     API.getAllChores({
       home_id: homeid
@@ -92,11 +105,26 @@ class Homehub extends Component {
       })
   };
 
+  //Function to get pet data by home id and vets data for pets
   getPetData = (homeid) => {
     console.log("Getting pet data")
+    //Api call for getting all bets beloning to home
     API.getAllPets({home_id: homeid}).then( res => {
-      this.setState({petData: res.data})
       console.log(this.state.petData)
+      this.setState({
+        petData: res.data
+      })
+
+      //Calls function removeDuplicates and sets vetsArray to return value
+      let vetsArray = this.removeDuplicates(res.data);
+      //Apy call to get vets data by the array in vetsArray
+      API.getVetsByMultId({vets: vetsArray}).then( vetData => {
+        console.log(vetData.data);
+        this.setState({
+          primary_vets: vetData.data
+        })
+      }).catch()
+
     }).catch()
   }
 
@@ -157,7 +185,8 @@ class Homehub extends Component {
                       <div className="container" style={{ textAlign: "center" }}>
                         <div className="row">
                           {this.state.petData.map(pet => (
-                              <Pets 
+                              <Pets
+                                key = {pet.id} 
                                 pet = {pet}
                                 />
                             ))}
