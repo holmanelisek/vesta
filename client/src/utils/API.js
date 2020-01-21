@@ -36,6 +36,11 @@ export default {
     return axios.get("/api/home/find_by_key/"+id)
   },
 
+  //find home by home id
+  findHomeById: id => {
+    return axios.get("/api/home/find_by_id/"+id)
+  },
+
   //Create a new home
   createNewHome: homeData => {
     console.log(homeData);
@@ -67,6 +72,11 @@ export default {
     return axios.post("/api/add/pets", petData);
   },
 
+//-----VET CALLS-------//
+  getVetsByMultId: vetsArray => {
+    console.log(vetsArray);
+    return axios.post("/api/get/vets", vetsArray)
+  },
 
 //-----PANTRY CALLS-----//
   // Returns all items in pantry table associated with user's home id

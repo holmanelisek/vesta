@@ -47,7 +47,8 @@ class Vesta extends Component {
                 firstname: res.data.first_name,
                 lastname: res.data.last_name,
                 home_id: res.data.home_id,
-                user_id: res.data.id
+                user_id: res.data.id,
+                email: res.data.email
               });
           //If res.email is not true render this menu
           }
@@ -74,7 +75,8 @@ class Vesta extends Component {
           firstname: res.data.first_name,
           lastname: res.data.last_name,
           home_id: res.data.home_id,
-          user_id: res.data.id
+          user_id: res.data.id,
+          password: undefined
         });
         if(res.data.home_id === null){
           this.authentication();
@@ -104,12 +106,13 @@ class Vesta extends Component {
         lName: this.state.lastname
       }).then( res => {
         this.setState({
-          authenticated: true,
           firstname: res.data.first_name,
           lastname: res.data.last_name,
           home_id: null,
-          user_id: res.data.id
+          user_id: res.data.id,
+          password: undefined
         });
+        this.authentication();
         this.handleClose()
         this.props.history.push("/Homeless")
       }).catch( err => {
@@ -156,7 +159,6 @@ class Vesta extends Component {
             authenticated={this.state.authenticated} 
             user_id={this.state.user_id} 
             username={this.state.username} 
-            password= {this.state.password} 
             firstname= {this.state.firstname} 
             lastname= {this.state.lastname} 
             email= {this.state.email} 
@@ -172,7 +174,7 @@ class Vesta extends Component {
         <Switch>
           <Route path="/" exact render={Home}/>
           <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)} />
-          <Route path="/Homehub" exact render={props => (<Homehub {...props} authenticated={this.state.authenticated} authenticate={this.authentication}/>)}/>
+          <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)}/>
           <Route component={NoMatch}/>
         </Switch>
         </div>
@@ -204,20 +206,6 @@ class Vesta extends Component {
             }
           </Modal.Body>
         </Modal>
-
-        {/* SignUp Component
-        <Modal show={this.state.modalShow} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Sign up</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <SignUp
-            // Passing through functions
-            handleSignUpSubmit={this.handleSignUpSubmit}
-            handleInputChange={this.handleInputChange}
-            />
-          </Modal.Body>
-        </Modal> */}
       </div>
     );
   }

@@ -2,6 +2,7 @@
 var db = require("../../models");
 var passport = require("../../config/passport");
 var router = require("express").Router();
+const { Op } = require("sequelize");
 
 // Using the passport.authenticate middleware with our local strategy.
 // If the user has valid login credentials, send them to the members page.
@@ -22,6 +23,11 @@ router.post("/signup", function (req, res) {
     last_name: req.body.lName
   })
     .then(function (dbUser) {
+      req.login(dbUser, function(err){
+        if (err) {
+          console.log(err);
+        }
+      })
       res.json(dbUser);
     })
     .catch(function (err) {
@@ -85,6 +91,25 @@ router.get("/home/find_by_key/:id", (req, res) => {
     })
 })
 
+// Route for finding home by home id
+router.get("/home/find_by_id/:id", (req, res) => {
+  db.Homes.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then(house => {
+    res.json({
+        id: house.id,
+        home_name: house.home_name,
+        city: house.city,
+        state: house.state
+      })
+    })
+    .catch(err => {
+      res.json(err)
+  })
+})
+
 // Route for logging user out
 router.get("/logout", function (req, res) {
   req.logout();
@@ -97,15 +122,19 @@ router.get("/user_data", function (req, res) {
     // The user is not logged in, send back an empty object
     res.json({ response: "User Not Logged In" });
   } else {
-    // Otherwise send back the user's email and id
-    // Sending back a password, even a hashed password, isn't a good idea
-    res.json({
-      id: req.user.id,
-      email: req.user.email,
-      username: req.user.username,
-      first_name: req.user.first_name,
-      last_name: req.user.last_name,
-      home_id: req.user.home_id
+    // Otherwise perform API call to find users updated information then send information back to client
+    db.User.findOne({
+      where: {
+        id: req.user.id
+      }
+    }).then(function (dbUser) {
+      res.json({
+        id: dbUser.id,
+        email: dbUser.email,
+        first_name: dbUser.first_name,
+        last_name: dbUser.last_name,
+        home_id: dbUser.home_id
+      });
     });
   }
 });
@@ -197,6 +226,21 @@ router.post("/add/pets", function (req, res) {
     .catch(function (err) {
       res.status(401).json(err);
     });
+});
+
+//Route to get all vets from array
+//---Not functioning----
+//---Use raw sql queries to find all rows based on multiple conditions 
+router.post("/get/vets", function (req, res) {
+  db.Vets.findAll({
+    where: {
+      id: {
+        [Op.or]: req.body.vets
+      }
+    }
+  }).then(function (dbVets) {
+    res.json(dbVets);
+  });
 });
 
 // Grabbing all pantry items by the user's home_id
