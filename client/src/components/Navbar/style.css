@@ -1,6 +1,11 @@
-#nav-icon {width: 15%;}
+#nav-icon {width: 100px}
 
 li {padding: 10px;}
+
+li li {
+    padding-left: 0px;
+    padding-right: 0px;
+}
 
 ul {white-space: nowrap;}
 
