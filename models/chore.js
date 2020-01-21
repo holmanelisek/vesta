@@ -10,49 +10,49 @@
 //    Repeat
 //    Repeat Time (D W M Y)
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Chore = sequelize.define("Chore", {
     home_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      // allowNull: false
     },
     chore_name: {
       type: DataTypes.STRING,
-      allowNull: false
+      // allowNull: false
     },
     created_by: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      // allowNull: false
     },
     assigned_user: {
-      type: DataTypes.INTEGER
-    },
-    point_value: {
-      type: DataTypes.INTEGER
-    },
-    start_date_time: {
-      type: DataTypes.STRING,
-      allowNull: false
-      //defaultValue: , //time of creation,
-    },
-    end_date_time: {
       type: DataTypes.STRING
-    },
-    repeats: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
-    repeat_interval: {
-      type: DataTypes.STRING
-    },
-    completed: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    },
-    completed_by: {
-      type: DataTypes.INTEGER
     }
+    // point_value: {
+    //   type: DataTypes.INTEGER
+    // },
+    // start_date_time: {
+    //   type: DataTypes.STRING,
+    //   // allowNull: false
+    //   //defaultValue: , //time of creation,
+    // },
+    // end_date_time: {
+    //   type: DataTypes.STRING
+    // },
+    // repeats: {
+    //   type: DataTypes.BOOLEAN,
+    //   defaultValue: false
+    // },
+    // repeat_interval: {
+    //   type: DataTypes.STRING
+    // },
+    // completed: {
+    //   type: DataTypes.BOOLEAN,
+    //   // allowNull: false,
+    //   defaultValue: false
+    // },
+    // completed_by: {
+    //   type: DataTypes.INTEGER
+    // }
   });
   return Chore;
 };
