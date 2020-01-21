@@ -111,6 +111,7 @@ class Vesta extends Component {
           user_id: res.data.id
         });
         this.handleClose()
+        this.authentication();
         this.props.history.push("/Homeless")
       }).catch( err => {
         //Do something with error
