@@ -26,33 +26,33 @@ module.exports = function (sequelize, DataTypes) {
     },
     assigned_user: {
       type: DataTypes.STRING
+    },
+    point_value: {
+      type: DataTypes.INTEGER
+    },
+    start_date_time: {
+      type: DataTypes.STRING,
+      // allowNull: false
+      //defaultValue: , //time of creation,
+    },
+    end_date_time: {
+      type: DataTypes.STRING
+    },
+    repeats: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    repeat_interval: {
+      type: DataTypes.STRING
+    },
+    completed: {
+      type: DataTypes.BOOLEAN,
+      // allowNull: false,
+      defaultValue: false
+    },
+    completed_by: {
+      type: DataTypes.STRING
     }
-    // point_value: {
-    //   type: DataTypes.INTEGER
-    // },
-    // start_date_time: {
-    //   type: DataTypes.STRING,
-    //   // allowNull: false
-    //   //defaultValue: , //time of creation,
-    // },
-    // end_date_time: {
-    //   type: DataTypes.STRING
-    // },
-    // repeats: {
-    //   type: DataTypes.BOOLEAN,
-    //   defaultValue: false
-    // },
-    // repeat_interval: {
-    //   type: DataTypes.STRING
-    // },
-    // completed: {
-    //   type: DataTypes.BOOLEAN,
-    //   // allowNull: false,
-    //   defaultValue: false
-    // },
-    // completed_by: {
-    //   type: DataTypes.INTEGER
-    // }
   });
   return Chore;
 };

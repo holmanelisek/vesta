@@ -88,16 +88,16 @@ class AddChore extends React.Component {
     submitChore = () => {
         API.addChore({
             home_id: 1,
-            chore_name: this.state.chore_name,
-            created_by: this.state.created_by,
-            assigned_user: this.state.selectedOption.value
-            // point_value: parseFloat(this.state.point_value),
-            // start_date_time: this.state.startDate,
-            // end_date_time: "",
-            // repeats: false,
-            // repeat_interval: "",
-            // completed: false,
-            // completed_by: ""
+            chore_name: "Test",
+            created_by: 1,
+            assigned_user: "Test",
+            point_value: 10,
+            start_date_time: "start",
+            end_date_time: "end",
+            repeats: false,
+            repeat_interval: "w",
+            completed: false,
+            completed_by: "wewrew"
         })
             .then(res => {
                 console.log(res)
