@@ -72,6 +72,11 @@ export default {
     return axios.post("/api/add/pets", petData);
   },
 
+//-----VET CALLS-------//
+  getVetsByMultId: vetsArray => {
+    console.log(vetsArray);
+    return axios.post("/api/get/vets", vetsArray)
+  },
 
 //-----PANTRY CALLS-----//
   // Returns all items in pantry table associated with user's home id

@@ -2,6 +2,7 @@
 var db = require("../../models");
 var passport = require("../../config/passport");
 var router = require("express").Router();
+const { Op } = require("sequelize");
 
 // Using the passport.authenticate middleware with our local strategy.
 // If the user has valid login credentials, send them to the members page.
@@ -222,6 +223,21 @@ router.post("/add/pets", function (req, res) {
     .catch(function (err) {
       res.status(401).json(err);
     });
+});
+
+//Route to get all vets from array
+//---Not functioning----
+//---Use raw sql queries to find all rows based on multiple conditions 
+router.post("/get/vets", function (req, res) {
+  db.Vets.findAll({
+    where: {
+      id: {
+        [Op.or]: req.body.vets
+      }
+    }
+  }).then(function (dbVets) {
+    res.json(dbVets);
+  });
 });
 
 // Grabbing all pantry items by the user's home_id
