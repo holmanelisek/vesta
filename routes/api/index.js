@@ -36,26 +36,27 @@ router.post("/signup", function (req, res) {
 });
 
 // Route for joining a home
-router.post("/users/join_home", (req, res)=> {
+router.post("/users/join_home", (req, res) => {
   db.User.update({
-    home_id: req.body.home_id},
+    home_id: req.body.home_id
+  },
     {
       where: {
-      id: req.body.user_id
-    }
-  }).then(reponse => {
-    res.json({
-      data: reponse,
-      message: "Joined Successfully",
-      success: true
+        id: req.body.user_id
+      }
+    }).then(reponse => {
+      res.json({
+        data: reponse,
+        message: "Joined Successfully",
+        success: true
+      })
+    }).catch(err => {
+      res.status(401).json(err);
     })
-  }).catch(err => {
-    res.status(401).json(err);
-  })
 })
 
 // Route to create home
-router.post("/home/create", (req, res)=>{
+router.post("/home/create", (req, res) => {
   db.Homes.create({
     home_name: req.body.home_name,
     master_key: req.body.master_key,
@@ -66,7 +67,7 @@ router.post("/home/create", (req, res)=>{
     zip: req.body.zip
   }).then(homeData => {
     res.json(homeData)
-  }).catch( err=>{
+  }).catch(err => {
     res.status(401).json(err);
   })
 })
@@ -79,15 +80,15 @@ router.get("/home/find_by_key/:id", (req, res) => {
     }
   }).then(house => {
     res.json({
-        id: house.id,
-        home_name: house.home_name,
-        city: house.city,
-        state: house.state
-      })
+      id: house.id,
+      home_name: house.home_name,
+      city: house.city,
+      state: house.state
     })
+  })
     .catch(err => {
       res.json(err)
-  })
+    })
 })
 
 // Route for finding home by home id
@@ -170,7 +171,9 @@ router.post("/add/chores", function (req, res) {
     start_date_time: req.body.start_date_time,
     end_date_time: req.body.end_date_time,
     repeats: req.body.repeats,
-    repeat_interval: req.body.repeat_interval
+    repeat_interval: req.body.repeat_interval,
+    completed: req.body.completed,
+    completed_by: req.body.completed_by
   })
     .then(function (dbChore) {
       res.json(dbChore);
