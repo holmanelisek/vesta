@@ -22,6 +22,11 @@ router.post("/signup", function (req, res) {
     last_name: req.body.lName
   })
     .then(function (dbUser) {
+      req.login(dbUser, function(err){
+        if (err) {
+          console.log(err);
+        }
+      })
       res.json(dbUser);
     })
     .catch(function (err) {
@@ -96,14 +101,19 @@ router.get("/user_data", function (req, res) {
     // The user is not logged in, send back an empty object
     res.json({ response: "User Not Logged In" });
   } else {
-    // Otherwise send back the user's email and id
-    // Sending back a password, even a hashed password, isn't a good idea
-    res.json({
-      id: req.user.id,
-      email: req.user.email,
-      first_name: req.user.first_name,
-      last_name: req.user.last_name,
-      home_id: req.user.home_id
+    // Otherwise perform API call to find users updated information then send information back to client
+    db.User.findOne({
+      where: {
+        id: req.user.id
+      }
+    }).then(function (dbUser) {
+      res.json({
+        id: dbUser.id,
+        email: dbUser.email,
+        first_name: dbUser.first_name,
+        last_name: dbUser.last_name,
+        home_id: dbUser.home_id
+      });
     });
   }
 });
