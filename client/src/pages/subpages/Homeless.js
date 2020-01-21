@@ -48,7 +48,7 @@ class Homeless extends Component{
     //Find home information by invitation key aka home key
     handleFindHome = event => {
         event.preventDefault();
-        API.findHomeByInvKey(this.props.homeKey)
+        API.findHomeByInvKey(this.state.homeKey)
             .then(response=> {
                 console.log(response.data)
                 this.setState({
