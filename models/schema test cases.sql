@@ -9,9 +9,9 @@
 use vesta_test;
 
 INSERT INTO homes
-    (street,city,state,zip,home_name,master_key,invitation_key,createdAt,updatedAt)
+    (street,city,state,zip,home_name,home_admin,master_key,invitation_key,createdAt,updatedAt)
 VALUES
-    ("157 W Garfield Rd", "Aurora", "OH", 44202, "Holman House", "lockdown", "beourguest", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+    ("157 W Garfield Rd", "Aurora", "OH", 44202, "Holman House",1, "lockdown", "beourguest", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 
 INSERT INTO users
     (username,email,password,first_name,last_name,age,phoneNumber,parent,points,home_id,createdAt,updatedAt)

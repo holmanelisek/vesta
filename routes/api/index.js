@@ -59,6 +59,7 @@ router.post("/users/join_home", (req, res) => {
 router.post("/home/create", (req, res) => {
   db.Homes.create({
     home_name: req.body.home_name,
+    home_admin: req.body.home_admin,
     master_key: req.body.master_key,
     invitation_key: req.body.invitation_key,
     street: req.body.street,
@@ -102,7 +103,8 @@ router.get("/home/find_by_id/:id", (req, res) => {
         id: house.id,
         home_name: house.home_name,
         city: house.city,
-        state: house.state
+        state: house.state,
+        home_admin: house.home_admin
       })
     })
     .catch(err => {
