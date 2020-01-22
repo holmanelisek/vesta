@@ -19,7 +19,7 @@ export default {
     return axios.get("/api/logout");
   },
 
-//-----USER CALLS-----//
+  //-----USER CALLS-----//
   // Returns all other users in the current user's home
   getAllHomeUsers: home_id => {
     return axios.post("/api/get/users", home_id);
@@ -30,15 +30,15 @@ export default {
     return axios.post("/api/users/join_home", joinData);
   },
 
-//-----Home Calls-----//
+  //-----Home Calls-----//
   //Find home by invitation key aka home key
   findHomeByInvKey: id => {
-    return axios.get("/api/home/find_by_key/"+id)
+    return axios.get("/api/home/find_by_key/" + id)
   },
 
   //find home by home id
   findHomeById: id => {
-    return axios.get("/api/home/find_by_id/"+id)
+    return axios.get("/api/home/find_by_id/" + id)
   },
 
   //Create a new home
@@ -47,7 +47,7 @@ export default {
     return axios.post("/api/home/create", homeData)
   },
 
-//-----CHORE CALLS----//
+  //-----CHORE CALLS----//
   // Returns all chores for the user's home id
   getAllChores: home_id => {
     return axios.post("/api/get/chores", home_id);
@@ -55,6 +55,7 @@ export default {
 
   // Adds new chore to user's home
   addChore: choreData => {
+    console.log(choreData);
     return axios.post("/api/add/chores", choreData);
   },
   // Used for marking a chore complete
@@ -62,7 +63,7 @@ export default {
     return axios.post("/api/edit/complete-chore", choreData);
   },
 
-//-----PET CALLS-----//
+  //-----PET CALLS-----//
   // Returns all pets associated with the user's home id
   getAllPets: home_id => {
     return axios.post("/api/get/pets", home_id);
@@ -72,13 +73,13 @@ export default {
     return axios.post("/api/add/pets", petData);
   },
 
-//-----VET CALLS-------//
+  //-----VET CALLS-------//
   getVetsByMultId: vetsArray => {
     console.log(vetsArray);
     return axios.post("/api/get/vets", vetsArray)
   },
 
-//-----PANTRY CALLS-----//
+  //-----PANTRY CALLS-----//
   // Returns all items in pantry table associated with user's home id
   getPantryItems: home_id => {
     return axios.post("/api/get/pantry", home_id);

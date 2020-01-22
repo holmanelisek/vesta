@@ -43,15 +43,6 @@ class AddChore extends React.Component {
     closeModal() {
         this.setState({ modalIsOpen: false });
     }
-    // state = {
-    //     selectedOption: "None",
-    //     users: [],
-    //     chore_name: '',
-    //     created_by: '',
-    //     point_value: '',
-    //     startDate: new Date(),
-    //     endDate: new Date(),
-    // };
 
     handleDateChange = date => {
         this.setState({
@@ -80,6 +71,7 @@ class AddChore extends React.Component {
 
     assignCreatedBy = () => {
         API.isSignedIn().then(res => {
+            console.log(res)
             this.setState({ created_by: res.data.id })
             console.log("User assigned:" + this.state.created_by)
         })
@@ -88,16 +80,17 @@ class AddChore extends React.Component {
     submitChore = () => {
         API.addChore({
             home_id: 1,
-            chore_name: "test",
+            chore_name: this.state.chore_name,
             created_by: 1,
-            assigned_user: "test",
-            point_value: 5,
-            start_date_time: "time",
-            end_date_time: "time",
+            // assigned_user: this.state.selectedOption,
+            assigned_user: this.state.selectedOption.value,
+            point_value: this.state.point_value,
+            start_date_time: this.state.startDate,
+            end_date_time: this.state.startDate,
             repeats: false,
             repeat_interval: "d",
             completed: false,
-            completed_by: "3"
+            completed_by: this.state.created_by
         })
             .then(res => {
                 console.log(res)
@@ -126,6 +119,7 @@ class AddChore extends React.Component {
         ))
 
         const { selectedOption } = this.state;
+
 
         return (
             <div>
