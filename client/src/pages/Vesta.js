@@ -9,7 +9,7 @@ import Homeless from "./subpages/Homeless";
 import Homehub from "./subpages/Homehub";
 import NoMatch from "./subpages/NoMatch";
 import Footer from "../components/Footer";
-import Modal from 'react-bootstrap/Modal';
+import {Modal} from 'react-bootstrap';
 import API from "../utils/API";
 
 class Vesta extends Component {

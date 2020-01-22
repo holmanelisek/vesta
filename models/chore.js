@@ -51,7 +51,7 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: false
     },
     completed_by: {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     }
   });
   return Chore;
