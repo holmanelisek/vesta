@@ -10,29 +10,29 @@
 //    Repeat
 //    Repeat Time (D W M Y)
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Chore = sequelize.define("Chore", {
     home_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      // allowNull: false
     },
     chore_name: {
       type: DataTypes.STRING,
-      allowNull: false
+      // allowNull: false
     },
     created_by: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      // allowNull: false
     },
     assigned_user: {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     },
     point_value: {
       type: DataTypes.INTEGER
     },
     start_date_time: {
       type: DataTypes.STRING,
-      allowNull: false
+      // allowNull: false
       //defaultValue: , //time of creation,
     },
     end_date_time: {
@@ -47,11 +47,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     completed: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      // allowNull: false,
       defaultValue: false
     },
     completed_by: {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     }
   });
   return Chore;
