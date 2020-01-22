@@ -1,10 +1,10 @@
 import React from "react";
-import "./style.css";
+import "./footer.css";
 
 function Footer() {
   return (
     <footer className="footer">
-      <span>Vesta 2020</span>
+      <span>©2020 Vesta</span>
     </footer>
   );
 }
