@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "../Container";
-import "./index.css";
+import "./information.css";
 
 
 function Information (){
