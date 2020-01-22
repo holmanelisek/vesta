@@ -23,12 +23,13 @@ class Homehub extends Component {
       homeCity: undefined,
       homeState: undefined,
       primary_vets: undefined,
+      home_admin: undefined,
       selectedOption: '',
-        users: [],
-        chore_name: '',
-        created_by: '',
-        point_value: '',
-        startDate: new Date(),
+      users: [],
+      chore_name: '',
+      created_by: '',
+      point_value: '',
+      startDate: new Date(),
     };
 
   }
@@ -63,6 +64,7 @@ class Homehub extends Component {
                 homeCity: response.data.city,
                 homeState: response.data.state,
                 home_id: response.data.id,
+                home_admin: response.data.home_admin
             })
         }).catch(err => {
             console.log(err)
