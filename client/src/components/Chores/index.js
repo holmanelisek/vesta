@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import API from '../../utils/API'
+import Moment from 'react-moment'
 
 const customStyles = {
     content: {
@@ -65,6 +66,8 @@ class Chores extends React.Component {
         })
             .then(res => {
                 console.log(res)
+                alert("Chore completed!")
+                this.props.getChores(1)
                 // if (res) {
                 //     alert("Chore Completed")
                 //     console.log(res)
@@ -77,7 +80,7 @@ class Chores extends React.Component {
         this.grabUsers(1);
     }
 
-    render (){
+    render() {
         return (
             <div>
                 <ul className="list-group list-group-flush">
@@ -100,7 +103,9 @@ class Chores extends React.Component {
                     <p>Assigned to: {this.state.users[this.props.assignedUser + 1] ? this.state.users[this.props.assignedUser + 1] : "None"}</p>
                     <p>Point value: {this.props.pointValue ? this.props.pointValue : "None"}</p>
                     <p>Time/Date assigned: {this.props.startDateTime ? this.props.startDateTime : "None"}</p>
-                    <p>Needs done before: {this.props.endDateTime ? this.props.endDateTime : "None"}</p>
+                    <p>Needs done before: <Moment>{Date.now()}</Moment></p>
+                    {/* <p>Needs done before: <Moment>{this.props.endDateTime ? this.props.endDateTime : "None"}</Moment></p> */}
+                    {/* <p>Needs done before: {this.props.endDateTime ? this.props.endDateTime : "None"}</p> */}
                     <p>Repeats: {this.props.repeatInterval === "d" ? "daily"
                         : this.props.repeatInterval === "w" ? "weekly"
                             : this.props.repeatInterval === "m" ? "monthly"
