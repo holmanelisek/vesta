@@ -1,7 +1,8 @@
 import React from 'react';
 import Select from 'react-select';
 import API from "../../utils/API";
-import Modal from 'react-modal'
+// import Modal from 'react-modal'
+import { Modal } from 'react-bootstrap'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -21,27 +22,29 @@ class AddChore extends React.Component {
         super();
 
         this.state = {
-            modalIsOpen: false,
-            selectedOption: "None",
+            // modalIsOpen: false,
+            modalShow: false,
+            selectedOption: undefined,
             users: [],
-            chore_name: '',
-            created_by: '',
-            point_value: '',
+            chore_name: undefined,
+            created_by: undefined,
+            point_value: undefined,
             startDate: new Date(),
             endDate: new Date(),
         };
 
+
         this.openModal = this.openModal.bind(this);
-        // this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+
     }
 
     openModal() {
-        this.setState({ modalIsOpen: true });
+        this.setState({ modalShow: true });
     }
 
     closeModal() {
-        this.setState({ modalIsOpen: false });
+        this.setState({ modalShow: false });
     }
 
     handleDateChange = date => {
@@ -94,6 +97,7 @@ class AddChore extends React.Component {
         })
             .then(res => {
                 console.log(res)
+                this.closeModal()
             });
         console.log("name: " + this.state.chore_name)
         console.log("assigned: " + this.state.selectedOption.value)
@@ -125,58 +129,66 @@ class AddChore extends React.Component {
             <div>
                 <button type="button" className="btn btn-secondary" onClick={this.openModal}>Add Chore</button>
                 <Modal
-                    isOpen={this.state.modalIsOpen}
-                    onAfterOpen={this.afterOpenModal}
-                    onRequestClose={this.closeModal}
-                    style={customStyles}
-                    contentLabel="Add Chores"
+                    show={this.state.modalShow}
+                    onHide={this.closeModal}
+                    backdrop='static'
+                // isOpen={this.state.modalIsOpen}
+                // onAfterOpen={this.afterOpenModal}
+                // onRequestClose={this.closeModal}
+                // style={customStyles}
+                // contentLabel="Add Chores"
                 >
-                    <div>
-                        <span>Name of Chore</span>
-                        <input
-                            value={this.state.chore_name}
-                            onChange={this.handleInputChange}
-                            type="text"
-                            name="chore_name"
-                            id="chore-name"
-                            className="form-control"
-                            placeholder="Chore name"
-                        ></input>
-                    </div>
-                    <span>Assigned user</span>
-                    <Select
-                        value={selectedOption}
-                        onChange={this.handleChange}
-                        options={userOptions}
-                    />
-                    <div>
-                        <span>Point Value</span>
-                        <input
-                            value={this.state.point_value}
-                            onChange={this.handleInputChange}
-                            type="number"
-                            min="0"
-                            name="point_value"
-                            id="point-value"
-                            className="form-control"
-                            placeholder="Point value"
-                        ></input>
-                    </div>
-                    <div>
-                        <span>Chore start</span>
-                        <br />
-                        <DatePicker
-                            selected={this.state.startDate}
-                            onChange={this.handleDateChange}
-                            showTimeSelect
-                            // timeFormat="HH:mm"
-                            timeIntervals={30}
-                            timeCaption="time"
-                            dateFormat="MMMM d, yyyy h:mm aa"
-                            placeholderText="Click for date and time"
+                    <Modal.Header>
+                        <h2>Add chore</h2>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div>
+                            <span>Name of Chore</span>
+                            <input
+                                value={this.state.chore_name}
+                                onChange={this.handleInputChange}
+                                type="text"
+                                name="chore_name"
+                                id="chore-name"
+                                className="form-control"
+                                placeholder="Chore name"
+                            ></input>
+                        </div>
+                        <span>Assigned user</span>
+                        <Select
+                            value={selectedOption}
+                            onChange={this.handleChange}
+                            options={userOptions}
                         />
-                    </div>
-                    <button type="button" className="btn btn-secondary" onClick={this.submitChore}>Add</button>
+                        <div>
+                            <span>Point Value</span>
+                            <input
+                                value={this.state.point_value}
+                                onChange={this.handleInputChange}
+                                type="number"
+                                min="0"
+                                name="point_value"
+                                id="point-value"
+                                className="form-control"
+                                placeholder="Point value"
+                            ></input>
+                        </div>
+                        <div>
+                            <span>Chore start</span>
+                            <br />
+                            <DatePicker
+                                selected={this.state.startDate}
+                                onChange={this.handleDateChange}
+                                showTimeSelect
+                                // timeFormat="HH:mm"
+                                timeIntervals={30}
+                                timeCaption="time"
+                                dateFormat="MMMM d, yyyy h:mm aa"
+                                placeholderText="Click for date and time"
+                            />
+                        </div>
+                        <button type="button" className="btn btn-secondary" onClick={this.submitChore}>Add</button>
+                    </Modal.Body>
                 </Modal>
             </div >
         );
