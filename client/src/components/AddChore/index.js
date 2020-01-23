@@ -22,7 +22,6 @@ class AddChore extends React.Component {
         super();
 
         this.state = {
-            // modalIsOpen: false,
             modalShow: false,
             selectedOption: undefined,
             users: [],
@@ -47,9 +46,15 @@ class AddChore extends React.Component {
         this.setState({ modalShow: false });
     }
 
-    handleDateChange = date => {
+    handleStartDateChange = date => {
         this.setState({
             startDate: date
+        });
+    };
+
+    handleEndDateChange = date => {
+        this.setState({
+            endDate: date
         });
     };
 
@@ -89,7 +94,7 @@ class AddChore extends React.Component {
             assigned_user: this.state.selectedOption.value,
             point_value: this.state.point_value,
             start_date_time: this.state.startDate,
-            end_date_time: this.state.startDate,
+            end_date_time: this.state.endDate,
             repeats: false,
             repeat_interval: "d",
             completed: false,
@@ -114,7 +119,6 @@ class AddChore extends React.Component {
     componentDidMount() {
         this.assignCreatedBy()
         this.grabUsers(1);
-        // this.grabUsers(1);
     }
 
     render() {
@@ -132,11 +136,6 @@ class AddChore extends React.Component {
                     show={this.state.modalShow}
                     onHide={this.closeModal}
                     backdrop='static'
-                // isOpen={this.state.modalIsOpen}
-                // onAfterOpen={this.afterOpenModal}
-                // onRequestClose={this.closeModal}
-                // style={customStyles}
-                // contentLabel="Add Chores"
                 >
                     <Modal.Header>
                         <h2>Add chore</h2>
@@ -178,9 +177,23 @@ class AddChore extends React.Component {
                             <br />
                             <DatePicker
                                 selected={this.state.startDate}
-                                onChange={this.handleDateChange}
+                                onChange={this.handleStartDateChange}
                                 showTimeSelect
-                                // timeFormat="HH:mm"
+                                showYearDropdown
+                                timeIntervals={30}
+                                timeCaption="time"
+                                dateFormat="MMMM d, yyyy h:mm aa"
+                                placeholderText="Click for date and time"
+                            />
+                        </div>
+                        <div>
+                            <span>Be done before</span>
+                            <br />
+                            <DatePicker
+                                selected={this.state.endDate}
+                                onChange={this.handleEndDateChange}
+                                showTimeSelect
+                                showYearDropdown
                                 timeIntervals={30}
                                 timeCaption="time"
                                 dateFormat="MMMM d, yyyy h:mm aa"

@@ -117,8 +117,9 @@ class Chores extends React.Component {
                         <p>Created by: {this.state.users[this.props.createdBy + 1]}</p>
                         <p>Assigned to: {this.state.users[this.props.assignedUser + 1] ? this.state.users[this.props.assignedUser + 1] : "None"}</p>
                         <p>Point value: {this.props.pointValue ? this.props.pointValue : "None"}</p>
-                        <p>Time/Date assigned: {this.props.startDateTime ? this.props.startDateTime : "None"}</p>
-                        <p>Needs done before: <Moment>{Date.now()}</Moment></p>
+                        {/* <p>Time/Date assigned: {this.props.startDateTime ? this.props.startDateTime : "None"}</p> */}
+                        <p>Time/Date assigned: <Moment format="MM/DD/YYYY LT">{this.props.startDateTime}</Moment></p>
+                        <p>Needs done before: <Moment format="MM/DD/YYYY LT">{this.props.endDateTime}</Moment></p>
                         {/* <p>Needs done before: <Moment>{this.props.endDateTime ? this.props.endDateTime : "None"}</Moment></p> */}
                         {/* <p>Needs done before: {this.props.endDateTime ? this.props.endDateTime : "None"}</p> */}
                         <p>Repeats: {this.props.repeatInterval === "d" ? "daily"

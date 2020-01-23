@@ -1,8 +1,8 @@
 import React from "react";
 
-function DeletePet(props){
+function DeletePet(props) {
     return (
-        <button className="deleteThisPet btn" onClick = {props.clickFunc}>{props.children}</button>
+        <button className="deleteThisPet btn" onClick={props.clickFunc}>{props.children}</button>
     )
 }
 

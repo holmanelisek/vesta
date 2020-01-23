@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import {Modal} from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import Pets from "../../components/Pets";
-import {SubmitPet, AddPetModal} from "../../components/SubmitPet";
-import {NewPetForm, NewPetTitle} from "../../components/NewPetForm";
+import { SubmitPet, AddPetModal } from "../../components/SubmitPet";
+import { NewPetForm, NewPetTitle } from "../../components/NewPetForm";
 import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
 import AddChore from '../../components/AddChore/index'
 
 class Homehub extends Component {
-  constructor(){
+  constructor() {
     super();
 
     this.state = {
@@ -66,10 +66,10 @@ class Homehub extends Component {
   }
 
   submitPet = (newPetData, admin, user) => {
-    if(admin === user){
+    if (admin === user) {
       console.log("Here doggy!")
       API.addPet(newPetData)
-        .then( response => {
+        .then(response => {
           console.log(response.data)
           this.props.getPetData(this.props.home_id)
         })
@@ -78,34 +78,34 @@ class Homehub extends Component {
 
   adminFunctionAddpet = (admin, user) => {
     console.log(this.props)
-    if(admin === user){
+    if (admin === user) {
       return (
         <button type="button" className="btn btn-secondary" onClick={() => this.openModal("newPet")}>Add Pet</button>
-        )
-    }else{
+      )
+    } else {
       return null
     }
   }
 
   handleFindHome = (homeid) => {
     API.findHomeById(homeid)
-        .then(response=> {
-            //console.log(response.data)
-            this.setState({
-                user_id: this.props.state.user_id,
-                username: this.props.state.username,
-                firstname: this.props.state.firstname,
-                lastname: this.props.state.lastname,
-                homeName: response.data.home_name,
-                homeCity: response.data.city,
-                homeState: response.data.state,
-                home_id: response.data.id,
-                home_admin: response.data.home_admin
-            })
-            //this.updateStateValues(this.props.state)
-        }).catch(err => {
-            console.log(err)
+      .then(response => {
+        //console.log(response.data)
+        this.setState({
+          user_id: this.props.state.user_id,
+          username: this.props.state.username,
+          firstname: this.props.state.firstname,
+          lastname: this.props.state.lastname,
+          homeName: response.data.home_name,
+          homeCity: response.data.city,
+          homeState: response.data.state,
+          home_id: response.data.id,
+          home_admin: response.data.home_admin
         })
+        //this.updateStateValues(this.props.state)
+      }).catch(err => {
+        console.log(err)
+      })
   }
 
   findUncompletedChores = item => {
@@ -130,8 +130,8 @@ class Homehub extends Component {
   //Removes duplicate vet ids from pets array
   removeDuplicates = (array) => {
     let thisArray = array
-    let finalArray = thisArray.reduce((tempArray, arrayValue)=>{
-      if(tempArray.indexOf(arrayValue.primary_vet_id) === -1){
+    let finalArray = thisArray.reduce((tempArray, arrayValue) => {
+      if (tempArray.indexOf(arrayValue.primary_vet_id) === -1) {
         tempArray.push(arrayValue.primary_vet_id)
       }
       return tempArray;
@@ -143,7 +143,7 @@ class Homehub extends Component {
   //Function that iterates through each pet and inserts primary pet info as a new property
   insertVetToPet = (petArray, vetArray) => {
     petArray.forEach(thisPet => {
-      let petVet = vetArray.find( ({id}) => 
+      let petVet = vetArray.find(({ id }) =>
         id = thisPet.primary_vet_id
       )
       thisPet.primary_vet_info = petVet;
@@ -166,29 +166,29 @@ class Homehub extends Component {
   };
 
   openModal = (modalFunc) => {
-    this.setState({ modalFunc: modalFunc})
-    this.setState({ modalShow: true});
+    this.setState({ modalFunc: modalFunc })
+    this.setState({ modalShow: true });
   }
 
   afterOpenModal() {
-      // references are now sync'd and can be accessed.
-      // this.subtitle.style.color = '#f00';
+    // references are now sync'd and can be accessed.
+    // this.subtitle.style.color = '#f00';
   }
 
   closeModal = () => {
-      this.setState({ modalShow: false });
+    this.setState({ modalShow: false });
   }
 
   //Function to get pet data by home id and vets data for pets
   getPetData = (homeid) => {
     //Api call for getting all bets beloning to home
-    API.getAllPets({home_id: homeid})
-      .then( res => {
+    API.getAllPets({ home_id: homeid })
+      .then(res => {
         //Calls function removeDuplicates and sets vetsArray to return value
         let vetsArray = this.removeDuplicates(res.data);
         //Apy call to get vets data by the array in vetsArray
-        API.getVetsByMultId({vets: vetsArray})
-          .then( vetData => {
+        API.getVetsByMultId({ vets: vetsArray })
+          .then(vetData => {
             //Sets the state for primary_vets with the return API call data
             this.setState({
               primary_vets: vetData.data
@@ -202,43 +202,43 @@ class Homehub extends Component {
       }).catch()
   }
 
-  modalTitleSwitch(modalFunc){
+  modalTitleSwitch(modalFunc) {
     switch (modalFunc) {
       case "pet":
-        return(
+        return (
           <div className="">
-              <h2>{this.props.pet.pet_name}<span className="float-right">{this.adminFunctionDeletePet(this.props.home_admin, this.props.user)}</span></h2>
+            <h2>{this.props.pet.pet_name}<span className="float-right">{this.adminFunctionDeletePet(this.props.home_admin, this.props.user)}</span></h2>
           </div>
         );
       case "newPet":
-        return(
-          <NewPetTitle/>
+        return (
+          <NewPetTitle />
         );
     }
   };
 
-  modalBodySwitch(modalFunc){
+  modalBodySwitch(modalFunc) {
     switch (modalFunc) {
       case "pet":
-        return(
-        <div>
-          <p>Pet Name: {this.props.pet.pet_name}</p>
-          <p>Pet Aage: {this.props.pet.age}</p>
-          <hr/>
-          <p>Primary Vet: {this.props.pet.primary_vet_info.practice_name}</p>
-          <p>Phone Number: {this.props.pet.primary_vet_info.phone_number}</p>
-          <p>Address: {this.props.pet.primary_vet_info.street}, {this.props.pet.primary_vet_info.city}, {this.props.pet.primary_vet_info.state} {this.props.pet.primary_vet_info.zip}</p>
-          <hr/>
-          <p className="card-text">Pets description</p>
-        </div>
+        return (
+          <div>
+            <p>Pet Name: {this.props.pet.pet_name}</p>
+            <p>Pet Aage: {this.props.pet.age}</p>
+            <hr />
+            <p>Primary Vet: {this.props.pet.primary_vet_info.practice_name}</p>
+            <p>Phone Number: {this.props.pet.primary_vet_info.phone_number}</p>
+            <p>Address: {this.props.pet.primary_vet_info.street}, {this.props.pet.primary_vet_info.city}, {this.props.pet.primary_vet_info.state} {this.props.pet.primary_vet_info.zip}</p>
+            <hr />
+            <p className="card-text">Pets description</p>
+          </div>
         );
       case "newPet":
-        return(
-          <NewPetForm 
-            primary_vets = {this.state.primary_vets}
-            home_id = {this.state.home_id}
-            getPetData = {this.getPetData}
-            closeModal = {this.closeModal}
+        return (
+          <NewPetForm
+            primary_vets={this.state.primary_vets}
+            home_id={this.state.home_id}
+            getPetData={this.getPetData}
+            closeModal={this.closeModal}
           />
         );
     }
@@ -247,7 +247,7 @@ class Homehub extends Component {
   render() {
     return (
       <div>
-        {this.props.authenticated ? 
+        {this.props.authenticated ?
           <div>
             <div style={{ textAlign: "center", height: 200, clear: "both", paddingTop: 120 }} className="jumbotron">
               <h1>Home Hub</h1>
@@ -275,9 +275,10 @@ class Homehub extends Component {
                     {/* chores content goes here */}
                     <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
                       <AddChore handleClick={this.handleClick} />
-                                            <hr />
+                      <hr />
                       {this.state.chores.map(chore => (
-                        <Chores
+                        console.log(chore.start_date_time),
+                        < Chores
                           key={chore.id}
                           // users={this.state.users}
                           id={chore.id}
@@ -285,7 +286,7 @@ class Homehub extends Component {
                           createdBy={chore.created_by}
                           assignedUser={chore.assigned_user}
                           pointValue={chore.point_value}
-                          starTDateTime={chore.start_date_time}
+                          startDateTime={chore.start_date_time}
                           endDateTime={chore.end_date_time}
                           repeatInterval={chore.repeat_interval}
                           getChores={this.getChores}
@@ -297,20 +298,20 @@ class Homehub extends Component {
                     <div className="tab-pane fade" id="pets" role="tabpanel" aria-labelledby="pets-tab">
                       <div className="container" style={{ textAlign: "center" }}>
                         <div>{this.adminFunctionAddpet(this.state.home_admin, this.state.user_id)}</div>
-                        <hr/>
+                        <hr />
                         <div className="row">
                           {this.state.petData.map(pet => (
-                              <Pets
-                                key = {pet.id} 
-                                pet = {pet}
-                                user = {this.state.user_id}
-                                firstname = {this.state.firstname}
-                                home_id = {this.state.home_id}
-                                primary_vets = {this.state.primary_vets}
-                                home_admin = {this.state.home_admin}
-                                getPetData = {this.getPetData}
-                                />
-                            ))}
+                            <Pets
+                              key={pet.id}
+                              pet={pet}
+                              user={this.state.user_id}
+                              firstname={this.state.firstname}
+                              home_id={this.state.home_id}
+                              primary_vets={this.state.primary_vets}
+                              home_admin={this.state.home_admin}
+                              getPetData={this.getPetData}
+                            />
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -347,24 +348,24 @@ class Homehub extends Component {
                   </div>
                 </div>
               </div>
-              </div>
-              <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
-                <Modal.Title>
-                    {this.modalTitleSwitch(this.state.modalFunc)}
-                </Modal.Title>
-                <Modal.Body>
-                    {this.modalBodySwitch(this.state.modalFunc)}
-                </Modal.Body>
-                <Modal.Footer>
-                  <div>
-                    <button type="button" className="btn btn-secondary" onClick={this.closeModal}>Close</button>
-                  </div>
-                </Modal.Footer>
-              </Modal>
             </div>
-            :
-            <Redirect to="/"/>
-          }
+            <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
+              <Modal.Title>
+                {this.modalTitleSwitch(this.state.modalFunc)}
+              </Modal.Title>
+              <Modal.Body>
+                {this.modalBodySwitch(this.state.modalFunc)}
+              </Modal.Body>
+              <Modal.Footer>
+                <div>
+                  <button type="button" className="btn btn-secondary" onClick={this.closeModal}>Close</button>
+                </div>
+              </Modal.Footer>
+            </Modal>
+          </div>
+          :
+          <Redirect to="/" />
+        }
       </div>
     )
   }
