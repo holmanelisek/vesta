@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {Modal} from 'react-bootstrap';
 import DeletePet from "../DeletPet";
-import {SubmitPet, AddPetModal} from "../SubmitPet";
 import {NewPetForm, NewPetTitle } from "../NewPetForm";
 import API from "../../utils/API"
 
