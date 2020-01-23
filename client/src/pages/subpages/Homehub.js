@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Pets from "../../components/Pets";
-import { SubmitPet, AddPetModal } from "../../components/SubmitPet";
-import { NewPetForm, NewPetTitle } from "../../components/NewPetForm";
+import {NewPetForm, NewPetTitle} from "../../components/NewPetForm";
+import {NewVetForm, NewVetTitle} from "../../components/NewVetForm";
 import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
 import AddChore from '../../components/AddChore/index'
@@ -80,9 +80,12 @@ class Homehub extends Component {
     console.log(this.props)
     if (admin === user) {
       return (
-        <button type="button" className="btn btn-secondary" onClick={() => this.openModal("newPet")}>Add Pet</button>
-      )
-    } else {
+        <div>
+          <button type="button" className="btn btn-secondary mx-2" onClick={() => this.openModal("newPet")}>Add Pet</button>
+          <button type="button" className="btn btn-secondary mx-2" onClick={() => this.openModal("newVet")}>Add Vet</button>
+        </div>
+        )
+    }else{
       return null
     }
   }
@@ -214,6 +217,10 @@ class Homehub extends Component {
         return (
           <NewPetTitle />
         );
+      case "newVet":
+        return(
+          <NewVetTitle />
+        )
     }
   };
 
@@ -241,6 +248,14 @@ class Homehub extends Component {
             closeModal={this.closeModal}
           />
         );
+      case "newVet":
+        return(
+          <NewVetForm
+            home_id = {this.state.home_id}
+            getPetData = {this.getPetData}
+            closeModal = {this.closeModal}
+          />
+        )
     }
   }
 
