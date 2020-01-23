@@ -35,37 +35,41 @@ class Homehub extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.state);
+    //console.log(this.props.state);
     if (this.props.authenticated) {
-      this.updateStateValues(this.props.state)
       this.getChores(this.props.state.home_id);
       this.getPetData(this.props.state.home_id);
       this.handleFindHome(this.props.state.home_id)
     }
   }
 
-  updateStateValues = (values) =>{
-    this.setState({
-      user_id: values.user_id,
-      username: values.username,
-      firstname: values.firstname,
-      lastname: values.lastname,
-      email: values.email,
-      home_id: values.home_id,
-    });
-  }
+  // updateStateValues = (values) =>{
+  //   this.setState({
+  //     user_id: values.user_id,
+  //     username: values.username,
+  //     firstname: values.firstname,
+  //     lastname: values.lastname,
+  //     email: values.email,
+  //     home_id: values.home_id,
+  //   });
+  // }
 
   handleFindHome = (homeid) => {
     API.findHomeById(homeid)
         .then(response=> {
-            console.log(response.data)
+            //console.log(response.data)
             this.setState({
+                user_id: this.props.state.user_id,
+                username: this.props.state.username,
+                firstname: this.props.state.firstname,
+                lastname: this.props.state.lastname,
                 homeName: response.data.home_name,
                 homeCity: response.data.city,
                 homeState: response.data.state,
                 home_id: response.data.id,
                 home_admin: response.data.home_admin
             })
+            //this.updateStateValues(this.props.state)
         }).catch(err => {
             console.log(err)
         })
@@ -92,7 +96,8 @@ class Homehub extends Component {
 
   //Removes duplicate vet ids from pets array
   removeDuplicates = (array) => {
-    let finalArray = array.reduce((tempArray, arrayValue)=>{
+    let thisArray = array
+    let finalArray = thisArray.reduce((tempArray, arrayValue)=>{
       if(tempArray.indexOf(arrayValue.primary_vet_id) === -1){
         tempArray.push(arrayValue.primary_vet_id)
       }
@@ -102,39 +107,52 @@ class Homehub extends Component {
     return finalArray;
   }
 
+  //Function that iterates through each pet and inserts primary pet info as a new property
+  insertVetToPet = (petArray, vetArray) => {
+    petArray.forEach(thisPet => {
+      let petVet = vetArray.find( ({id}) => 
+        id = thisPet.primary_vet_id
+      )
+      thisPet.primary_vet_info = petVet;
+    })
+
+    return petArray;
+  }
+
+  //Function to get all chroes by home id
   getChores = (homeid) => {
     API.getAllChores({
       home_id: homeid
     })
       .then(res => {
-        console.log(res.data)
+        //console.log(res.data)
         let choresArray = res.data.filter(this.findUncompletedChores)
         this.setState({ chores: choresArray });
-        console.log(this.state.chores);
+        //console.log(this.state.chores);
       })
   };
 
   //Function to get pet data by home id and vets data for pets
   getPetData = (homeid) => {
-    console.log("Getting pet data")
     //Api call for getting all bets beloning to home
-    API.getAllPets({home_id: homeid}).then( res => {
-      console.log(this.state.petData)
-      this.setState({
-        petData: res.data
-      })
-
-      //Calls function removeDuplicates and sets vetsArray to return value
-      let vetsArray = this.removeDuplicates(res.data);
-      //Apy call to get vets data by the array in vetsArray
-      API.getVetsByMultId({vets: vetsArray}).then( vetData => {
-        console.log(vetData.data);
-        this.setState({
-          primary_vets: vetData.data
-        })
+    API.getAllPets({home_id: homeid})
+      .then( res => {
+        //Calls function removeDuplicates and sets vetsArray to return value
+        let vetsArray = this.removeDuplicates(res.data);
+        //Apy call to get vets data by the array in vetsArray
+        API.getVetsByMultId({vets: vetsArray})
+          .then( vetData => {
+            //Sets the state for primary_vets with the return API call data
+            this.setState({
+              primary_vets: vetData.data
+            })
+            //Sets petData state to the return array of the function insertVetToPet
+            //This function inserts each pets primary vet information into each pet object in the array
+            this.setState({
+              petData: this.insertVetToPet(res.data, vetData.data)
+            })
+          }).catch()
       }).catch()
-
-    }).catch()
   }
 
   //Function to change the state values on input change
@@ -199,6 +217,12 @@ class Homehub extends Component {
                               <Pets
                                 key = {pet.id} 
                                 pet = {pet}
+                                user = {this.state.user_id}
+                                firstname = {this.state.firstname}
+                                home_id = {this.state.home_id}
+                                primary_vets = {this.state.primary_vets}
+                                home_admin = {this.state.home_admin}
+                                getPetData = {this.getPetData}
                                 />
                             ))}
                         </div>

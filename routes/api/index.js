@@ -213,6 +213,7 @@ router.post("/get/pets", function (req, res) {
   });
 });
 
+// Add pet
 router.post("/add/pets", function (req, res) {
   db.Pets.create({
     home_id: req.body.home_id,
@@ -229,6 +230,20 @@ router.post("/add/pets", function (req, res) {
       res.status(401).json(err);
     });
 });
+
+//Remove pet
+router.post("/remove/pet/:id", function (req,res) {
+  db.Pets.destroy({
+    where: {
+      id: req.params.id
+    }
+  }).then(response => {
+    res.json({
+      remove: "successful",
+      data: response
+    })
+  })
+})
 
 //Route to get all vets from array
 //---Not functioning----
