@@ -245,20 +245,44 @@ router.post("/remove/pet/:id", function (req,res) {
   })
 })
 
+
+//----------Vet Route-----------//
+//------------------------------//
 //Route to get all vets from array
-//---Not functioning----
-//---Use raw sql queries to find all rows based on multiple conditions 
-router.post("/get/vets", function (req, res) {
-  db.Vets.findAll({
-    where: {
-      id: {
-        [Op.or]: req.body.vets
-      }
-    }
-  }).then(function (dbVets) {
-    res.json(dbVets);
-  });
-});
+    router.post("/get/vets", function (req, res) {
+      db.Vets.findAll({
+        where: {
+          id: {
+            [Op.or]: req.body.vets
+          }
+        }
+      }).then(function (dbVets) {
+        res.json(dbVets);
+      }).catch(err=>{
+        res.status(401).json(err);
+      })
+    });
+
+    router.post("/add/vet", (req, res) =>{
+      db.Vets.create({
+        practice_name: req.body.practice_name,
+        phone_number: req.body.phone_number,
+        street: req.body.street,
+        city: req.body.city,
+        state: req.body.state,
+        zip: req.body.zip,
+        email: req.body.email,
+        emergency_clinic: req.body.emergency_clinic
+      }).then( response => {
+        res.json({
+          message: "Successful Creation",
+          data: response
+        })
+      }).catch(err=>{
+        res.status(401).json(err);
+      })
+    })
+
 
 // Grabbing all pantry items by the user's home_id
 router.post("/get/pantry", function (req, res) {
