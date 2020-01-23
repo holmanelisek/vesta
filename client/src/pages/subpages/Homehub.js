@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Modal } from "react-bootstrap";
+import Select from 'react-select';
 import Pets from "../../components/Pets";
-import {NewPetForm, NewPetTitle} from "../../components/NewPetForm";
-import {NewVetForm, NewVetTitle} from "../../components/NewVetForm";
+import { NewPetForm, NewPetTitle } from "../../components/NewPetForm";
+import { NewVetForm, NewVetTitle } from "../../components/NewVetForm";
 import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
 import AddChore from '../../components/AddChore/index'
@@ -13,6 +14,7 @@ class Homehub extends Component {
     super();
 
     this.state = {
+      selectedOption: undefined,
       mondalFunc: undefined,
       modalShow: undefined,
       chores: [],
@@ -85,8 +87,19 @@ class Homehub extends Component {
           <button type="button" className="btn btn-secondary mx-2" onClick={() => this.openModal("newPet")}>Add Pet</button>
           <button type="button" className="btn btn-secondary mx-2" onClick={() => this.openModal("newVet")}>Add Vet</button>
         </div>
-        )
-    }else{
+      )
+    } else {
+      return null
+    }
+  }
+
+  adminFunctionDeleteChore = (admin, user) => {
+    console.log(this.props)
+    if (admin === user) {
+      return (
+        <button type="button" className="btn btn-danger" onClick={() => this.openModal("deleteChore")}>Delete Chore</button>
+      )
+    } else {
       return null
     }
   }
@@ -158,9 +171,9 @@ class Homehub extends Component {
 
   getAllVets = () => {
     API.getAllVets()
-      .then(response =>{
+      .then(response => {
         console.log(response)
-        this.setState({all_vets: response.data})
+        this.setState({ all_vets: response.data })
         this.displayAllVetsInPets();
       }).catch()
   }
@@ -176,6 +189,16 @@ class Homehub extends Component {
         this.setState({ chores: choresArray });
         //console.log(this.state.chores);
       })
+  };
+
+  deleteChore = (choreId) => {
+    console.log("test")
+    // API.deleteChore({
+    //   chore_id: choreId
+    // })
+    //   .then(res => {
+    //     console.log(res);
+    //   });
   };
 
   openModal = (modalFunc) => {
@@ -219,6 +242,10 @@ class Homehub extends Component {
     this.refs.displayAllVetsReference.getAllVetDropSelection();
   }
 
+  handleChange = selectedOption => {
+    this.setState({ selectedOption });
+  };
+
   modalTitleSwitch(modalFunc) {
     switch (modalFunc) {
       case "pet":
@@ -232,13 +259,25 @@ class Homehub extends Component {
           <NewPetTitle />
         );
       case "newVet":
-        return(
+        return (
           <NewVetTitle />
-        )
+        );
+      case "deleteChore":
+        return (
+          <div>
+            <h2>Delete Chore</h2>
+          </div>
+        );
     }
   };
 
   modalBodySwitch(modalFunc) {
+    const choreOptions = this.state.chores.map(chore => (
+      { value: chore.id, label: chore.chore_name }
+    ))
+    console.log(choreOptions)
+
+    const { selectedOption } = this.state;
     switch (modalFunc) {
       case "pet":
         return (
@@ -256,7 +295,7 @@ class Homehub extends Component {
       case "newPet":
         return (
           <NewPetForm
-            ref = "displayAllVetsReference"
+            ref="displayAllVetsReference"
             all_vets={this.state.all_vets}
             primary_vets={this.state.primary_vets}
             home_id={this.state.home_id}
@@ -266,13 +305,23 @@ class Homehub extends Component {
           />
         );
       case "newVet":
-        return(
+        return (
           <NewVetForm
-            home_id = {this.state.home_id}
-            getPetData = {this.getPetData}
-            closeModal = {this.closeModal}
+            home_id={this.state.home_id}
+            getPetData={this.getPetData}
+            closeModal={this.closeModal}
           />
-        )
+        );
+      case "deleteChore":
+        return (
+          <div>
+            <Select
+              value={selectedOption}
+              onChange={this.handleChange}
+              options={choreOptions}
+            />
+          </div>
+        );
     }
   }
 
@@ -306,7 +355,9 @@ class Homehub extends Component {
 
                     {/* chores content goes here */}
                     <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
-                      <AddChore handleClick={this.handleClick} />
+                      <AddChore user_id={this.state.user_id} handleClick={this.handleClick} getChores={this.getChores} />
+                      <br />
+                      <div>{this.adminFunctionDeleteChore(this.state.home_admin, this.state.user_id)}</div>
                       <hr />
                       {this.state.chores.map(chore => (
                         console.log(chore.start_date_time),

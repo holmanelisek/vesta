@@ -103,25 +103,17 @@ class Chores extends React.Component {
                     show={this.state.modalShow}
                     onHide={this.closeModal}
                     backdrop='static'
-                // isOpen={this.state.modalIsOpen}
-                // onAfterOpen={this.afterOpenModal}
-                // onRequestClose={this.closeModal}
-                // style={customStyles}
-                // contentLabel="Example Modal"
                 >
                     <Modal.Header>
                         <h2 ref={subtitle => this.subtitle = subtitle}>{this.props.choreName}</h2>
                         <hr />
                     </Modal.Header>
                     <Modal.Body>
-                        <p>Created by: {this.state.users[this.props.createdBy + 1]}</p>
-                        <p>Assigned to: {this.state.users[this.props.assignedUser + 1] ? this.state.users[this.props.assignedUser + 1] : "None"}</p>
+                        <p>Created by: {this.props.createdBy}</p>
+                        <p>Assigned to: {this.props.assignedUser}</p>
                         <p>Point value: {this.props.pointValue ? this.props.pointValue : "None"}</p>
-                        {/* <p>Time/Date assigned: {this.props.startDateTime ? this.props.startDateTime : "None"}</p> */}
                         <p>Time/Date assigned: <Moment format="MM/DD/YYYY LT">{this.props.startDateTime}</Moment></p>
                         <p>Needs done before: <Moment format="MM/DD/YYYY LT">{this.props.endDateTime}</Moment></p>
-                        {/* <p>Needs done before: <Moment>{this.props.endDateTime ? this.props.endDateTime : "None"}</Moment></p> */}
-                        {/* <p>Needs done before: {this.props.endDateTime ? this.props.endDateTime : "None"}</p> */}
                         <p>Repeats: {this.props.repeatInterval === "d" ? "daily"
                             : this.props.repeatInterval === "w" ? "weekly"
                                 : this.props.repeatInterval === "m" ? "monthly"

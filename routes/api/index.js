@@ -132,6 +132,7 @@ router.get("/user_data", function (req, res) {
     }).then(function (dbUser) {
       res.json({
         id: dbUser.id,
+        username: dbUser.username,
         email: dbUser.email,
         first_name: dbUser.first_name,
         last_name: dbUser.last_name,
@@ -184,6 +185,18 @@ router.post("/add/chores", function (req, res) {
       res.status(401).json(err);
     });
 });
+
+router.post("/delete/chores", function (req, res) {
+  db.Chore.destroy({
+    where: {
+      id: req.body.chore_id
+    }
+  }).then(function (dbChore) {
+    res.json(dbChore);
+  }).catch(function (err) {
+    res.json(err);
+  })
+})
 
 // Post for changing the 'completed' to true
 router.post("/edit/complete-chore", function (req, res) {
