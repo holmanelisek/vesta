@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Modal from "react-bootstrap/modal";
+import {Modal} from "react-bootstrap";
 import {CreateHome, CreateHomeKey} from "../../components/CreateHome";
 import JoinHome from "../../components/JoinHome";
 import FindHome from "../../components/FindHome";
