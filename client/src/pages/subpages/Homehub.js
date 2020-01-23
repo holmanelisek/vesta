@@ -87,18 +87,6 @@ class Homehub extends Component {
     }
   }
 
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState( prevState => 
-      ({newPetData: {
-        //Spread operate to save old state
-        ...prevState.newPetData,
-        //Then set the value of the input state
-        [name]: value.trim()
-      }})
-    );
-  };
-
   handleFindHome = (homeid) => {
     API.findHomeById(homeid)
         .then(response=> {
@@ -214,11 +202,6 @@ class Homehub extends Component {
       }).catch()
   }
 
-  //Function to change the state values on input change
-  handleInputChange = event => {
-
-  };
-
   modalTitleSwitch(modalFunc){
     switch (modalFunc) {
       case "pet":
@@ -232,7 +215,7 @@ class Homehub extends Component {
           <NewPetTitle/>
         );
     }
-  }
+  };
 
   modalBodySwitch(modalFunc){
     switch (modalFunc) {
@@ -252,7 +235,10 @@ class Homehub extends Component {
       case "newPet":
         return(
           <NewPetForm 
-            handleInputChange = {this.handleInputChange}
+            primary_vets = {this.state.primary_vets}
+            home_id = {this.state.home_id}
+            getPetData = {this.getPetData}
+            closeModal = {this.closeModal}
           />
         );
     }

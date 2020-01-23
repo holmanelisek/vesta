@@ -78,6 +78,7 @@ export default {
   },
   // Adds new pet to user's home
   addPet: petData => {
+    console.log(petData)
     return axios.post("/api/add/pet", petData);
     // home_id: req.body.home_id,
     // pet_name: req.body.pet_name,
