@@ -102,6 +102,10 @@ export default {
     return axios.post("/api/get/vets", vetsArray)
   },
 
+  getAllVets: () => {
+    return axios.get("/api/get/all_vets")
+  },
+
   //Add new vet to database
   addNewVet: vetData => {
     console.log(vetData);

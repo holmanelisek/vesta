@@ -19,6 +19,7 @@ export class NewPetForm extends Component{
             vetObj.label = vet.practice_name
             return vetObj;
         })
+        console.log(vetDropSelection)
         return vetDropSelection;
     }
 
@@ -34,6 +35,10 @@ export class NewPetForm extends Component{
 
     handleSelectionEmergency = selection => {
         this.setState({emergency_vet_id: selection.value});
+    }
+
+    getAllVetDropSelection = () => {
+        this.getVetDropSelection(this.props.all_vets);
     }
 
     submitNewPet = () =>{
@@ -99,7 +104,10 @@ export class NewPetForm extends Component{
                                 name="primary_vet_id"
                             />
                     </div>
-                    {/* Password Input */}
+                    <div className="my-2">
+                            <button type="button" className="btn btn-warning" onClick={this.props.getAllVets}>Find All Vets</button>
+                    </div>
+                    {/* Emergency Vet */}
                     <div className="my-2">
                             <Select
                                 value={this.emergency_vet_id}

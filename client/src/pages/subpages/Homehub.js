@@ -27,6 +27,7 @@ class Homehub extends Component {
       homeName: undefined,
       homeCity: undefined,
       homeState: undefined,
+      all_vets: undefined,
       primary_vets: undefined,
       home_admin: undefined,
       selectedOption: '',
@@ -155,6 +156,15 @@ class Homehub extends Component {
     return petArray;
   }
 
+  getAllVets = () => {
+    API.getAllVets()
+      .then(response =>{
+        console.log(response)
+        this.setState({all_vets: response.data})
+        this.displayAllVetsInPets();
+      }).catch()
+  }
+
   //Function to get all chroes by home id
   getChores = (homeid) => {
     API.getAllChores({
@@ -205,6 +215,10 @@ class Homehub extends Component {
       }).catch()
   }
 
+  displayAllVetsInPets = () => {
+    this.refs.displayAllVetsReference.getAllVetDropSelection();
+  }
+
   modalTitleSwitch(modalFunc) {
     switch (modalFunc) {
       case "pet":
@@ -242,10 +256,13 @@ class Homehub extends Component {
       case "newPet":
         return (
           <NewPetForm
+            ref = "displayAllVetsReference"
+            all_vets={this.state.all_vets}
             primary_vets={this.state.primary_vets}
             home_id={this.state.home_id}
             getPetData={this.getPetData}
             closeModal={this.closeModal}
+            getAllVets={this.getAllVets}
           />
         );
       case "newVet":
