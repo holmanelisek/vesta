@@ -61,8 +61,11 @@ export default {
 
   // Adds new chore to user's home
   addChore: choreData => {
-    console.log(choreData);
     return axios.post("/api/add/chores", choreData);
+  },
+
+  deleteChore: choreData => {
+    return axios.delete("/api/delete/chores", choreData);
   },
   // Used for marking a chore complete
   markChoreComplete: choreData => {

@@ -21,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
       // allowNull: false
     },
     created_by: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       // allowNull: false
     },
     assigned_user: {
