@@ -248,7 +248,7 @@ router.post("/remove/pet/:id", function (req,res) {
 
 //----------Vet Route-----------//
 //------------------------------//
-//Route to get all vets from array
+    //Route to get all vets from array
     router.post("/get/vets", function (req, res) {
       db.Vets.findAll({
         where: {
@@ -263,6 +263,15 @@ router.post("/remove/pet/:id", function (req,res) {
       })
     });
 
+    //Route to get all vets
+    router.get("/get/all_vets", (req, res) => {
+      db.Vets.findAll({
+      }).then(response => {
+        res.json(response)
+      })
+    })
+
+    //Route to add a vet
     router.post("/add/vet", (req, res) =>{
       db.Vets.create({
         practice_name: req.body.practice_name,
