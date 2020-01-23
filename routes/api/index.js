@@ -214,7 +214,7 @@ router.post("/get/pets", function (req, res) {
 });
 
 // Add pet
-router.post("/add/pets", function (req, res) {
+router.post("/add/pet", function (req, res) {
   db.Pets.create({
     home_id: req.body.home_id,
     pet_name: req.body.pet_name,
