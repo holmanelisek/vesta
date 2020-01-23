@@ -8,10 +8,15 @@ export class NewPetForm extends Component{
         age: undefined,
         animal_type: undefined,
         primary_vet_id: undefined,
-        emergency_vet_id: undefined
+        emergency_vet_id: undefined,
+        vet_display: "myVets"
     }
 
-    getVetDropSelection = vetArray =>{
+    getVetDropSelection = ()=>{
+        let vetArray = this.props.primary_vets;
+        if( this.state.vet_display === "all"){
+            vetArray = this.props.all_vets
+        }
         console.log(vetArray)
         let vetDropSelection = vetArray.map(vet => {
             let vetObj = {};
@@ -38,7 +43,13 @@ export class NewPetForm extends Component{
     }
 
     getAllVetDropSelection = () => {
-        this.getVetDropSelection(this.props.all_vets);
+        this.setState({vet_display: "all"})
+        this.getVetDropSelection();
+    }
+
+    getMyVetsDropSelection = () => {
+        this.setState({vet_display: "myVets"})
+        this.getVetDropSelection();
     }
 
     submitNewPet = () =>{
@@ -100,19 +111,19 @@ export class NewPetForm extends Component{
                             <Select
                                 value={this.primary_vet_id}
                                 onChange={this.handleSelectionPrimary}
-                                options={this.getVetDropSelection(this.props.primary_vets)}
+                                options={this.getVetDropSelection()}
                                 name="primary_vet_id"
                             />
                     </div>
                     <div className="my-2">
-                            <button type="button" className="btn btn-warning" onClick={this.props.getAllVets}>Find All Vets</button>
+                            <button type="button" className="btn btn-warning" onClick={this.props.getAllVets}>Find All Vets</button><button type="button" className="btn btn-warning" onClick={this.getMyVetsDropSelection}>My Vets</button>
                     </div>
                     {/* Emergency Vet */}
                     <div className="my-2">
                             <Select
                                 value={this.emergency_vet_id}
                                 onChange={this.handleSelectionEmergency}
-                                options={this.getVetDropSelection(this.props.primary_vets)}
+                                options={this.getVetDropSelection()}
                                 name="emergency_vet_id"
                             />
                     </div>
