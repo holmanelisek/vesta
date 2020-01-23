@@ -79,6 +79,12 @@ export default {
   // Adds new pet to user's home
   addPet: petData => {
     return axios.post("/api/add/pet", petData);
+    // home_id: req.body.home_id,
+    // pet_name: req.body.pet_name,
+    // age: req.body.age,
+    // animal_type: req.body.animal_type,
+    // primary_vet_id: req.body.primary_vet_id,
+    // emergency_vet_id: req.body.emergency_vet_id
   },
   // Removes a pet 
   removePet: petId => {
@@ -89,9 +95,24 @@ export default {
 
 
 //-----VET CALLS-------//
+  //Search all vets in array and return results
   getVetsByMultId: vetsArray => {
     console.log(vetsArray);
     return axios.post("/api/get/vets", vetsArray)
+  },
+
+  //Add new vet to database
+  addNewVet: vetData => {
+    console.log(vetData);
+    return axios.post("/api/add/vet", vetData);
+    // practice_name: req.body.practice_name,
+    // phone_number: req.body.phone_number,
+    // street: req.body.street,
+    // city: req.body.city,
+    // state: req.body.state,
+    // zip: req.body.zip,
+    // email: req.body.email,
+    // emergency_clinic: req.body.emergency_clinic
   },
 //----------------------//
 

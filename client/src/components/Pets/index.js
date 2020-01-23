@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import {Modal} from 'react-bootstrap';
 import DeletePet from "../DeletPet";
+import {SubmitPet, AddPetModal} from "../SubmitPet";
+import {NewPetForm, NewPetTitle } from "../NewPetForm";
 import API from "../../utils/API"
 
 class Pets extends Component{
 
     state = {
         modalShow: false,
+        modalFunc: undefined,
     }
 
     deletePet = (petId, admin, user) => {
@@ -20,7 +23,8 @@ class Pets extends Component{
       }
     }
 
-    openModal = () => {
+    openModal = (modalFunc) => {
+        this.setState({ modalFunc: modalFunc})
         this.setState({ modalShow: true});
     }
 
@@ -39,10 +43,49 @@ class Pets extends Component{
         return (
           <DeletePet 
             clickFunc = {() => this.deletePet(this.props.pet.id, admin, user)}
-          />
+          >Remove</DeletePet>
           )
       }else{
         return null
+      }
+    }
+
+    modalTitleSwitch(modalFunc){
+      switch (modalFunc) {
+        case "pet":
+          return(
+            <div className="">
+                <h2>{this.props.pet.pet_name}<span className="float-right">{this.adminFunctionDeletePet(this.props.home_admin, this.props.user)}</span></h2>
+            </div>
+          );
+        case "newPet":
+          return(
+            <NewPetTitle/>
+          );
+      }
+    }
+
+    modalBodySwitch(modalFunc){
+      switch (modalFunc) {
+        case "pet":
+          return(
+          <div>
+            <p>Pet Name: {this.props.pet.pet_name}</p>
+            <p>Pet Aage: {this.props.pet.age}</p>
+            <hr/>
+            <p>Primary Vet: {this.props.pet.primary_vet_info.practice_name}</p>
+            <p>Phone Number: {this.props.pet.primary_vet_info.phone_number}</p>
+            <p>Address: {this.props.pet.primary_vet_info.street}, {this.props.pet.primary_vet_info.city}, {this.props.pet.primary_vet_info.state} {this.props.pet.primary_vet_info.zip}</p>
+            <hr/>
+            <p className="card-text">Pets description</p>
+          </div>
+          );
+        case "newPet":
+          return(
+            <NewPetForm 
+              handleInputChange = {this.handleInputChange}
+            />
+          );
       }
     }
 
@@ -54,26 +97,15 @@ class Pets extends Component{
             <div className="card-body">
               <h5 className="card-title">{this.props.pet.pet_name}</h5>
               <p className="card-text">Age:{this.props.pet.age}</p>
-              <button onClick={this.openModal} className="btn btn-primary">More information</button>
+              <button onClick={()=> this.openModal("pet")} className="btn btn-primary">More information</button>
             </div>
           </div>
           <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
             <Modal.Title>
-                <div className="">
-                    <h2 ref={subtitle => this.subtitle = subtitle}>{this.props.pet.pet_name} <span className="float-right">{this.adminFunctionDeletePet(this.props.home_admin, this.props.user)}</span></h2>
-                </div>
+                {this.modalTitleSwitch(this.state.modalFunc)}
             </Modal.Title>
             <Modal.Body>
-              <div>
-                <p>Pet Name: {this.props.pet.pet_name}</p>
-                <p>Pet Aage: {this.props.pet.age}</p>
-                <hr/>
-                <p>Primary Vet: {this.props.pet.primary_vet_info.practice_name}</p>
-                <p>Phone Number: {this.props.pet.primary_vet_info.phone_number}</p>
-                <p>Address: {this.props.pet.primary_vet_info.street}, {this.props.pet.primary_vet_info.city}, {this.props.pet.primary_vet_info.state} {this.props.pet.primary_vet_info.zip}</p>
-                <hr/>
-                <p className="card-text">Pets description</p>
-              </div>
+                {this.modalBodySwitch(this.state.modalFunc)}
             </Modal.Body>
             <Modal.Footer>
               <div>

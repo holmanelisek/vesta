@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
+import {Modal} from "react-bootstrap";
 import Pets from "../../components/Pets";
+import {SubmitPet, AddPetModal} from "../../components/SubmitPet";
+import {NewPetForm, NewPetTitle} from "../../components/NewPetForm";
 import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
 import AddChore from '../../components/AddChore/index'
@@ -10,6 +13,8 @@ class Homehub extends Component {
     super();
 
     this.state = {
+      mondalFunc: undefined,
+      modalShow: undefined,
       chores: [],
       petData: [],
       // users: []
@@ -30,6 +35,23 @@ class Homehub extends Component {
       created_by: '',
       point_value: '',
       startDate: new Date(),
+      newPetData: {
+        pet_name: undefined,
+        age: undefined,
+        animal_type: undefined,
+        primary_vet_id: undefined,
+        emergency_vet_id: undefined
+      },
+      newVetData: {
+        practice_name: undefined,
+        phone_number: undefined,
+        street: undefined,
+        city: undefined,
+        state: undefined,
+        zip: undefined,
+        email: undefined,
+        emergency_clinic: undefined
+      },
     };
 
   }
@@ -43,16 +65,39 @@ class Homehub extends Component {
     }
   }
 
-  // updateStateValues = (values) =>{
-  //   this.setState({
-  //     user_id: values.user_id,
-  //     username: values.username,
-  //     firstname: values.firstname,
-  //     lastname: values.lastname,
-  //     email: values.email,
-  //     home_id: values.home_id,
-  //   });
-  // }
+  submitPet = (newPetData, admin, user) => {
+    if(admin === user){
+      console.log("Here doggy!")
+      API.addPet(newPetData)
+        .then( response => {
+          console.log(response.data)
+          this.props.getPetData(this.props.home_id)
+        })
+    }
+  }
+
+  adminFunctionAddpet = (admin, user) => {
+    console.log(this.props)
+    if(admin === user){
+      return (
+        <button type="button" className="btn btn-secondary" onClick={() => this.openModal("newPet")}>Add Pet</button>
+        )
+    }else{
+      return null
+    }
+  }
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState( prevState => 
+      ({newPetData: {
+        //Spread operate to save old state
+        ...prevState.newPetData,
+        //Then set the value of the input state
+        [name]: value.trim()
+      }})
+    );
+  };
 
   handleFindHome = (homeid) => {
     API.findHomeById(homeid)
@@ -132,6 +177,20 @@ class Homehub extends Component {
       })
   };
 
+  openModal = (modalFunc) => {
+    this.setState({ modalFunc: modalFunc})
+    this.setState({ modalShow: true});
+  }
+
+  afterOpenModal() {
+      // references are now sync'd and can be accessed.
+      // this.subtitle.style.color = '#f00';
+  }
+
+  closeModal = () => {
+      this.setState({ modalShow: false });
+  }
+
   //Function to get pet data by home id and vets data for pets
   getPetData = (homeid) => {
     //Api call for getting all bets beloning to home
@@ -159,6 +218,45 @@ class Homehub extends Component {
   handleInputChange = event => {
 
   };
+
+  modalTitleSwitch(modalFunc){
+    switch (modalFunc) {
+      case "pet":
+        return(
+          <div className="">
+              <h2>{this.props.pet.pet_name}<span className="float-right">{this.adminFunctionDeletePet(this.props.home_admin, this.props.user)}</span></h2>
+          </div>
+        );
+      case "newPet":
+        return(
+          <NewPetTitle/>
+        );
+    }
+  }
+
+  modalBodySwitch(modalFunc){
+    switch (modalFunc) {
+      case "pet":
+        return(
+        <div>
+          <p>Pet Name: {this.props.pet.pet_name}</p>
+          <p>Pet Aage: {this.props.pet.age}</p>
+          <hr/>
+          <p>Primary Vet: {this.props.pet.primary_vet_info.practice_name}</p>
+          <p>Phone Number: {this.props.pet.primary_vet_info.phone_number}</p>
+          <p>Address: {this.props.pet.primary_vet_info.street}, {this.props.pet.primary_vet_info.city}, {this.props.pet.primary_vet_info.state} {this.props.pet.primary_vet_info.zip}</p>
+          <hr/>
+          <p className="card-text">Pets description</p>
+        </div>
+        );
+      case "newPet":
+        return(
+          <NewPetForm 
+            handleInputChange = {this.handleInputChange}
+          />
+        );
+    }
+  }
 
   render() {
     return (
@@ -212,6 +310,8 @@ class Homehub extends Component {
                     {/* pet data goes here */}
                     <div className="tab-pane fade" id="pets" role="tabpanel" aria-labelledby="pets-tab">
                       <div className="container" style={{ textAlign: "center" }}>
+                        <div>{this.adminFunctionAddpet(this.state.home_admin, this.state.user_id)}</div>
+                        <hr/>
                         <div className="row">
                           {this.state.petData.map(pet => (
                               <Pets
@@ -262,6 +362,19 @@ class Homehub extends Component {
                 </div>
               </div>
               </div>
+              <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
+                <Modal.Title>
+                    {this.modalTitleSwitch(this.state.modalFunc)}
+                </Modal.Title>
+                <Modal.Body>
+                    {this.modalBodySwitch(this.state.modalFunc)}
+                </Modal.Body>
+                <Modal.Footer>
+                  <div>
+                    <button type="button" className="btn btn-secondary" onClick={this.closeModal}>Close</button>
+                  </div>
+                </Modal.Footer>
+              </Modal>
             </div>
             :
             <Redirect to="/"/>
