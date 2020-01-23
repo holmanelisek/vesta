@@ -1,14 +1,12 @@
-//--own recipe database?
-
-var pantry = require("pantry.js");
+import API from "../../utils/API";
 var appID = "996e3c2c";
 var apiKey = "09f281b44cbf4d7b7fcfcae22f05c79d";
+var currentHave = [];
 
 function pickRecipe(user){
+    var recipe = [];
     //pull all of the ingredients in the user's pantry
-    var currentHave = pantry.findAll({
-        home_id: user.home_id
-    })
+    currentHave = API.getPantryItems(user.home_id);
     //randomly select one of the pantry items
     var randompantry = currentHave[Math.floor(Math.random() * Math.floor(currentHave.length))].item_name;
     //search the api for 10 recipes using the random item as an ingredient
@@ -17,9 +15,9 @@ function pickRecipe(user){
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-       pickBest(response);
+       recipe = pickBest(response);
     })
-
+    return recipe
 }
 
 function pickBest(recipes){
@@ -57,15 +55,21 @@ function pickBest(recipes){
                 bestpercent = haspercent;
             }
         }
+    var recipe = {percent: bestpercent, recipe: bestrecipe, need: bestneed, url: besturl, image: bestimage}
+    return recipe;
     }
+
+
 
 //evaluate if you have enough of the needed ingredient in your pantry
 function haveEnough(value,unit,name){
-    var have = pantry.findAll({
-        home_id: user.home_id,
-        item_name: name
-    });
-    if(have==NULL){
+    var have = [];
+    for(i=0;i++;i<currentHave.length){
+        if(currentHave[i].item_name===name){
+            have.append(currentHave[i]);
+        };
+    }
+    if(have.length===0){
         //nothing in the pantry by that name means you don't have enough!
         return false;
     }else{
@@ -150,6 +154,7 @@ function cleanIngrediant(ingr){
     }
     }
 
+    module.exports = pickRecipe(user);
 
 
 //pull pantry info by home_id

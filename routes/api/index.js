@@ -254,6 +254,18 @@ router.post("/get/pantry", function (req, res) {
   });
 });
 
+router.post("/get/pantryitem", function(req,res){
+  db.Pantry.findAll({
+    where:{
+      home_id: req.body.home_id,
+      item_name: name
+    }
+  }). then(function(dbPantry){
+    res.json(dbPantry);
+  })
+})
+
+
 router.post("add/pantry", function (req, res) {
   db.Pantry.create({
     home_id: req.body.home_id,

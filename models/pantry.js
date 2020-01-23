@@ -16,6 +16,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       defaultValue: "unit",
     },
+    low_quantity: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
     best_by: {
       type: DataTypes.STRING
     },
