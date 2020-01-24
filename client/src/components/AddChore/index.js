@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Select from 'react-select';
 import API from "../../utils/API";
 // import Modal from 'react-modal'
@@ -6,46 +6,24 @@ import { Modal } from 'react-bootstrap'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-25%',
-        transform: 'translate(-50%, -50%)'
-    }
-};
+export class AddChore extends Component {
 
-class AddChore extends React.Component {
-    constructor() {
-        super();
-
-        this.state = {
-            user_id: undefined,
-            modalShow: false,
-            selectedOption: undefined,
-            users: [],
-            chore_name: undefined,
-            created_by: undefined,
-            point_value: undefined,
-            startDate: new Date(),
-            endDate: new Date(),
-        };
-
-
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-
+    state = {
+        // user_id: undefined,
+        // selectedOption: undefined,
+        users: [],
+        // created_by: undefined,
+        chore_name: undefined,
+        assigned_user: undefined,
+        point_value: undefined,
+        startDate: new Date(),
+        endDate: new Date(),
     }
 
-    openModal() {
-        this.setState({ modalShow: true });
-    }
-
-    closeModal() {
-        this.setState({ modalShow: false });
-    }
+    handleInputChange = event => {
+        const { name, value } = event.target;
+        this.setState({ [name]: value.trim() });
+    };
 
     handleStartDateChange = date => {
         this.setState({
@@ -59,8 +37,8 @@ class AddChore extends React.Component {
         });
     };
 
-    handleChange = selectedOption => {
-        this.setState({ selectedOption });
+    handleChange = selection => {
+        this.setState({ assigned_user: selection.value });
     };
 
     storeUsernames = array => {
@@ -88,10 +66,10 @@ class AddChore extends React.Component {
 
     submitChore = () => {
         API.addChore({
-            home_id: 1,
+            home_id: this.props.home_id,
             chore_name: this.state.chore_name,
-            created_by: this.state.created_by,
-            assigned_user: this.state.selectedOption.value,
+            created_by: this.props.created_by,
+            assigned_user: this.state.assigned_user,
             point_value: this.state.point_value,
             start_date_time: this.state.startDate,
             end_date_time: this.state.endDate,
@@ -102,114 +80,94 @@ class AddChore extends React.Component {
         })
             .then(res => {
                 console.log(res)
-                // this.props.ge
-                this.closeModal()
+                this.props.getChores(this.props.home_id)
+                this.props.closeModal()
+            }).catch(err => {
+                console.log(err)
             });
-        console.log("name: " + this.state.chore_name)
-        console.log("assigned: " + this.state.selectedOption.value)
-        console.log("created: " + parseInt(this.state.created_by))
-        console.log("points: " + parseInt(this.state.point_value))
-        console.log("start: " + this.state.startDate)
-    }
-
-    handleInputChange = event => {
-        const { name, value } = event.target;
-        this.setState({ [name]: value.trim() });
-    };
-
-    componentDidMount() {
-        this.assignCreatedBy()
-        this.grabUsers(1);
     }
 
     render() {
+        this.grabUsers(this.props.home_id)
+
         const userOptions = this.state.users.map(user => (
             { value: user, label: user }
         ))
 
-        const { selectedOption } = this.state;
-
-
         return (
             <div>
-                <button type="button" className="btn btn-secondary" onClick={this.openModal}>Add Chore</button>
-                <Modal
-                    show={this.state.modalShow}
-                    onHide={this.closeModal}
-                    backdrop='static'
-                >
-                    <Modal.Header>
-                        <h2>Add chore</h2>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div>
-                            <span>Name of Chore</span>
-                            <input
-                                value={this.state.chore_name}
-                                onChange={this.handleInputChange}
-                                type="text"
-                                name="chore_name"
-                                id="chore-name"
-                                className="form-control"
-                                placeholder="Chore name"
-                            ></input>
-                        </div>
-                        <span>Assigned user</span>
-                        <Select
-                            value={selectedOption}
-                            onChange={this.handleChange}
-                            options={userOptions}
-                        />
-                        <div>
-                            <span>Point Value</span>
-                            <input
-                                value={this.state.point_value}
-                                onChange={this.handleInputChange}
-                                type="number"
-                                min="0"
-                                name="point_value"
-                                id="point-value"
-                                className="form-control"
-                                placeholder="Point value"
-                            ></input>
-                        </div>
-                        <div>
-                            <span>Chore start</span>
-                            <br />
-                            <DatePicker
-                                selected={this.state.startDate}
-                                onChange={this.handleStartDateChange}
-                                showTimeSelect
-                                showYearDropdown
-                                timeIntervals={30}
-                                timeCaption="time"
-                                dateFormat="MMMM d, yyyy h:mm aa"
-                                placeholderText="Click for date and time"
-                            />
-                        </div>
-                        <div>
-                            <span>Be done before</span>
-                            <br />
-                            <DatePicker
-                                selected={this.state.endDate}
-                                onChange={this.handleEndDateChange}
-                                showTimeSelect
-                                showYearDropdown
-                                timeIntervals={30}
-                                timeCaption="time"
-                                dateFormat="MMMM d, yyyy h:mm aa"
-                                placeholderText="Click for date and time"
-                            />
-                        </div>
-                        <button type="button" className="btn btn-secondary" onClick={this.submitChore}>Add</button>
-                    </Modal.Body>
-                </Modal>
+                <div className="my-2">
+                    {/*Name of Chore*/}
+                    <input
+                        value={this.state.chore_name}
+                        onChange={this.handleInputChange}
+                        type="text"
+                        name="chore_name"
+                        id="chore-name"
+                        className="form-control"
+                        placeholder="Chore name"
+                    ></input>
+                </div>
+                {/*Assigned user*/}
+                < Select
+                    value={this.assigned_user}
+                    onChange={this.handleChange}
+                    options={userOptions}
+                />
+                <div className="my-2">
+                    {/*Point Value*/}
+                    <input
+                        value={this.state.point_value}
+                        onChange={this.handleInputChange}
+                        type="number"
+                        min="0"
+                        name="point_value"
+                        id="point-value"
+                        className="form-control"
+                        placeholder="Point value"
+                    ></input>
+                </div>
+                <div className="my-2">
+                    {/*Chore start*/}
+                    {/* <br /> */}
+                    <DatePicker
+                        selected={this.state.startDate}
+                        onChange={this.handleStartDateChange}
+                        showTimeSelect
+                        showYearDropdown
+                        timeIntervals={30}
+                        timeCaption="time"
+                        dateFormat="MMMM d, yyyy h:mm aa"
+                        placeholderText="Start date and time"
+                    />
+                </div>
+                <div className="my-2">
+                    {/*Be done before*/}
+                    {/* <br /> */}
+                    <DatePicker
+                        selected={this.state.endDate}
+                        onChange={this.handleEndDateChange}
+                        showTimeSelect
+                        showYearDropdown
+                        timeIntervals={30}
+                        timeCaption="time"
+                        dateFormat="MMMM d, yyyy h:mm aa"
+                        placeholderText="End date and time"
+                    />
+                </div>
+                <button type="button" className="btn btn-secondary" onClick={this.submitChore}>Add</button>
             </div >
         );
     }
 }
 
-export default AddChore
+export function AddChoreTitle() {
+    return (
+        <div>
+            <h2>Add a new chore</h2>
+        </div>
+    )
+}
 
 // import React from 'react'
 // import API from '../../utils/API'

@@ -8,7 +8,7 @@ import { NewPetForm, NewPetTitle } from "../../components/NewPetForm";
 import { NewVetForm, NewVetTitle } from "../../components/NewVetForm";
 import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
-import AddChore from '../../components/AddChore/index'
+import { AddChore, AddChoreTitle } from '../../components/AddChore/index'
 
 class Homehub extends Component {
   constructor() {
@@ -259,6 +259,18 @@ class Homehub extends Component {
     this.setState({ selectedOption });
   };
 
+  handleStartDateChange = date => {
+    this.setState({
+      startDate: date
+    });
+  };
+
+  handleEndDateChange = date => {
+    this.setState({
+      endDate: date
+    });
+  };
+
   modalTitleSwitch(modalFunc) {
     switch (modalFunc) {
       case "pet":
@@ -294,14 +306,12 @@ class Homehub extends Component {
     const choreOptions = this.state.chores.map(chore => (
       { value: chore.id, label: chore.chore_name }
     ))
-
     const { selectedDeleteOption } = this.state;
 
     const userOptions = this.state.users.map(user => (
       { value: user, label: user }
     ))
-
-    const { selectedAddOption } = this.state;
+    // const { selectedAddOption } = this.state;
 
     switch (modalFunc) {
       case "pet":
@@ -339,68 +349,12 @@ class Homehub extends Component {
         );
       case "addChore":
         return (
-          <div>
-            <div>
-              <span>Name of Chore</span>
-              <input
-                value={this.state.chore_name}
-                onChange={this.handleInputChange}
-                type="text"
-                name="chore_name"
-                id="chore-name"
-                className="form-control"
-                placeholder="Chore name"
-              ></input>
-            </div>
-            <span>Assigned user</span>
-            <Select
-              value={selectedAddOption}
-              onChange={this.handleChange}
-              options={userOptions}
-            />
-            <div>
-              <span>Point Value</span>
-              <input
-                value={this.state.point_value}
-                onChange={this.handleInputChange}
-                type="number"
-                min="0"
-                name="point_value"
-                id="point-value"
-                className="form-control"
-                placeholder="Point value"
-              ></input>
-            </div>
-            <div>
-              <span>Chore start</span>
-              <br />
-              <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleStartDateChange}
-                showTimeSelect
-                showYearDropdown
-                timeIntervals={30}
-                timeCaption="time"
-                dateFormat="MMMM d, yyyy h:mm aa"
-                placeholderText="Click for date and time"
-              />
-            </div>
-            <div>
-              <span>Be done before</span>
-              <br />
-              <DatePicker
-                selected={this.state.endDate}
-                onChange={this.handleEndDateChange}
-                showTimeSelect
-                showYearDropdown
-                timeIntervals={30}
-                timeCaption="time"
-                dateFormat="MMMM d, yyyy h:mm aa"
-                placeholderText="Click for date and time"
-              />
-            </div>
-            <button type="button" className="btn btn-secondary" onClick={this.submitChore}>Add</button>
-          </div>
+          < AddChore
+            home_id={this.state.home_id}
+            getChores={this.getChores}
+            closeModal={this.closeModal}
+            created_by={this.props.state.firstname}
+          />
         );
       case "deleteChore":
         return (
@@ -453,7 +407,6 @@ class Homehub extends Component {
                       </div>
                       <hr />
                       {this.state.chores.map(chore => (
-                        console.log(chore.start_date_time),
                         < Chores
                           key={chore.id}
                           // users={this.state.users}
