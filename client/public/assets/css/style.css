@@ -117,11 +117,11 @@ nav ul {
   }
 
 /* INFORMATION */
-h1, h2, h3, h5, p {
+h1, h2, h5, p {
     font-family: 'Montserrat', sans-serif;
 }
 
-.subheader, .questions, h4 {
+.subheader, .questions, h3, h4 {
     font-family: 'Caveat', cursive;
 }
 
