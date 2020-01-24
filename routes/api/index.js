@@ -102,15 +102,39 @@ router.get("/home/find_by_id/:id", (req, res) => {
     res.json({
         id: house.id,
         home_name: house.home_name,
+        street: house.street,
         city: house.city,
         state: house.state,
+        zip: house.zip,
+        invitation_key: house.invitation_key,
         home_admin: house.home_admin
       })
     })
     .catch(err => {
       res.json(err)
   })
-})
+});
+
+//Route for getting master key from home
+router.post("/home/master_key/retrieve", (req, res) => {
+  db.Homes.findOne({
+    where: {
+      id: req.body.home_id
+    }
+  }).then( dbHome => {
+    if( dbHome.home_admin === req.body.user_id){
+      res.json({
+        message: "Retrieve Successful",
+        master_key: dbHome.master_key
+      })
+    }else{
+      res.json({
+        message: "Retrieve Unsuccessful",
+        master_key: null
+      })
+    }
+  })
+});
 
 // Route for logging user out
 router.get("/logout", function (req, res) {

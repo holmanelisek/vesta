@@ -50,6 +50,11 @@ export default {
     console.log(homeData);
     return axios.post("/api/home/create", homeData)
   },
+
+  //find home master key
+  findHomeMasterKey: reqData => {
+    return axios.post("/api/home/master_key/retrieve", reqData)
+  },
   //----------------------//
 
 
