@@ -9,6 +9,8 @@ import { NewVetForm, NewVetTitle } from "../../components/NewVetForm";
 import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
 import AddChore from '../../components/AddChore/index'
+import Pantry from '../../components/Pantry'
+import recipeeval from "../../../public/assets/javascript/recipes"
 
 class Homehub extends Component {
   constructor() {
@@ -21,6 +23,10 @@ class Homehub extends Component {
       modalShow: undefined,
       chores: [],
       petData: [],
+      // users: []
+      pantryitems: [],
+      itemsneeded: [],
+      recipesuggested: [],
       user_id: undefined,
       username: undefined,
       firstname: undefined,
@@ -255,6 +261,67 @@ class Homehub extends Component {
     this.refs.displayAllVetsReference.getAllVetDropSelection();
   }
 
+  //pull pantry info to state
+  listPantry = homeID => {
+    API.getPantryItems({
+        home_id: homeID
+    })
+        .then(res => {
+            let pantry = res.data;
+            this.setState({pantryitems: pantry});
+        })
+}
+
+
+convertToDays = milliseconds => {
+  var seconds = (milliseconds/1000);
+  var minutes = seconds/60;
+  var hours = minutes/60;
+  var days = hours/24;
+  return days
+}
+
+needItems = pantry => {
+  var need = []
+  for(i=0;i++;i<pantry.length){
+      if(pantry[i].date_out>0){
+          var timeLeft = pantry[i].date_out - date.now();
+          var dayOut = convertToDays(timeLeft);
+          if(dayOut<3){
+              need.append(pantry[i]);
+          }
+      }else if(pantry[i].quantity<=pantry[i].low_quantity){
+          need.append(pantry[i]);
+      }
+  }
+  return need;
+}
+
+
+needPantry = homeID => {
+ API.getPantryItems({
+    home_id: homeID
+  })
+      .then(res =>{          
+          var needed = needItems(res);
+          this.setState({itemsneeded: needed})
+      })
+}
+
+
+recipeInfo = homeID => {
+  API.getPantryItems({
+      home_id: homeID
+  })
+      .then(res => {
+          var chosen = recipeeval.pickRecipe(res)
+          this.setState({recipesuggested: chosen})
+      })
+}
+
+  //Function to change the state values on input change
+  handleInputChange = event => {
+=======
   handleChange = selectedOption => {
     this.setState({ selectedOption });
   };
@@ -499,8 +566,8 @@ class Homehub extends Component {
                           <div className="col-6">
                             <h4>Items in pantry:</h4>
                             <ul className="list-group list-group-flush">
-                              <li className="list-group-item list-group-item-success"><h4>Cookies</h4>
-                                <button type="button" className="btn btn-success" style={{ margin: 5 }}>Purchased!</button>
+                              <li className="list-group-item list-group-item-success">
+                                {this.state.pantryitems.map(item => (<Pantry item = {item}/>))}                              
                               </li>
                             </ul>
                           </div>
@@ -508,7 +575,7 @@ class Homehub extends Component {
                             <h4>Items needed:</h4>
                             <ul className="list-group list-group-flush">
                               <li className="list-group-item list-group-item-danger"><h4>Milk</h4>
-                                <button type="button" className="btn btn-success" style={{ margin: 5 }}>Purchased!</button>
+                                {this.state.itemsneeded.map(item => (<Pantry item = {item}/>))}
                               </li>
                             </ul>
                           </div>
@@ -516,9 +583,7 @@ class Homehub extends Component {
                       </div>
                       <br />
                       <div className="row">
-                        <div className="col-12">
-                          <p>Recipe Info Here</p>
-                        </div>
+                        {this.state.recipesuggested.map(recipe => (<Recipe recipe = {recipe}/>))}
                       </div>
                     </div>
                   </div>
