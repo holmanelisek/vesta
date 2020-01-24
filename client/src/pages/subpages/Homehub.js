@@ -8,7 +8,11 @@ import { NewPetForm, NewPetTitle } from "../../components/NewPetForm";
 import { NewVetForm, NewVetTitle } from "../../components/NewVetForm";
 import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
-import AddChore from '../../components/AddChore/index'
+import { AddChore, AddChoreTitle } from '../../components/AddChore/index'
+import { DeleteChore, DeleteChoreTitle } from '../../components/DeleteChore/index'
+import { Pantry, Recipe } from '../../components/Pantry'
+// import recipeeval from "../../../public/assets/javascript/recipes"
+
 
 class Homehub extends Component {
   constructor() {
@@ -21,6 +25,10 @@ class Homehub extends Component {
       modalShow: undefined,
       chores: [],
       petData: [],
+      // users: []
+      pantryitems: [],
+      itemsneeded: [],
+      recipesuggested: [],
       user_id: undefined,
       username: undefined,
       firstname: undefined,
@@ -255,9 +263,83 @@ class Homehub extends Component {
     this.refs.displayAllVetsReference.getAllVetDropSelection();
   }
 
+  //pull pantry info to state
+  listPantry = homeID => {
+    API.getPantryItems({
+      home_id: homeID
+    })
+      .then(res => {
+        let pantry = res.data;
+        this.setState({ pantryitems: pantry });
+      })
+  }
+
+
+  // convertToDays = milliseconds => {
+  //   var seconds = (milliseconds / 1000);
+  //   var minutes = seconds / 60;
+  //   var hours = minutes / 60;
+  //   var days = hours / 24;
+  //   return days
+  // }
+
+  // needItems = pantry => {
+  //   var need = []
+  //   for (var i = 0; i++; i < pantry.length) {
+  //     if (pantry[i].date_out > 0) {
+  //       var timeLeft = pantry[i].date_out - Date.now();
+  //       var dayOut = convertToDays(timeLeft);
+  //       if (dayOut < 3) {
+  //         need.append(pantry[i]);
+  //       }
+  //     } else if (pantry[i].quantity <= pantry[i].low_quantity) {
+  //       need.append(pantry[i]);
+  //     }
+  //   }
+  //   return need;
+  // }
+
+
+  // needPantry = homeID => {
+  //   API.getPantryItems({
+  //     home_id: homeID
+  //   })
+  //     .then(res => {
+  //       var needed = needItems(res);
+  //       this.setState({ itemsneeded: needed })
+  //     })
+  // }
+
+
+  // recipeInfo = homeID => {
+  //   API.getPantryItems({
+  //     home_id: homeID
+  //   })
+  //     .then(res => {
+  //       var chosen = recipeeval.pickRecipe(res)
+  //       this.setState({ recipesuggested: chosen })
+  //     })
+  // }
+
+  //Function to change the state values on input change
+  handleInputChange = event => { }
+
   handleChange = selectedOption => {
     this.setState({ selectedOption });
   };
+
+  handleStartDateChange = date => {
+    this.setState({
+      startDate: date
+    });
+  };
+
+  handleEndDateChange = date => {
+    this.setState({
+      endDate: date
+    });
+  };
+
 
   modalTitleSwitch(modalFunc) {
     switch (modalFunc) {
@@ -277,15 +359,11 @@ class Homehub extends Component {
         );
       case "addChore":
         return (
-          <div>
-            <h2>Add Chore</h2>
-          </div>
+          <AddChoreTitle />
         );
       case "deleteChore":
         return (
-          <div>
-            <h2>Delete Chore</h2>
-          </div>
+          <DeleteChoreTitle />
         );
     }
   };
@@ -294,14 +372,12 @@ class Homehub extends Component {
     const choreOptions = this.state.chores.map(chore => (
       { value: chore.id, label: chore.chore_name }
     ))
-
     const { selectedDeleteOption } = this.state;
 
     const userOptions = this.state.users.map(user => (
       { value: user, label: user }
     ))
-
-    const { selectedAddOption } = this.state;
+    // const { selectedAddOption } = this.state;
 
     switch (modalFunc) {
       case "pet":
@@ -339,78 +415,21 @@ class Homehub extends Component {
         );
       case "addChore":
         return (
-          <div>
-            <div>
-              <span>Name of Chore</span>
-              <input
-                value={this.state.chore_name}
-                onChange={this.handleInputChange}
-                type="text"
-                name="chore_name"
-                id="chore-name"
-                className="form-control"
-                placeholder="Chore name"
-              ></input>
-            </div>
-            <span>Assigned user</span>
-            <Select
-              value={selectedAddOption}
-              onChange={this.handleChange}
-              options={userOptions}
-            />
-            <div>
-              <span>Point Value</span>
-              <input
-                value={this.state.point_value}
-                onChange={this.handleInputChange}
-                type="number"
-                min="0"
-                name="point_value"
-                id="point-value"
-                className="form-control"
-                placeholder="Point value"
-              ></input>
-            </div>
-            <div>
-              <span>Chore start</span>
-              <br />
-              <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleStartDateChange}
-                showTimeSelect
-                showYearDropdown
-                timeIntervals={30}
-                timeCaption="time"
-                dateFormat="MMMM d, yyyy h:mm aa"
-                placeholderText="Click for date and time"
-              />
-            </div>
-            <div>
-              <span>Be done before</span>
-              <br />
-              <DatePicker
-                selected={this.state.endDate}
-                onChange={this.handleEndDateChange}
-                showTimeSelect
-                showYearDropdown
-                timeIntervals={30}
-                timeCaption="time"
-                dateFormat="MMMM d, yyyy h:mm aa"
-                placeholderText="Click for date and time"
-              />
-            </div>
-            <button type="button" className="btn btn-secondary" onClick={this.submitChore}>Add</button>
-          </div>
+          <AddChore
+            home_id={this.state.home_id}
+            getChores={this.getChores}
+            closeModal={this.closeModal}
+            created_by={this.props.state.firstname}
+          />
         );
       case "deleteChore":
         return (
-          <div>
-            <Select
-              value={selectedDeleteOption}
-              onChange={this.handleChange}
-              options={choreOptions}
-            />
-          </div>
+          <DeleteChore
+            home_id={this.state.home_id}
+            getChores={this.getChores}
+            closeModal={this.closeModal}
+            chores={this.state.chores}
+          />
         );
     }
   }
@@ -453,7 +472,6 @@ class Homehub extends Component {
                       </div>
                       <hr />
                       {this.state.chores.map(chore => (
-                        console.log(chore.start_date_time),
                         < Chores
                           key={chore.id}
                           // users={this.state.users}
@@ -499,8 +517,8 @@ class Homehub extends Component {
                           <div className="col-6">
                             <h4>Items in pantry:</h4>
                             <ul className="list-group list-group-flush">
-                              <li className="list-group-item list-group-item-success"><h4>Cookies</h4>
-                                <button type="button" className="btn btn-success" style={{ margin: 5 }}>Purchased!</button>
+                              <li className="list-group-item list-group-item-success">
+                                {this.state.pantryitems.map(item => (<Pantry item={item} />))}
                               </li>
                             </ul>
                           </div>
@@ -508,7 +526,7 @@ class Homehub extends Component {
                             <h4>Items needed:</h4>
                             <ul className="list-group list-group-flush">
                               <li className="list-group-item list-group-item-danger"><h4>Milk</h4>
-                                <button type="button" className="btn btn-success" style={{ margin: 5 }}>Purchased!</button>
+                                {this.state.itemsneeded.map(item => (<Pantry item={item} />))}
                               </li>
                             </ul>
                           </div>
@@ -516,9 +534,7 @@ class Homehub extends Component {
                       </div>
                       <br />
                       <div className="row">
-                        <div className="col-12">
-                          <p>Recipe Info Here</p>
-                        </div>
+                        {this.state.recipesuggested.map(recipe => (<Recipe recipe={recipe} />))}
                       </div>
                     </div>
                   </div>

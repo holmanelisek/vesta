@@ -3,12 +3,11 @@ var appID = "996e3c2c";
 var apiKey = "09f281b44cbf4d7b7fcfcae22f05c79d";
 var currentHave = [];
 
-function pickRecipe(user){
+function pickRecipe(pantry){
     var recipe = [];
     //pull all of the ingredients in the user's pantry
-    currentHave = API.getPantryItems(user.home_id);
     //randomly select one of the pantry items
-    var randompantry = currentHave[Math.floor(Math.random() * Math.floor(currentHave.length))].item_name;
+    var randompantry = pantry[Math.floor(Math.random() * Math.floor(currentHave.length))].item_name;
     //search the api for 10 recipes using the random item as an ingredient
     var queryURL = "https://api.edamam.com/search?q=" + randompantry + "&app_id=" + appID + "&app_key=" + apiKey + "&from=0&to=10";
     $.ajax({
@@ -154,7 +153,7 @@ function cleanIngrediant(ingr){
     }
     }
 
-    module.exports = pickRecipe(user);
+    module.exports = pickRecipe(pantry);
 
 
 //pull pantry info by home_id

@@ -3,3 +3,138 @@ body {
     overflow-y: scroll;
     height: 100%;
 }
+
+/* NAV */
+#nav-icon {
+    width: 100px
+}
+
+nav li {
+    padding: 10px;
+}
+
+nav li li {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+nav ul {
+    white-space: nowrap;
+}
+
+.nav-color {
+    background-color: #4280a4;
+}
+
+/* BUTTONS */
+.btn_blue{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #4281a4;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #33637f;
+    border-radius: 3px;
+}
+
+.btn_green{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #48A9A6;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #32807e;
+    border-radius: 3px;
+}
+
+.btn_cream{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #e4dfda;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #aba8a6;
+    border-radius: 3px;
+}
+
+.btn_yellow{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #d4b483;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #9d8763;
+    border-radius: 3px;
+}
+
+.btn_red{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #c1666b;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #964e53;
+    border-radius: 3px;
+}
+
+/* HERO */
+.hero {
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  
+  .hero::after {
+    content: "";
+    display: block;
+    opacity: .4;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: black;
+  }
+  
+  .hero * {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .hero h1, .hero h2 {
+    color: white;
+  }
+  
+  .hero h1 {
+    font-size: 60px;
+    padding-top: 200px;
+    margin-top: 0;
+  }
+  
+  .hero h2 {
+    font-family: 'Caveat', cursive;
+  }
+
+/* INFORMATION */
+h1, h2, h3, h5, p {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.subheader, .questions, h4 {
+    font-family: 'Caveat', cursive;
+}
+
+.headshot {
+    width: 60%;
+}
+
+/* FOOTER   */
+.footer {
+    min-height: 50px;
+    background: #E5E5E5;
+    position: relative;
+    text-align: center;
+    padding: 10px;
+  }
+  

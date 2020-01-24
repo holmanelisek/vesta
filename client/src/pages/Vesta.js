@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import  { Route, Link, Switch} from 'react-router-dom'
+import { Route, Link, Switch } from 'react-router-dom'
 import ScrollspyNav from "react-scrollspy-nav";
 import Navbar from "../components/Navbar";
 import SignIn from "../components/SignIn";
@@ -10,11 +10,11 @@ import Homehub from "./subpages/Homehub";
 import Account from "./subpages/Account";
 import NoMatch from "./subpages/NoMatch";
 import Footer from "../components/Footer";
-import {Modal} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import API from "../utils/API";
 
 class Vesta extends Component {
-  constructor(){
+  constructor() {
     super();
 
     this.state = {
@@ -34,8 +34,8 @@ class Vesta extends Component {
     this.handleSignInShow = this.handleSignInShow.bind(this);
   }
 
-  componentDidMount(){
-      this.authentication();
+  componentDidMount() {
+    this.authentication();
   }
 
   authentication = () => {
@@ -80,23 +80,23 @@ class Vesta extends Component {
       email: this.state.email,
       password: this.state.password
     }).then(res => {
-        this.setState({
-          authenticated: true,
-          firstname: res.data.first_name,
-          lastname: res.data.last_name,
-          home_id: res.data.home_id,
-          user_id: res.data.id,
-          password: undefined
-        });
-        if(res.data.home_id === null){
-          this.authentication();
-          this.handleClose()
-          this.props.history.push("/Homeless")
-        }else{
+      this.setState({
+        authenticated: true,
+        firstname: res.data.first_name,
+        lastname: res.data.last_name,
+        home_id: res.data.home_id,
+        user_id: res.data.id,
+        password: undefined
+      });
+      if (res.data.home_id === null) {
+        this.authentication();
+        this.handleClose()
+        this.props.history.push("/Homeless")
+      } else {
         this.authentication();
         this.handleClose()
         this.props.history.push("/Homehub")
-        }
+      }
     }).catch(err => {
       //Do something with the err
       //console.log(err)
@@ -108,63 +108,55 @@ class Vesta extends Component {
     event.preventDefault();
     //API post for signing up.
     API.signUp({
-        //This is the data the API server requires for signing up, change them based on the what the server requires.
-        email: this.state.email,
-        password: this.state.password,
-        username: this.state.username,
-        fName: this.state.firstname,
-        lName: this.state.lastname
-      }).then( res => {
-        this.setState({
-          firstname: res.data.first_name,
-          lastname: res.data.last_name,
-          home_id: null,
-          user_id: res.data.id,
-          password: undefined
-        });
-        this.authentication();
-        this.handleClose()
-        this.props.history.push("/Homeless")
-      }).catch( err => {
-        //Do something with error
+      //This is the data the API server requires for signing up, change them based on the what the server requires.
+      email: this.state.email,
+      password: this.state.password,
+      username: this.state.username,
+      fName: this.state.firstname,
+      lName: this.state.lastname
+    }).then(res => {
+      this.setState({
+        firstname: res.data.first_name,
+        lastname: res.data.last_name,
+        home_id: null,
+        user_id: res.data.id,
+        password: undefined
+      });
+      this.authentication();
+      this.handleClose()
+      this.props.history.push("/Homeless")
+    }).catch(err => {
+      //Do something with error
     });
   }
 
   handleSignOutSubmit = () => {
     API.signOut()
-      .then( res => {
-          this.setState({authenticated: false});
-          this.props.history.push("/")
-        })
+      .then(res => {
+        this.setState({ authenticated: false });
+        this.props.history.push("/")
+      })
   }
 
 
-  handleClose = () =>{
-    this.setState({modalShow: false})
+  handleClose = () => {
+    this.setState({ modalShow: false })
   }
 
-  handleSignInShow = () =>{
-    this.setState({modalFunc: "SignIn"})
-    this.setState({modalShow: true})
+  handleSignInShow = () => {
+    this.setState({ modalFunc: "SignIn" })
+    this.setState({ modalShow: true })
   }
 
-  handleSignUpShow = () =>{
-    this.setState({modalFunc: "SignUp"})
-    this.setState({modalShow: true})
+  handleSignUpShow = () => {
+    this.setState({ modalFunc: "SignUp" })
+    this.setState({ modalShow: true })
   }
 
   render() {
     return (
       <div>
         {/* Navbar Component */}
-        {/* <ScrollspyNav
-            scrollTargetIds={["page-top","about", "services", "team"]}
-            offset={-56}
-            activeNavClass="is-active"
-            scrollDuration="400"
-            headerBackground="true"
-            router='Route'
-        > */}
           <Navbar 
             authenticated={this.state.authenticated} 
             user_id={this.state.user_id} 
@@ -177,10 +169,10 @@ class Vesta extends Component {
             clickModalSignUp = {this.handleSignUpShow}
             clickSignout = {this.handleSignOutSubmit}
           />
-        {/* </ScrollspyNav> */}
 
         {/* Page Content Routes */}
         <div id="page-top">
+
         <Switch>
           <Route path="/" exact render={Home}/>
           <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)} />
@@ -188,6 +180,7 @@ class Vesta extends Component {
           <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)}/>
           <Route component={NoMatch}/>
         </Switch>
+      
         </div>
         <Footer />
 
@@ -195,23 +188,23 @@ class Vesta extends Component {
         <Modal show={this.state.modalShow} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
-              { this.state.modalFunc === "SignIn" ?
-                <div>Sign In</div>:
-                  this.state.modalFunc === "SignUp" ? <div>Sign Up</div>: null
+              {this.state.modalFunc === "SignIn" ?
+                <div>Sign In</div> :
+                this.state.modalFunc === "SignUp" ? <div>Sign Up</div> : null
               }</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            { this.state.modalFunc === "SignIn" ?
+            {this.state.modalFunc === "SignIn" ?
               <SignIn
-              // Passing through functions
-              handleFormSubmit={this.handleSignInSubmit}
-              handleInputChange={this.handleInputChange}
-              />
-              :this.state.modalFunc === "SignUp" ?
-                <SignUp
                 // Passing through functions
-                handleSignUpSubmit={this.handleSignUpSubmit}
+                handleFormSubmit={this.handleSignInSubmit}
                 handleInputChange={this.handleInputChange}
+              />
+              : this.state.modalFunc === "SignUp" ?
+                <SignUp
+                  // Passing through functions
+                  handleSignUpSubmit={this.handleSignUpSubmit}
+                  handleInputChange={this.handleInputChange}
                 />
                 : null
             }
