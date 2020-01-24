@@ -102,6 +102,7 @@ class AddChore extends React.Component {
         })
             .then(res => {
                 console.log(res)
+                // this.props.ge
                 this.closeModal()
             });
         console.log("name: " + this.state.chore_name)

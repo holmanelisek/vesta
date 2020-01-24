@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Select from 'react-select';
+import DatePicker from "react-datepicker";
 import Pets from "../../components/Pets";
 import { NewPetForm, NewPetTitle } from "../../components/NewPetForm";
 import { NewVetForm, NewVetTitle } from "../../components/NewVetForm";
@@ -14,12 +15,12 @@ class Homehub extends Component {
     super();
 
     this.state = {
-      selectedOption: undefined,
+      selectedDeleteOption: undefined,
+      selectedAddOption: undefined,
       mondalFunc: undefined,
       modalShow: undefined,
       chores: [],
       petData: [],
-      // users: []
       user_id: undefined,
       username: undefined,
       firstname: undefined,
@@ -62,6 +63,7 @@ class Homehub extends Component {
   componentDidMount() {
     //console.log(this.props.state);
     if (this.props.authenticated) {
+      this.grabUsers(this.props.state.home_id);
       this.getChores(this.props.state.home_id);
       this.getPetData(this.props.state.home_id);
       this.handleFindHome(this.props.state.home_id)
@@ -87,6 +89,17 @@ class Homehub extends Component {
           <button type="button" className="btn btn-secondary mx-2" onClick={() => this.openModal("newPet")}>Add Pet</button>
           <button type="button" className="btn btn-secondary mx-2" onClick={() => this.openModal("newVet")}>Add Vet</button>
         </div>
+      )
+    } else {
+      return null
+    }
+  }
+
+  adminFunctionAddChore = (admin, user) => {
+    console.log(this.props)
+    if (admin === user) {
+      return (
+        <button type="button" className="btn btn-secondary" onClick={() => this.openModal("addChore")}>Add Chore</button>
       )
     } else {
       return null
@@ -129,20 +142,20 @@ class Homehub extends Component {
     return !item.completed
   }
 
-  // storeUsernames = array => {
-  //     return array.username;
-  // }
+  storeUsernames = array => {
+    return array.username;
+  }
 
-  // grabUsers = userHome => {
-  //     API.getAllHomeUsers({
-  //         home_id: userHome
-  //     })
-  //         .then(res => {
-  //             let usersArray = res.data.map(this.storeUsernames)
-  //             this.setState({ users: usersArray });
-  //             console.log(this.state.users);
-  //         })
-  // }
+  grabUsers = userHome => {
+    API.getAllHomeUsers({
+      home_id: userHome
+    })
+      .then(res => {
+        let usersArray = res.data.map(this.storeUsernames)
+        this.setState({ users: usersArray });
+        console.log(this.state.users);
+      })
+  }
 
   //Removes duplicate vet ids from pets array
   removeDuplicates = (array) => {
@@ -262,6 +275,12 @@ class Homehub extends Component {
         return (
           <NewVetTitle />
         );
+      case "addChore":
+        return (
+          <div>
+            <h2>Add Chore</h2>
+          </div>
+        );
       case "deleteChore":
         return (
           <div>
@@ -275,9 +294,15 @@ class Homehub extends Component {
     const choreOptions = this.state.chores.map(chore => (
       { value: chore.id, label: chore.chore_name }
     ))
-    console.log(choreOptions)
 
-    const { selectedOption } = this.state;
+    const { selectedDeleteOption } = this.state;
+
+    const userOptions = this.state.users.map(user => (
+      { value: user, label: user }
+    ))
+
+    const { selectedAddOption } = this.state;
+
     switch (modalFunc) {
       case "pet":
         return (
@@ -312,11 +337,76 @@ class Homehub extends Component {
             closeModal={this.closeModal}
           />
         );
+      case "addChore":
+        return (
+          <div>
+            <div>
+              <span>Name of Chore</span>
+              <input
+                value={this.state.chore_name}
+                onChange={this.handleInputChange}
+                type="text"
+                name="chore_name"
+                id="chore-name"
+                className="form-control"
+                placeholder="Chore name"
+              ></input>
+            </div>
+            <span>Assigned user</span>
+            <Select
+              value={selectedAddOption}
+              onChange={this.handleChange}
+              options={userOptions}
+            />
+            <div>
+              <span>Point Value</span>
+              <input
+                value={this.state.point_value}
+                onChange={this.handleInputChange}
+                type="number"
+                min="0"
+                name="point_value"
+                id="point-value"
+                className="form-control"
+                placeholder="Point value"
+              ></input>
+            </div>
+            <div>
+              <span>Chore start</span>
+              <br />
+              <DatePicker
+                selected={this.state.startDate}
+                onChange={this.handleStartDateChange}
+                showTimeSelect
+                showYearDropdown
+                timeIntervals={30}
+                timeCaption="time"
+                dateFormat="MMMM d, yyyy h:mm aa"
+                placeholderText="Click for date and time"
+              />
+            </div>
+            <div>
+              <span>Be done before</span>
+              <br />
+              <DatePicker
+                selected={this.state.endDate}
+                onChange={this.handleEndDateChange}
+                showTimeSelect
+                showYearDropdown
+                timeIntervals={30}
+                timeCaption="time"
+                dateFormat="MMMM d, yyyy h:mm aa"
+                placeholderText="Click for date and time"
+              />
+            </div>
+            <button type="button" className="btn btn-secondary" onClick={this.submitChore}>Add</button>
+          </div>
+        );
       case "deleteChore":
         return (
           <div>
             <Select
-              value={selectedOption}
+              value={selectedDeleteOption}
               onChange={this.handleChange}
               options={choreOptions}
             />
@@ -355,9 +445,12 @@ class Homehub extends Component {
 
                     {/* chores content goes here */}
                     <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
-                      <AddChore user_id={this.state.user_id} handleClick={this.handleClick} getChores={this.getChores} />
+                      {/* <AddChore user_id={this.state.user_id} handleClick={this.handleClick} getChores={this.getChores} /> */}
                       <br />
-                      <div>{this.adminFunctionDeleteChore(this.state.home_admin, this.state.user_id)}</div>
+                      <div>
+                        <span>{this.adminFunctionAddChore(this.state.home_admin, this.state.user_id)}</span>
+                        <span>{this.adminFunctionDeleteChore(this.state.home_admin, this.state.user_id)}</span>
+                      </div>
                       <hr />
                       {this.state.chores.map(chore => (
                         console.log(chore.start_date_time),
