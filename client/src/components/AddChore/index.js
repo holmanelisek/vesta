@@ -6,16 +6,6 @@ import { Modal } from 'react-bootstrap'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-25%',
-        transform: 'translate(-50%, -50%)'
-    }
-};
 
 class AddChore extends React.Component {
     constructor() {

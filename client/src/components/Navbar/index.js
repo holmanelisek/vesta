@@ -37,6 +37,9 @@ function Navbar (props){
                                                 }
                                             </li>
                                             <li className="nav-item">
+                                                <Link to="/Account" className="nav-link">Account</Link>
+                                            </li>
+                                            <li className="nav-item">
                                                 <a className="nav-link" href="#" onClick={props.clickSignout} >Sign Out</a>
                                             </li>
                                         </ul>
@@ -44,7 +47,10 @@ function Navbar (props){
                                     :props.history.location.pathname === "/Homehub" ?
                                             <ul className="navbar-nav text-uppercase ml-auto">
                                                 <li className="nav-item">
-                                                    {<Link to="/" className="nav-link">Home</Link>}
+                                                    <Link to="/" className="nav-link">Home</Link>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <Link to="/Account" className="nav-link">Account</Link>
                                                 </li>
                                                 <li className="nav-item">
                                                     <a className="nav-link" href="#" onClick={props.clickSignout} >Sign Out</a>
@@ -53,7 +59,26 @@ function Navbar (props){
                                     :props.history.location.pathname === "/Homeless" ?
                                             <ul className="navbar-nav text-uppercase ml-auto">
                                                 <li className="nav-item">
-                                                    {<Link to="/" className="nav-link">Home</Link>}
+                                                    <Link to="/" className="nav-link">Home</Link>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <Link to="/Account" className="nav-link">Account</Link>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <a className="nav-link" href="#" onClick={props.clickSignout} >Sign Out</a>
+                                                </li> 
+                                            </ul>
+                                        :props.history.location.pathname === "/Account" ?
+                                            <ul className="navbar-nav text-uppercase ml-auto">
+                                                <li className="nav-item">
+                                                    <Link to="/" className="nav-link">Home</Link>
+                                                </li>
+                                                <li className="nav-item">
+                                                    {props.home_id !== null ?
+                                                        <Link to="/Homehub" className="nav-link">Home Hub</Link>
+                                                    :
+                                                        <Link to="/Homeless" className="nav-link">Home Setting</Link>
+                                                    }
                                                 </li>
                                                 <li className="nav-item">
                                                     <a className="nav-link" href="#" onClick={props.clickSignout} >Sign Out</a>
@@ -76,7 +101,7 @@ function Navbar (props){
                                         <a className="nav-link" href="#team">Team</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="" onClick={props.clickModalSignIn}>Sign In</a>
+                                        <a className="nav-link" href="#" onClick={props.clickModalSignIn}>Sign In</a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="#" onClick={props.clickModalSignUp}>Sign Up</a>
