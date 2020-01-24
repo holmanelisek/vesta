@@ -25,6 +25,13 @@ class Vesta extends Component {
       lastname: undefined,
       email: undefined,
       home_id: undefined,
+      home_name: undefined,
+      home_key: undefined,
+      home_admin: undefined,
+      home_street: undefined,
+      home_city: undefined,
+      home_state: undefined,
+      home_zip: undefined,
       authenticated: false,
       modalShow: false,
       modalFunc: undefined
@@ -62,6 +69,15 @@ class Vesta extends Component {
     API.findHomeById(homeKey)
       .then(response => {
         console.log(response)
+        this.setState({
+          home_key: response.data.invitation_key,
+          home_admin: response.data.home_admin,
+          home_name: response.data.home_name,
+          home_street: response.data.street,
+          home_city: response.data.city,
+          home_state: response.data.state,
+          home_zip: response.data.zip
+        })
       }).catch()
   }
 
