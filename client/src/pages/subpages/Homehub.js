@@ -10,7 +10,7 @@ import API from "../../utils/API";
 import { AddChore, AddChoreTitle } from '../../components/AddChore/index'
 import Pantry from '../../components/Pantry'
 import recipeeval from "../../../public/assets/javascript/recipes"
-import Recipe from "../.."
+import Recipe from "../../components/Recipes"
 
 
 class Homehub extends Component {
@@ -284,9 +284,9 @@ convertToDays = milliseconds => {
 
 needItems = pantry => {
   var need = []
-  for(i=0;i++;i<pantry.length){
+  for(var i=0;i++;i<pantry.length){
       if(pantry[i].date_out>0){
-          var currently = convertToDays(date.now);
+          var currently = convertToDays(date.now());
           var timeLeft = pantry[i].date_out - currently;
           if(timeLeft<3){
               need.append(pantry[i]);
