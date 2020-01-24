@@ -320,8 +320,8 @@ recipeInfo = homeID => {
 }
 
   //Function to change the state values on input change
-  handleInputChange = event => {
-=======
+  handleInputChange = event => {}
+
   handleChange = selectedOption => {
     this.setState({ selectedOption });
   };
@@ -337,6 +337,7 @@ recipeInfo = homeID => {
       endDate: date
     });
   };
+
 
   modalTitleSwitch(modalFunc) {
     switch (modalFunc) {
@@ -356,9 +357,7 @@ recipeInfo = homeID => {
         );
       case "addChore":
         return (
-          <div>
-            <h2>Add Chore</h2>
-          </div>
+          <addChoreTitle/>
         );
       case "deleteChore":
         return (
@@ -435,7 +434,7 @@ recipeInfo = homeID => {
         );
     }
   }
-
+  
   render() {
     return (
       <div>
