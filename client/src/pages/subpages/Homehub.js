@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Pets from "../../components/Pets";
 import API from "../../utils/API";
-import Chores from '../../components/Chores/index'
-import AddChore from '../../components/AddChore/index'
+import Chores from '../../components/Chores/index';
+import AddChore from '../../components/AddChore/index';
+
 
 class Homehub extends Component {
   constructor(){
@@ -153,7 +154,7 @@ class Homehub extends Component {
             <div style={{ clear: "both" }}>
               <div className="card">
                 <div className="card-body" style={{ textAlign: "center" }}>
-                  <ul className="nav nav-tabs" id="home-hub-tabs" role="tablist" style={{ display: "inline-block", fontSize: 20, fontWeight: "bold" }}>
+                  <ul className="nav nav-tabs" id="home-hub-tabs" role="tablist" style={{ display: "inline-block", fontSize: 30, fontWeight: "bold" }}>
                     <li className="nav-item" style={{ display: "inline" }}>
                       <a className="nav-link active" id="chores-tab" data-toggle="tab" href="#chores" role="tab" aria-controls="chores" aria-selected="true" style={{ float: "left" }}>Chores</a>
                     </li>
@@ -211,7 +212,7 @@ class Homehub extends Component {
                             <h4>Items in pantry:</h4>
                             <ul className="list-group list-group-flush">
                               <li className="list-group-item list-group-item-success"><h4>Cookies</h4>
-                                <button type="button" className="btn btn-success" style={{ margin: 5 }}>Purchased!</button>
+                                <button type="button" className="btn_green" style={{ margin: 5 }}>Purchased!</button>
                               </li>
                             </ul>
                           </div>
