@@ -41,8 +41,8 @@ export class AddChore extends Component {
         this.setState({ assigned_user: selection.value });
     };
 
-    storeUsernames = array => {
-        return array.username;
+    storeNames = array => {
+        return array.first_name;
     }
 
     grabUsers = userHome => {
@@ -50,7 +50,7 @@ export class AddChore extends Component {
             home_id: userHome
         })
             .then(res => {
-                let usersArray = res.data.map(this.storeUsernames)
+                let usersArray = res.data.map(this.storeNames)
                 usersArray.push("None")
                 this.setState({ users: usersArray });
             })
@@ -169,126 +169,3 @@ export function AddChoreTitle() {
     )
 }
 
-// import React from 'react'
-// import API from '../../utils/API'
-
-// class AddChore extends React.Component {
-//     constructor() {
-//         super();
-
-//         this.state = {
-//             users: [],
-//             chore_name: '',
-//             created_by: '',
-//             assigned_user: '',
-//             point_value: '',
-//             start_date_time: '',
-//             end_date_time: '',
-//             repeats: '',
-//             repeat_interval: '',
-//         }
-//     }
-
-//     storeUsernames = array => {
-//         return array.username;
-//     }
-
-//     grabUsers = userHome => {
-//         API.getAllHomeUsers({
-//             home_id: userHome
-//         })
-//             .then(res => {
-//                 let usersArray = res.data.map(this.storeUsernames)
-//                 this.setState({ users: usersArray });
-//             })
-//     }
-
-//     render() {
-//         return (
-//             <div>
-//                 <div>
-//                     <input
-//                         value={this.state.chore_name}
-//                         onChange={this.props.handleInputChange}
-//                         type="text"
-//                         name="chore name"
-//                         id="chore-name"
-//                         className="form-control"
-//                         placeholder="Chore name"
-//                     ></input>
-//                 </div>
-//                 <div>
-//                     <select
-//                         value={this.state.assigned_user}
-//                         onChange={this.props.handleInputChange}
-//                         type="text"
-//                         name="assigned user"
-//                         id="assigned-user"
-//                         className="form-control"
-//                         placeholder=""
-//                     ></select>
-//                     {this.state.users.map(user => (
-//                         <option>{user}</option>
-//                     ))}
-//                 </div>
-//                 <div>
-//                     <input
-//                         value={this.state.chore_name}
-//                         onChange={this.props.handleInputChange}
-//                         type="text"
-//                         name="chore name"
-//                         id="chore-name"
-//                         className="form-control"
-//                         placeholder="Chore name"
-//                     ></input>
-//                 </div>
-//                 <div>
-//                     <input
-//                         value={this.state.chore_name}
-//                         onChange={this.props.handleInputChange}
-//                         type="text"
-//                         name="chore name"
-//                         id="chore-name"
-//                         className="form-control"
-//                         placeholder="Chore name"
-//                     ></input>
-//                 </div>
-//                 <div>
-//                     <input
-//                         value={this.state.chore_name}
-//                         onChange={this.props.handleInputChange}
-//                         type="text"
-//                         name="chore name"
-//                         id="chore-name"
-//                         className="form-control"
-//                         placeholder="Chore name"
-//                     ></input>
-//                 </div>
-//                 <div>
-//                     <input
-//                         value={this.state.chore_name}
-//                         onChange={this.props.handleInputChange}
-//                         type="text"
-//                         name="chore name"
-//                         id="chore-name"
-//                         className="form-control"
-//                         placeholder="Chore name"
-//                     ></input>
-//                 </div>
-//                 <div>
-//                     <input
-//                         value={this.state.chore_name}
-//                         onChange={this.props.handleInputChange}
-//                         type="text"
-//                         name="chore name"
-//                         id="chore-name"
-//                         className="form-control"
-//                         placeholder="Chore name"
-//                     ></input>
-//                 </div>
-//             </div>
-//         )
-//     }
-// }
-
-// export default AddChore
