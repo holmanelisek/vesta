@@ -7,9 +7,10 @@ import Pets from "../../components/Pets";
 import { NewPetForm, NewPetTitle } from "../../components/NewPetForm";
 import { NewVetForm, NewVetTitle } from "../../components/NewVetForm";
 import API from "../../utils/API";
+import Chores from '../../components/Chores/index'
 import { AddChore, AddChoreTitle } from '../../components/AddChore/index'
-import Pantry from '../../components/Pantry'
-import recipeeval from "../../../public/assets/javascript/recipes"
+import { Pantry, Recipe } from '../../components/Pantry'
+// import recipeeval from "../../../public/assets/javascript/recipes"
 
 
 class Homehub extends Component {
@@ -264,63 +265,63 @@ class Homehub extends Component {
   //pull pantry info to state
   listPantry = homeID => {
     API.getPantryItems({
-        home_id: homeID
-    })
-        .then(res => {
-            let pantry = res.data;
-            this.setState({pantryitems: pantry});
-        })
-}
-
-
-convertToDays = milliseconds => {
-  var seconds = (milliseconds/1000);
-  var minutes = seconds/60;
-  var hours = minutes/60;
-  var days = hours/24;
-  return days
-}
-
-needItems = pantry => {
-  var need = []
-  for(i=0;i++;i<pantry.length){
-      if(pantry[i].date_out>0){
-          var timeLeft = pantry[i].date_out - date.now();
-          var dayOut = convertToDays(timeLeft);
-          if(dayOut<3){
-              need.append(pantry[i]);
-          }
-      }else if(pantry[i].quantity<=pantry[i].low_quantity){
-          need.append(pantry[i]);
-      }
-  }
-  return need;
-}
-
-
-needPantry = homeID => {
- API.getPantryItems({
-    home_id: homeID
-  })
-      .then(res =>{          
-          var needed = needItems(res);
-          this.setState({itemsneeded: needed})
-      })
-}
-
-
-recipeInfo = homeID => {
-  API.getPantryItems({
       home_id: homeID
-  })
+    })
       .then(res => {
-          var chosen = recipeeval.pickRecipe(res)
-          this.setState({recipesuggested: chosen})
+        let pantry = res.data;
+        this.setState({ pantryitems: pantry });
       })
-}
+  }
+
+
+  // convertToDays = milliseconds => {
+  //   var seconds = (milliseconds / 1000);
+  //   var minutes = seconds / 60;
+  //   var hours = minutes / 60;
+  //   var days = hours / 24;
+  //   return days
+  // }
+
+  // needItems = pantry => {
+  //   var need = []
+  //   for (var i = 0; i++; i < pantry.length) {
+  //     if (pantry[i].date_out > 0) {
+  //       var timeLeft = pantry[i].date_out - Date.now();
+  //       var dayOut = convertToDays(timeLeft);
+  //       if (dayOut < 3) {
+  //         need.append(pantry[i]);
+  //       }
+  //     } else if (pantry[i].quantity <= pantry[i].low_quantity) {
+  //       need.append(pantry[i]);
+  //     }
+  //   }
+  //   return need;
+  // }
+
+
+  // needPantry = homeID => {
+  //   API.getPantryItems({
+  //     home_id: homeID
+  //   })
+  //     .then(res => {
+  //       var needed = needItems(res);
+  //       this.setState({ itemsneeded: needed })
+  //     })
+  // }
+
+
+  // recipeInfo = homeID => {
+  //   API.getPantryItems({
+  //     home_id: homeID
+  //   })
+  //     .then(res => {
+  //       var chosen = recipeeval.pickRecipe(res)
+  //       this.setState({ recipesuggested: chosen })
+  //     })
+  // }
 
   //Function to change the state values on input change
-  handleInputChange = event => {}
+  handleInputChange = event => { }
 
   handleChange = selectedOption => {
     this.setState({ selectedOption });
@@ -357,7 +358,7 @@ recipeInfo = homeID => {
         );
       case "addChore":
         return (
-          <addChoreTitle/>
+          <addChoreTitle />
         );
       case "deleteChore":
         return (
@@ -434,7 +435,7 @@ recipeInfo = homeID => {
         );
     }
   }
-  
+
   render() {
     return (
       <div>
@@ -519,7 +520,7 @@ recipeInfo = homeID => {
                             <h4>Items in pantry:</h4>
                             <ul className="list-group list-group-flush">
                               <li className="list-group-item list-group-item-success">
-                                {this.state.pantryitems.map(item => (<Pantry item = {item}/>))}                              
+                                {this.state.pantryitems.map(item => (<Pantry item={item} />))}
                               </li>
                             </ul>
                           </div>
@@ -527,7 +528,7 @@ recipeInfo = homeID => {
                             <h4>Items needed:</h4>
                             <ul className="list-group list-group-flush">
                               <li className="list-group-item list-group-item-danger"><h4>Milk</h4>
-                                {this.state.itemsneeded.map(item => (<Pantry item = {item}/>))}
+                                {this.state.itemsneeded.map(item => (<Pantry item={item} />))}
                               </li>
                             </ul>
                           </div>
@@ -535,7 +536,7 @@ recipeInfo = homeID => {
                       </div>
                       <br />
                       <div className="row">
-                        {this.state.recipesuggested.map(recipe => (<Recipe recipe = {recipe}/>))}
+                        {this.state.recipesuggested.map(recipe => (<Recipe recipe={recipe} />))}
                       </div>
                     </div>
                   </div>
