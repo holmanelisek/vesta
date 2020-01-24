@@ -1,21 +1,9 @@
 
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-// import Modal from 'react-modal';
 import { Modal } from 'react-bootstrap'
 import API from '../../utils/API'
 import Moment from 'react-moment'
-
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
-    }
-};
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 // Modal.setAppElement('#yourAppElement')

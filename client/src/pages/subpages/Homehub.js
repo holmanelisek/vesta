@@ -7,10 +7,14 @@ import Pets from "../../components/Pets";
 import { NewPetForm, NewPetTitle } from "../../components/NewPetForm";
 import { NewVetForm, NewVetTitle } from "../../components/NewVetForm";
 import API from "../../utils/API";
+import Chores from '../../components/Chores/index'
 import { AddChore, AddChoreTitle } from '../../components/AddChore/index'
-import Pantry from '../../components/Pantry'
-import recipeeval from "../../../public/assets/javascript/recipes"
-import Recipe from "../../components/Recipes"
+import { DeleteChore, DeleteChoreTitle } from '../../components/DeleteChore/index'
+import PantryItem from '../../components/PantryItem/index'
+import { AddPantryItem, AddPantryItemTitle } from '../../components/AddPantryItem/index'
+import { DeletePantryItem, DeletePantryItemTitle } from '../../components/DeletePantryItem/index'
+// import { Pantry, Recipe } from '../../components/Pantry'
+// import recipeeval from "../../../public/assets/javascript/recipes"
 
 
 class Homehub extends Component {
@@ -25,7 +29,7 @@ class Homehub extends Component {
       chores: [],
       petData: [],
       // users: []
-      pantryitems: [],
+      pantryItems: [],
       itemsneeded: [],
       recipesuggested: [],
       user_id: undefined,
@@ -73,7 +77,8 @@ class Homehub extends Component {
       this.grabUsers(this.props.state.home_id);
       this.getChores(this.props.state.home_id);
       this.getPetData(this.props.state.home_id);
-      this.handleFindHome(this.props.state.home_id)
+      this.handleFindHome(this.props.state.home_id);
+      this.listPantry(this.props.state.home_id);
     }
   }
 
@@ -118,6 +123,28 @@ class Homehub extends Component {
     if (admin === user) {
       return (
         <button type="button" className="btn btn-danger" onClick={() => this.openModal("deleteChore")}>Delete Chore</button>
+      )
+    } else {
+      return null
+    }
+  }
+
+  adminFunctionAddPantry = (admin, user) => {
+    console.log(this.props)
+    if (admin === user) {
+      return (
+        <button type="button" className="btn btn-secondary" onClick={() => this.openModal("addItem")}>Add Item</button>
+      )
+    } else {
+      return null
+    }
+  }
+
+  adminFunctionDeletePantry = (admin, user) => {
+    console.log(this.props)
+    if (admin === user) {
+      return (
+        <button type="button" className="btn btn-danger" onClick={() => this.openModal("deleteItem")}>Delete Item</button>
       )
     } else {
       return null
@@ -265,7 +292,7 @@ class Homehub extends Component {
   //pull pantry info to state
   listPantry = homeID => {
     API.getPantryItems({
-        home_id: homeID
+      home_id: homeID
     })
         .then(res => {
             let pantry = res.data;
@@ -307,21 +334,57 @@ needPantry = homeID => {
           var needed = needItems(res);
           this.setState({itemsneeded: needed})
       })
-}
+  }
 
 
-recipeInfo = homeID => {
-  API.getPantryItems({
-      home_id: homeID
-  })
-      .then(res => {
-          var chosen = recipeeval.pickRecipe(res)
-          this.setState({recipesuggested: chosen})
-      })
-}
+  // convertToDays = milliseconds => {
+  //   var seconds = (milliseconds / 1000);
+  //   var minutes = seconds / 60;
+  //   var hours = minutes / 60;
+  //   var days = hours / 24;
+  //   return days
+  // }
+
+  // needItems = pantry => {
+  //   var need = []
+  //   for (var i = 0; i++; i < pantry.length) {
+  //     if (pantry[i].date_out > 0) {
+  //       var timeLeft = pantry[i].date_out - Date.now();
+  //       var dayOut = convertToDays(timeLeft);
+  //       if (dayOut < 3) {
+  //         need.append(pantry[i]);
+  //       }
+  //     } else if (pantry[i].quantity <= pantry[i].low_quantity) {
+  //       need.append(pantry[i]);
+  //     }
+  //   }
+  //   return need;
+  // }
+
+
+  // needPantry = homeID => {
+  //   API.getPantryItems({
+  //     home_id: homeID
+  //   })
+  //     .then(res => {
+  //       var needed = needItems(res);
+  //       this.setState({ itemsneeded: needed })
+  //     })
+  // }
+
+
+  // recipeInfo = homeID => {
+  //   API.getPantryItems({
+  //     home_id: homeID
+  //   })
+  //     .then(res => {
+  //       var chosen = recipeeval.pickRecipe(res)
+  //       this.setState({ recipesuggested: chosen })
+  //     })
+  // }
 
   //Function to change the state values on input change
-  handleInputChange = event => {}
+  handleInputChange = event => { }
 
   handleChange = selectedOption => {
     this.setState({ selectedOption });
@@ -358,13 +421,19 @@ recipeInfo = homeID => {
         );
       case "addChore":
         return (
-          <addChoreTitle/>
+          <AddChoreTitle />
         );
       case "deleteChore":
         return (
-          <div>
-            <h2>Delete Chore</h2>
-          </div>
+          <DeleteChoreTitle />
+        );
+      case "addItem":
+        return (
+          <AddPantryItemTitle />
+        );
+      case "deleteItem":
+        return (
+          <DeletePantryItemTitle />
         );
     }
   };
@@ -416,7 +485,7 @@ recipeInfo = homeID => {
         );
       case "addChore":
         return (
-          < AddChore
+          <AddChore
             home_id={this.state.home_id}
             getChores={this.getChores}
             closeModal={this.closeModal}
@@ -425,18 +494,36 @@ recipeInfo = homeID => {
         );
       case "deleteChore":
         return (
-          <div>
-            <Select
-              value={selectedDeleteOption}
-              onChange={this.handleChange}
-              options={choreOptions}
-            />
-          </div>
+          <DeleteChore
+            home_id={this.state.home_id}
+            getChores={this.getChores}
+            closeModal={this.closeModal}
+            chores={this.state.chores}
+          />
+        );
+      case "addItem":
+        return (
+          <AddPantryItem
+            home_id={this.state.home_id}
+            listPantry={this.listPantry}
+            closeModal={this.closeModal}
+            created_by={this.props.state.firstname}
+          />
+        );
+      case "deleteItem":
+        return (
+          <DeletePantryItem
+            home_id={this.state.home_id}
+            listPantry={this.listPantry}
+            closeModal={this.closeModal}
+            chores={this.state.chores}
+          />
         );
     }
   }
-  
+
   render() {
+    console.log(this.state.pantryItems)
     return (
       <div>
         {this.props.authenticated ?
@@ -470,6 +557,7 @@ recipeInfo = homeID => {
                       <br />
                       <div>
                         <span>{this.adminFunctionAddChore(this.state.home_admin, this.state.user_id)}</span>
+                        <span> </span>
                         <span>{this.adminFunctionDeleteChore(this.state.home_admin, this.state.user_id)}</span>
                       </div>
                       <hr />
@@ -512,15 +600,35 @@ recipeInfo = homeID => {
                       </div>
                     </div>
 
-                    {/* pantry data goes here */}
                     <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
+                      <div>
+                        <span>{this.adminFunctionAddPantry(this.state.home_admin, this.state.user_id)}</span>
+                        <span> </span>
+                        <span>{this.adminFunctionDeletePantry(this.state.home_admin, this.state.user_id)}</span>
+                      </div>
+                      <br />
+                      <ul className="list-group">
+                        {this.state.pantryItems.map(item => (
+                          <PantryItem
+                            key={item.id}
+                            home_id={this.state.home_id}
+                            item_name={item.item_name}
+                            item_type={item.item_type}
+                            quantity={item.quantity}
+                            date_in={item.date_in}
+                            listPantry={this.listPantry}
+                          />
+                        ))}
+                      </ul>
+                    </div>
+                    {/* <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
                       <div className="container">
                         <div className="row">
                           <div className="col-6">
                             <h4>Items in pantry:</h4>
                             <ul className="list-group list-group-flush">
                               <li className="list-group-item list-group-item-success">
-                                {this.state.pantryitems.map(item => (<Pantry item = {item}/>))}                              
+                                {this.state.pantryitems.map(item => (<Pantry item={item} />))}
                               </li>
                             </ul>
                           </div>
@@ -528,7 +636,7 @@ recipeInfo = homeID => {
                             <h4>Items needed:</h4>
                             <ul className="list-group list-group-flush">
                               <li className="list-group-item list-group-item-danger"><h4>Milk</h4>
-                                {this.state.itemsneeded.map(item => (<Pantry item = {item}/>))}
+                                {this.state.itemsneeded.map(item => (<Pantry item={item} />))}
                               </li>
                             </ul>
                           </div>
@@ -536,9 +644,9 @@ recipeInfo = homeID => {
                       </div>
                       <br />
                       <div className="row">
-                        {this.state.recipesuggested.map(recipe => (<Recipe recipe = {recipe}/>))}
+                        {this.state.recipesuggested.map(recipe => (<Recipe recipe={recipe} />))}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

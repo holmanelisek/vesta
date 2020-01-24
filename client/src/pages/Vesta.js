@@ -7,6 +7,7 @@ import SignUp from "../components/Signup";
 import Home from "./subpages/Home";
 import Homeless from "./subpages/Homeless";
 import Homehub from "./subpages/Homehub";
+import Account from "./subpages/Account";
 import NoMatch from "./subpages/NoMatch";
 import Footer from "../components/Footer";
 import { Modal } from 'react-bootstrap';
@@ -24,6 +25,13 @@ class Vesta extends Component {
       lastname: undefined,
       email: undefined,
       home_id: undefined,
+      home_name: undefined,
+      home_key: undefined,
+      home_admin: undefined,
+      home_street: undefined,
+      home_city: undefined,
+      home_state: undefined,
+      home_zip: undefined,
       authenticated: false,
       modalShow: false,
       modalFunc: undefined
@@ -38,21 +46,39 @@ class Vesta extends Component {
   }
 
   authentication = () => {
-    API.isSignedIn().then(res => {
-      console.log("Authentication")
-      //If res.email is true then render this menu
-      if (res.data.id) {
+      API.isSignedIn().then(res => {
+          console.log("Authentication")
+          //If res.email is true then render this menu
+          if(res.data.id){
+              this.setState({
+                authenticated: true,
+                firstname: res.data.first_name,
+                lastname: res.data.last_name,
+                home_id: res.data.home_id,
+                user_id: res.data.id,
+                email: res.data.email
+              });
+              console.log("[Vesta.js getHomeInfomration]")
+              this.getHomeInformation(res.data.home_id)
+          }
+      }).catch();
+  }
+
+  getHomeInformation = homeKey => {
+    console.log("finding home")
+    API.findHomeById(homeKey)
+      .then(response => {
+        console.log(response)
         this.setState({
-          authenticated: true,
-          firstname: res.data.first_name,
-          lastname: res.data.last_name,
-          home_id: res.data.home_id,
-          user_id: res.data.id,
-          email: res.data.email
-        });
-        //If res.email is not true render this menu
-      }
-    }).catch();
+          home_key: response.data.invitation_key,
+          home_admin: response.data.home_admin,
+          home_name: response.data.home_name,
+          home_street: response.data.street,
+          home_city: response.data.city,
+          home_state: response.data.state,
+          home_zip: response.data.zip
+        })
+      }).catch()
   }
 
   //Function to change the state values on input change
@@ -147,36 +173,30 @@ class Vesta extends Component {
     return (
       <div>
         {/* Navbar Component */}
-        <ScrollspyNav
-          scrollTargetIds={["page-top", "about", "services", "team"]}
-          offset={-56}
-          activeNavClass="is-active"
-          scrollDuration="400"
-          headerBackground="true"
-          router='Route'
-        >
-          <Navbar
-            authenticated={this.state.authenticated}
-            user_id={this.state.user_id}
-            username={this.state.username}
-            firstname={this.state.firstname}
-            lastname={this.state.lastname}
-            email={this.state.email}
-            home_id={this.state.home_id}
-            clickModalSignIn={this.handleSignInShow}
-            clickModalSignUp={this.handleSignUpShow}
-            clickSignout={this.handleSignOutSubmit}
+          <Navbar 
+            authenticated={this.state.authenticated} 
+            user_id={this.state.user_id} 
+            username={this.state.username} 
+            firstname= {this.state.firstname} 
+            lastname= {this.state.lastname} 
+            email= {this.state.email} 
+            home_id= {this.state.home_id} 
+            clickModalSignIn = {this.handleSignInShow}
+            clickModalSignUp = {this.handleSignUpShow}
+            clickSignout = {this.handleSignOutSubmit}
           />
-        </ScrollspyNav>
 
         {/* Page Content Routes */}
         <div id="page-top">
-          <Switch>
-            <Route path="/" exact render={Home} />
-            <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
-            <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
-            <Route component={NoMatch} />
-          </Switch>
+
+        <Switch>
+          <Route path="/" exact render={Home}/>
+          <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)} />
+          <Route path="/Account" exact render={ props => (<Account {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)}/>
+          <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)}/>
+          <Route component={NoMatch}/>
+        </Switch>
+      
         </div>
         <Footer />
 
