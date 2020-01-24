@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import API from "../../utils/API";
 // import Modal from 'react-modal'
-import { Modal } from 'react-bootstrap'
+// import { Modal } from 'react-bootstrap'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export class AddChore extends Component {
-  
     state = {
         // user_id: undefined,
         // selectedOption: undefined,
@@ -39,9 +38,7 @@ export class AddChore extends Component {
 
     handleChange = selection => this.setState({ assigned_user: selection.value });
 
-    storeNames = array => {
-        return array.first_name;
-    }
+    storeNames = array => array.first_name;
 
     grabUsers = userHome => {
         API.getAllHomeUsers({

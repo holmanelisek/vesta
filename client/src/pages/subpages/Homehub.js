@@ -10,7 +10,10 @@ import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
 import { AddChore, AddChoreTitle } from '../../components/AddChore/index'
 import { DeleteChore, DeleteChoreTitle } from '../../components/DeleteChore/index'
-import { Pantry, Recipe } from '../../components/Pantry'
+import PantryItem from '../../components/PantryItem/index'
+import { AddPantryItem, AddPantryItemTitle } from '../../components/AddPantryItem/index'
+import { DeletePantryItem, DeletePantryItemTitle } from '../../components/DeletePantryItem/index'
+// import { Pantry, Recipe } from '../../components/Pantry'
 // import recipeeval from "../../../public/assets/javascript/recipes"
 
 
@@ -26,7 +29,7 @@ class Homehub extends Component {
       chores: [],
       petData: [],
       // users: []
-      pantryitems: [],
+      pantryItems: [],
       itemsneeded: [],
       recipesuggested: [],
       user_id: undefined,
@@ -74,7 +77,8 @@ class Homehub extends Component {
       this.grabUsers(this.props.state.home_id);
       this.getChores(this.props.state.home_id);
       this.getPetData(this.props.state.home_id);
-      this.handleFindHome(this.props.state.home_id)
+      this.handleFindHome(this.props.state.home_id);
+      this.listPantry(this.props.state.home_id);
     }
   }
 
@@ -119,6 +123,28 @@ class Homehub extends Component {
     if (admin === user) {
       return (
         <button type="button" className="btn btn-danger" onClick={() => this.openModal("deleteChore")}>Delete Chore</button>
+      )
+    } else {
+      return null
+    }
+  }
+
+  adminFunctionAddPantry = (admin, user) => {
+    console.log(this.props)
+    if (admin === user) {
+      return (
+        <button type="button" className="btn btn-secondary" onClick={() => this.openModal("addItem")}>Add Item</button>
+      )
+    } else {
+      return null
+    }
+  }
+
+  adminFunctionDeletePantry = (admin, user) => {
+    console.log(this.props)
+    if (admin === user) {
+      return (
+        <button type="button" className="btn btn-danger" onClick={() => this.openModal("deleteItem")}>Delete Item</button>
       )
     } else {
       return null
@@ -270,7 +296,7 @@ class Homehub extends Component {
     })
       .then(res => {
         let pantry = res.data;
-        this.setState({ pantryitems: pantry });
+        this.setState({ pantryItems: pantry });
       })
   }
 
@@ -365,6 +391,14 @@ class Homehub extends Component {
         return (
           <DeleteChoreTitle />
         );
+      case "addItem":
+        return (
+          <AddPantryItemTitle />
+        );
+      case "deleteItem":
+        return (
+          <DeletePantryItemTitle />
+        );
     }
   };
 
@@ -431,10 +465,29 @@ class Homehub extends Component {
             chores={this.state.chores}
           />
         );
+      case "addItem":
+        return (
+          <AddPantryItem
+            home_id={this.state.home_id}
+            listPantry={this.listPantry}
+            closeModal={this.closeModal}
+            created_by={this.props.state.firstname}
+          />
+        );
+      case "deleteItem":
+        return (
+          <DeletePantryItem
+            home_id={this.state.home_id}
+            listPantry={this.listPantry}
+            closeModal={this.closeModal}
+            chores={this.state.chores}
+          />
+        );
     }
   }
 
   render() {
+    console.log(this.state.pantryItems)
     return (
       <div>
         {this.props.authenticated ?
@@ -468,6 +521,7 @@ class Homehub extends Component {
                       <br />
                       <div>
                         <span>{this.adminFunctionAddChore(this.state.home_admin, this.state.user_id)}</span>
+                        <span> </span>
                         <span>{this.adminFunctionDeleteChore(this.state.home_admin, this.state.user_id)}</span>
                       </div>
                       <hr />
@@ -510,8 +564,28 @@ class Homehub extends Component {
                       </div>
                     </div>
 
-                    {/* pantry data goes here */}
                     <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
+                      <div>
+                        <span>{this.adminFunctionAddPantry(this.state.home_admin, this.state.user_id)}</span>
+                        <span> </span>
+                        <span>{this.adminFunctionDeletePantry(this.state.home_admin, this.state.user_id)}</span>
+                      </div>
+                      <br />
+                      <ul className="list-group">
+                        {this.state.pantryItems.map(item => (
+                          <PantryItem
+                            key={item.id}
+                            home_id={this.state.home_id}
+                            item_name={item.item_name}
+                            item_type={item.item_type}
+                            quantity={item.quantity}
+                            date_in={item.date_in}
+                            listPantry={this.listPantry}
+                          />
+                        ))}
+                      </ul>
+                    </div>
+                    {/* <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
                       <div className="container">
                         <div className="row">
                           <div className="col-6">
@@ -536,7 +610,7 @@ class Homehub extends Component {
                       <div className="row">
                         {this.state.recipesuggested.map(recipe => (<Recipe recipe={recipe} />))}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
