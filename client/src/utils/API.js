@@ -66,9 +66,11 @@ export default {
 
   // Adds new chore to user's home
   addChore: choreData => {
+    console.log(choreData)
     return axios.post("/api/add/chores", choreData);
   },
 
+  // Deletes specified chore
   deleteChore: choreData => {
     return axios.post("/api/delete/chores", choreData);
   },
@@ -137,7 +139,12 @@ export default {
   },
   // Adds new item to user home's pantry
   addPantryItem: itemData => {
+    console.log(itemData)
     return axios.post("/api/add/pantry", itemData);
+  },
+  // Deletes item from pantry
+  deletePantryItem: itemData => {
+    return axios.post("/api/delete/pantry", itemData);
   }
   //----------------------//
 };

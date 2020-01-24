@@ -23,7 +23,7 @@ router.post("/signup", function (req, res) {
     last_name: req.body.lName
   })
     .then(function (dbUser) {
-      req.login(dbUser, function(err){
+      req.login(dbUser, function (err) {
         if (err) {
           console.log(err);
         }
@@ -108,8 +108,8 @@ router.get("/home/find_by_id/:id", (req, res) => {
         zip: house.zip,
         invitation_key: house.invitation_key,
         home_admin: house.home_admin
-      })
     })
+  })
     .catch(err => {
       res.json(err)
   })
@@ -269,7 +269,7 @@ router.post("/add/pet", function (req, res) {
 });
 
 //Remove pet
-router.post("/remove/pet/:id", function (req,res) {
+router.post("/remove/pet/:id", function (req, res) {
   db.Pets.destroy({
     where: {
       id: req.params.id
@@ -285,49 +285,49 @@ router.post("/remove/pet/:id", function (req,res) {
 
 //----------Vet Route-----------//
 //------------------------------//
-    //Route to get all vets from array
-    router.post("/get/vets", function (req, res) {
-      db.Vets.findAll({
-        where: {
-          id: {
-            [Op.or]: req.body.vets
-          }
-        }
-      }).then(function (dbVets) {
-        res.json(dbVets);
-      }).catch(err=>{
-        res.status(401).json(err);
-      })
-    });
+//Route to get all vets from array
+router.post("/get/vets", function (req, res) {
+  db.Vets.findAll({
+    where: {
+      id: {
+        [Op.or]: req.body.vets
+      }
+    }
+  }).then(function (dbVets) {
+    res.json(dbVets);
+  }).catch(err => {
+    res.status(401).json(err);
+  })
+});
 
-    //Route to get all vets
-    router.get("/get/all_vets", (req, res) => {
-      db.Vets.findAll({
-      }).then(response => {
-        res.json(response)
-      })
-    })
+//Route to get all vets
+router.get("/get/all_vets", (req, res) => {
+  db.Vets.findAll({
+  }).then(response => {
+    res.json(response)
+  })
+})
 
-    //Route to add a vet
-    router.post("/add/vet", (req, res) =>{
-      db.Vets.create({
-        practice_name: req.body.practice_name,
-        phone_number: req.body.phone_number,
-        street: req.body.street,
-        city: req.body.city,
-        state: req.body.state,
-        zip: req.body.zip,
-        email: req.body.email,
-        emergency_clinic: req.body.emergency_clinic
-      }).then( response => {
-        res.json({
-          message: "Successful Creation",
-          data: response
-        })
-      }).catch(err=>{
-        res.status(401).json(err);
-      })
+//Route to add a vet
+router.post("/add/vet", (req, res) => {
+  db.Vets.create({
+    practice_name: req.body.practice_name,
+    phone_number: req.body.phone_number,
+    street: req.body.street,
+    city: req.body.city,
+    state: req.body.state,
+    zip: req.body.zip,
+    email: req.body.email,
+    emergency_clinic: req.body.emergency_clinic
+  }).then(response => {
+    res.json({
+      message: "Successful Creation",
+      data: response
     })
+  }).catch(err => {
+    res.status(401).json(err);
+  })
+})
 
 
 // Grabbing all pantry items by the user's home_id
@@ -341,13 +341,13 @@ router.post("/get/pantry", function (req, res) {
   });
 });
 
-router.post("/get/pantryitem", function(req,res){
+router.post("/get/pantryitem", function (req, res) {
   db.Pantry.findAll({
-    where:{
+    where: {
       home_id: req.body.home_id,
       item_name: name
     }
-  }). then(function(dbPantry){
+  }).then(function (dbPantry) {
     res.json(dbPantry);
   })
 })
@@ -356,19 +356,30 @@ router.post("/get/pantryitem", function(req,res){
 router.post("add/pantry", function (req, res) {
   db.Pantry.create({
     home_id: req.body.home_id,
-    upc: req.body.upc,
     item_name: req.body.item_name,
+    item_type: req.body.item_type,
     quantity: req.body.quantity,
-    best_by: req.body.best_by,
     date_in: req.body.date_in,
-    date_out: req.body.date_out
   })
     .then(function (dbPantry) {
+      console.log(dbPantry)
       res.json(dbPantry);
     })
     .catch(function (err) {
       res.status(401).json(err);
     });
 });
+
+router.post("/delete/pantry", function (req, res) {
+  db.Pantry.destroy({
+    where: {
+      id: req.body.item_id
+    }
+  }).then(function (dbPantry) {
+    res.json(dbPantry);
+  }).catch(function (err) {
+    res.json(err);
+  })
+})
 
 module.exports = router;
