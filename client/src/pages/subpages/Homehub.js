@@ -338,6 +338,7 @@ recipeInfo = homeID => {
     });
   };
 
+
   modalTitleSwitch(modalFunc) {
     switch (modalFunc) {
       case "pet":
@@ -433,7 +434,7 @@ recipeInfo = homeID => {
         );
     }
   }
-
+  
   render() {
     return (
       <div>
