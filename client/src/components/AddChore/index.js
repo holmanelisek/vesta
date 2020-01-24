@@ -37,9 +37,7 @@ export class AddChore extends Component {
         });
     };
 
-    handleChange = selection => {
-        this.setState({ assigned_user: selection.value });
-    };
+    handleChange = selection => this.setState({ assigned_user: selection.value });
 
     storeNames = array => {
         return array.first_name;
@@ -82,7 +80,8 @@ export class AddChore extends Component {
                 console.log(res)
                 this.props.getChores(this.props.home_id)
                 this.props.closeModal()
-            }).catch(err => {
+            })
+            .catch(err => {
                 console.log(err)
             });
     }

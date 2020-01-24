@@ -9,6 +9,7 @@ import { NewVetForm, NewVetTitle } from "../../components/NewVetForm";
 import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
 import { AddChore, AddChoreTitle } from '../../components/AddChore/index'
+import { DeleteChore, DeleteChoreTitle } from '../../components/DeleteChore/index'
 import { Pantry, Recipe } from '../../components/Pantry'
 // import recipeeval from "../../../public/assets/javascript/recipes"
 
@@ -358,13 +359,11 @@ class Homehub extends Component {
         );
       case "addChore":
         return (
-          <addChoreTitle />
+          <AddChoreTitle />
         );
       case "deleteChore":
         return (
-          <div>
-            <h2>Delete Chore</h2>
-          </div>
+          <DeleteChoreTitle />
         );
     }
   };
@@ -416,7 +415,7 @@ class Homehub extends Component {
         );
       case "addChore":
         return (
-          < AddChore
+          <AddChore
             home_id={this.state.home_id}
             getChores={this.getChores}
             closeModal={this.closeModal}
@@ -425,13 +424,12 @@ class Homehub extends Component {
         );
       case "deleteChore":
         return (
-          <div>
-            <Select
-              value={selectedDeleteOption}
-              onChange={this.handleChange}
-              options={choreOptions}
-            />
-          </div>
+          <DeleteChore
+            home_id={this.state.home_id}
+            getChores={this.getChores}
+            closeModal={this.closeModal}
+            chores={this.state.chores}
+          />
         );
     }
   }
