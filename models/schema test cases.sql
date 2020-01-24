@@ -86,7 +86,30 @@ INSERT INTO notes
 VALUES
     (1, 3, false, "Graduation is coming up, if we want to make dinner reservations for afterwards we should talk about where.", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 
-INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"granny smith apples",3,"unit","2020-01-20 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00");
-INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"raspberries",1,"cup","2020-01-21 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00");
-INSERT INTO pantries (home_id,item_name,quantity,quantity_unit,best_by,date_in,createdAt,updatedAt) VALUES (1,"vanilla extract",16,"tablespoons","2020-01-28 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00","2020-01-18 12:15:00");
+INSERT INTO pantries
+    (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out) 
+VALUES 
+    (1,"granny smith apples",3,"units",3,1579827631414,1579829321849);
+INSERT INTO pantries
+    (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out)
+VALUES
+    (1,"vanilla extract",6,"tbsp",0,1579827631414,1609827631414);
+INSERT INTO pantries
+    (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out)
+VALUES 
+    (1,"Rice Krispies Cereal",6,"cups",0,1579827631414,1579927631414);
+INSERT INTO pantries
+    (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out) VALUES (1,"milk",16,"cups",5,1579827631414);
+INSERT INTO pantries
+    (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out) 
+VALUES 
+    (1,"ground beef",3,"cups",0,1579827631414,1579827831414);
+INSERT INTO pantries
+    (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out) 
+VALUES 
+    (1,"bananas",6,"units",0,1579827631414,1579927631414);
+INSERT INTO pantries
+    (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out) 
+VALUES 
+    (1,"apple juice",3,"cups",0,1579827631414,1579837631414);
 

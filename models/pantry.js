@@ -20,15 +20,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
-    best_by: {
-      type: DataTypes.STRING
-    },
     date_in: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     date_out: {
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     }
   });
 

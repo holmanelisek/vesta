@@ -1,65 +1,27 @@
-var recipeeval = require("../../../public/assets/javascript/recipes")
-import API from "../../utils/API"
-import React, {Component} from "react";
+import React from "react";
 
-class Pantry extends Component{
+class Pantry extends React.Component{
     constructor(){
         super();
-
-        this.state = {
-            pantryitems: [],
-            itemsneeded: [],
-            recipesuggested: []
-        }
     }
-
-    //state: home_id, array of pantry items, items needed?, recipe suggestion
-
-    listPantry = homeID => {
-        API.getPantryItems({
-            home_id: homeID
-        })
-            .then(res => {
-                let pantry = res.data;
-                this.setState({pantryitems: pantry});
-            })
+    render(){
+        return(<div><h4>{this.props.item.item_name}</h4> <button type="button" className="btn btn-success" style={{margin:5}}>Purchased!</button></div>)
     }
-
-    //Items in Pantry list
-        //grab items by home id, display:
-            //item name (quantity quantityunit)
-            //best_by or date out
-
-
-    //needItems = pantry => {
-    //    var need = []
-    //    for(i=0;i++;i<pantry.length){
-    //        if(){
-
-    //        }
-    //    }
-    //}
-    
-
-    //needPantry = homeID => {
-     //   API.getPantryItems({
-      //      home_id: homeID
-        //})
-          //  .then(res =>{          
-                //for each item, evaluate date
-                //add to array of needed
-                //set state
-    //        })
-    //}
-    //Items needed list (go out within the next three days or been in there a week?)
-        //go through all pantry items, if date out/best_by is within 3 days, display (sort by proximity?)
-        //if no date out/best_by date, if date in was over a week ago
-        //Display:
-            //item name (quantity quantityunit)
-            //best_by or date out? or date in
-
-    //Recipe info here
-    
 }
 
+class Recipe extends React.Component{
+    constructor(){
+        super();
+    }
+    render(){
+        return(
+        <div class="col-12">
+        <p>Suggested for you: {this.props.recipe.recipe}</p>
+        <p><a href = {this.props.recipe.url}></a></p>
+        <p>You have {this.props.recipe.percent}% of the items you need!</p>
+        </div>)
+    }
+}
+
+export default Recipe;
 export default Pantry;
