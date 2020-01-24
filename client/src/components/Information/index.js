@@ -1,7 +1,5 @@
 import React from "react";
 import Container from "../Container";
-import "./information.css";
-
 
 function Information (){
     return (
@@ -35,7 +33,7 @@ function Information (){
                             <span className="fa-stack fa-4x">
                             <img className="rounded-circle headshot" src="./assets/images/broom-color.png" alt="Chores Icon"></img>
                             </span>
-                            <h4 className="service-heading">Chores</h4>
+                            <h3 className="service-heading">Chores</h3>
                             <p className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
                         </div>
                         {/* PETS */}
@@ -43,7 +41,7 @@ function Information (){
                             <span className="fa-stack fa-4x">
                             <img className="rounded-circle headshot" src="./assets/images/paw-color.png" alt="Pet Icon"></img>
                             </span>
-                            <h4 className="service-heading">Pets</h4>
+                            <h3 className="service-heading">Pets</h3>
                             <p className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
                         </div>
                         {/* PANTRY */}
@@ -51,7 +49,7 @@ function Information (){
                             <span className="fa-stack fa-4x">
                             <img className="rounded-circle headshot" src="./assets/images/apple-color.png" alt="Pantry Icon"></img>
                             </span>
-                            <h4 className="service-heading">Pantry</h4>
+                            <h3 className="service-heading">Pantry</h3>
                             <p className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
                         </div>
                         </div>
@@ -135,7 +133,7 @@ function Information (){
                     {/* 4TH PERSON */}
                     <div className="col-sm-3">
                     <div className="team-member">
-                    <img className="rounded-circle headshot" src="./assets/images/steph.jpg" alt="Stephanie Rose"></img>
+                    <img className="rounded-circle headshot" src="./assets/images/stephanie.jpg" alt="Stephanie Rose"></img>
                     <h4>Stephanie Rose</h4>
                     <p className="text-muted">Front-End Developer</p>
                     <ul className="list-inline social-buttons">

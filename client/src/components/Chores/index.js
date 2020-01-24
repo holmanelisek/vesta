@@ -85,8 +85,8 @@ class Chores extends React.Component {
             <div>
                 <ul className="list-group list-group-flush">
                     <li className="list-group-item list-group-item-success">{this.props.choreName}<br />
-                        <button type="button" className="btn btn-secondary" style={{ margin: 5 }} onClick={this.openModal}>More Info...</button>
-                        <button type="button" className="btn btn-success" onClick={() => this.markCompleted(this.props.id)} style={{ margin: 5 }}>Completed!</button>
+                        <button type="button" className="btn_blue" style={{ margin: 5 }} onClick={this.openModal}>More Info...</button>
+                        <button type="button" className="btn_green" onClick={() => this.markCompleted(this.props.id)} style={{ margin: 5 }}>Completed!</button>
                     </li>
                 </ul>
                 <Modal
@@ -111,7 +111,7 @@ class Chores extends React.Component {
                             : this.props.repeatInterval === "m" ? "monthly"
                                 : this.props.repeatInterval === "y" ? "yearly"
                                     : "No repeat"}</p>
-                    <button type="button" className="btn btn-secondary" onClick={this.closeModal}>Close</button>
+                    <button type="button" className="btn_green" onClick={this.closeModal}>Close</button>
                 </Modal>
             </div>
         );

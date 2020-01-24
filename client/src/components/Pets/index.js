@@ -50,7 +50,7 @@ class Pets extends Component{
             <p className="card-text">Primary Vet: {this.props.pet.primary_vet_id}</p>
             <p className="card-text">Emergency Vet: {this.props.pet.emergency_vet_id}</p>
             <p className="card-text">Pets description</p>
-            <button onClick={this.openModal} className="btn btn-primary">More information</button>
+            <button onClick={this.openModal} className="btn_yellow">More information</button>
           </div>
         </div>
 
@@ -67,7 +67,7 @@ class Pets extends Component{
             <p>Pet Name: {this.props.pet.pet_name}</p>
             <p>Pet Aage: {this.props.pet.age}</p>
             <p>Primary Vet: {this.props.pet.primary_vet_id}</p>
-            <button type="button" className="btn btn-secondary" onClick={this.closeModal}>Close</button>
+            <button type="button" className="btn_yellow" onClick={this.closeModal}>Close</button>
         </Modal>
       </div>
     )};
