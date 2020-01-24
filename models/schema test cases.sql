@@ -9,9 +9,9 @@
 use vesta_test;
 
 INSERT INTO homes
-    (street,city,state,zip,home_name,master_key,invitation_key,createdAt,updatedAt)
+    (street,city,state,zip,home_name,home_admin,master_key,invitation_key,createdAt,updatedAt)
 VALUES
-    ("157 W Garfield Rd", "Aurora", "OH", 44202, "Holman House", "lockdown", "beourguest", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+    ("157 W Garfield Rd", "Aurora", "OH", 44202, "Holman House",1, "lockdown", "beourguest", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 
 INSERT INTO users
     (username,email,password,first_name,last_name,age,phoneNumber,parent,points,home_id,createdAt,updatedAt)
@@ -34,10 +34,26 @@ INSERT INTO users
 VALUES
     ("corinne3", "corinne@gmail.com","$2a$10$eD.EJWKpH/V2iHLgUozHZ.qwIF5T0uCPLAE8Y5r9lS.5jGYUBgo5.", "Corinne", "Holman", 18, "3301234567", false, 1, 1, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 
+
+
 INSERT INTO vets
     (practice_name,phone_number,street,city,state,zip,emergency_clinic,createdAt,updatedAt)
 VALUES
-    ("Twinsburg Veterinary Hospital", "330-425-4226", "8803 Ravenna Rd", "Twinsburg", "OH", "44087", true, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+    ("Akron Veterinary Hospital", "330-425-4226", "1654 Akron Rd", "Akron", "OH", "44301", true, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+INSERT INTO vets
+    (practice_name,phone_number,street,city,state,zip,emergency_clinic,createdAt,updatedAt)
+VALUES
+    ("Solon Veterinary Hospital", "330-222-4226", "8416 Solon Rd", "Solon", "OH", "44187", true, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+INSERT INTO vets
+    (practice_name,phone_number,street,city,state,zip,emergency_clinic,createdAt,updatedAt)
+VALUES
+    ("Cleveland Veterinary Hospital", "330-333-4226", "2658 Cleveland Rd", "Cleveland", "OH", "44107", true, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+INSERT INTO vets
+    (practice_name,phone_number,street,city,state,zip,emergency_clinic,createdAt,updatedAt)
+VALUES
+    ("Youngstown Veterinary Hospital", "330-444-4226", "69771 Youngstown Rd", "Youngstown", "OH", "44878", true, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+
+
 
 INSERT INTO pets
     (home_id,pet_name,age,animal_type,createdAt,updatedAt,primary_vet_id)

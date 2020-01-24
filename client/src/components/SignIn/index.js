@@ -6,27 +6,29 @@ function SignIn (props) {
             <div className="form-group">
                 <div className="modal-body mx-3">
                     {/* Username Input */}
-                    <div className="md-form mb-5">
-                        <input 
-                            value={props.username}
-                            onChange = {props.handleInputChange}
-                            type="text"
-                            name="email"
-                            id="email" 
-                            className="form-control"
-                            placeholder="Email"/>
-                    </div>
-                    {/* Password Input */}
-                    <div className="md-form mb-4">
-                        <input 
-                            value={props.password}
-                            onChange = {props.handleInputChange}
-                            type="password" 
-                            name="password"
-                            id="passwords" 
-                            className="form-control"
-                            placeholder="Password"/>
-                    </div>
+                    <form>
+                        <div className="md-form mb-5">
+                            <input 
+                                value={props.username}
+                                onChange = {props.handleInputChange}
+                                type="text"
+                                name="email"
+                                id="email" 
+                                className="form-control"
+                                placeholder="Email"/>
+                        </div>
+                        {/* Password Input */}
+                        <div className="md-form mb-4">
+                            <input 
+                                value={props.password}
+                                onChange = {props.handleInputChange}
+                                type="password" 
+                                name="password"
+                                id="passwords" 
+                                className="form-control"
+                                placeholder="Password"/>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div className="modal-footer d-flex justify-content-center">

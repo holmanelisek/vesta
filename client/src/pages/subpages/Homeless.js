@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Modal from "react-bootstrap/modal";
+import {Modal} from "react-bootstrap";
 import {CreateHome, CreateHomeKey} from "../../components/CreateHome";
 import JoinHome from "../../components/JoinHome";
 import FindHome from "../../components/FindHome";
@@ -78,6 +78,7 @@ class Homeless extends Component{
         //Post to our server to create a new home
         API.createNewHome({
             home_name: this.state.homeName,
+            home_admin: this.props.state.user_id,
             master_key: this.state.masterKey,
             invitation_key: this.state.homeKey,
             street: this.state.homeStreet,
