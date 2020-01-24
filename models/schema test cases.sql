@@ -105,27 +105,29 @@ VALUES
 INSERT INTO pantries
     (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out) 
 VALUES 
-    (1,"granny smith apples",3,"units",3,1579827631414,1579829321849);
+    (1,"granny smith apples",3,"units",3,18284,18289);
 INSERT INTO pantries
     (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out)
 VALUES
-    (1,"vanilla extract",6,"tbsp",0,1579827631414,1609827631414);
+    (1,"vanilla extract",6,"tbsp",0,18284,18285);
 INSERT INTO pantries
     (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out)
 VALUES 
-    (1,"Rice Krispies Cereal",6,"cups",0,1579827631414,1579927631414);
-INSERT INTO pantries
-    (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out) VALUES (1,"milk",16,"cups",5,1579827631414);
+    (1,"Rice Krispies Cereal",6,"cups",0,18284,18300);
 INSERT INTO pantries
     (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out) 
 VALUES 
-    (1,"ground beef",3,"cups",0,1579827631414,1579827831414);
+    (1,"milk",16,"cups",5,18284,18290);
 INSERT INTO pantries
     (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out) 
 VALUES 
-    (1,"bananas",6,"units",0,1579827631414,1579927631414);
+    (1,"ground beef",3,"cups",0,18284,18285);
 INSERT INTO pantries
     (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out) 
 VALUES 
-    (1,"apple juice",3,"cups",0,1579827631414,1579837631414);
+    (1,"bananas",6,"units",0,18284,18289);
+INSERT INTO pantries
+    (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out) 
+VALUES 
+    (1,"apple juice",3,"cups",0,18284,18290);
 
