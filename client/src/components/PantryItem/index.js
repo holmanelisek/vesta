@@ -24,7 +24,7 @@ class PantryItem extends Component {
             <li className="list-group-item d-flex justify-content-between align-items-left">
                 <span></span>
                 {this.props.item_name}
-                <span>Date In: {this.props.date_in}</span>
+                <span>Date In: <Moment format="MMMM DD">{this.props.date_in}</Moment></span>
                 <button type="button" className="btn btn-danger"><i className="fas fa-minus"></i></button>
                 <span>Quantity: <span className="badge badge-secondary badge-pill">{this.props.quantity}</span></span>
                 {/* <span className="badge badge-secondary badge-pill">{this.props.quantity}</span> */}
