@@ -13,6 +13,8 @@ import { DeleteChore, DeleteChoreTitle } from '../../components/DeleteChore/inde
 import PantryItem from '../../components/PantryItem/index'
 import { AddPantryItem, AddPantryItemTitle } from '../../components/AddPantryItem/index'
 import { DeletePantryItem, DeletePantryItemTitle } from '../../components/DeletePantryItem/index'
+import Table from 'react-bootstrap/Table'
+
 // import { Pantry, Recipe } from '../../components/Pantry'
 // import recipeeval from "../../../public/assets/javascript/recipes"
 
@@ -30,6 +32,7 @@ class Homehub extends Component {
       petData: [],
       // users: []
       pantryItems: [],
+      orderedPantryItems: [],
       itemsneeded: [],
       recipesuggested: [],
       user_id: undefined,
@@ -295,11 +298,24 @@ class Homehub extends Component {
       home_id: homeID
     })
       .then(res => {
+        console.log(res)
         let pantry = res.data;
         this.setState({ pantryItems: pantry });
       })
   }
 
+  orderPantryItems = (a, b) => {
+    const itemA = a.item_name.toUpperCase();
+    const itemB = b.item_name.toUpperCase();
+
+    let comparison = 0;
+    if (itemA > itemB) {
+      comparison = 1;
+    } else if (itemA < itemB) {
+      comparison = -1;
+    }
+    return comparison
+  }
 
   // convertToDays = milliseconds => {
   //   var seconds = (milliseconds / 1000);
@@ -480,14 +496,14 @@ class Homehub extends Component {
             home_id={this.state.home_id}
             listPantry={this.listPantry}
             closeModal={this.closeModal}
-            chores={this.state.chores}
+            pantry={this.state.pantryItems}
           />
         );
     }
   }
 
   render() {
-    console.log(this.state.pantryItems)
+    this.state.pantryItems.sort(this.orderPantryItems)
     return (
       <div>
         {this.props.authenticated ?
@@ -571,10 +587,23 @@ class Homehub extends Component {
                         <span>{this.adminFunctionDeletePantry(this.state.home_admin, this.state.user_id)}</span>
                       </div>
                       <br />
-                      <ul className="list-group">
+                      {/* <ul className="list-group"> */}
+                      <Table striped bordered>
+                        <thead>
+                          <tr>
+                            <th>Icon</th>
+                            <th>Item</th>
+                            <th>Item Type</th>
+                            <th>Date In</th>
+                            <th><i className="fas fa-minus"></i></th>
+                            <th>Quantity</th>
+                            <th><i className="fas fa-plus"></i></th>
+                          </tr>
+                        </thead>
                         {this.state.pantryItems.map(item => (
                           <PantryItem
                             key={item.id}
+                            id={item.id}
                             home_id={this.state.home_id}
                             item_name={item.item_name}
                             item_type={item.item_type}
@@ -583,7 +612,8 @@ class Homehub extends Component {
                             listPantry={this.listPantry}
                           />
                         ))}
-                      </ul>
+                      </Table>
+                      {/* </ul> */}
                     </div>
                     {/* <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
                       <div className="container">
