@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 export class AddChore extends Component {
     constructor() {
         super()
+
         this.state = {
             // user_id: undefined,
             // selectedOption: undefined,
@@ -24,10 +25,11 @@ export class AddChore extends Component {
         this.handleInputChange = this.handleInputChange.bind(this)
     }
 
-    handleInputChange = event => {
-        const { name, value } = event.target;
-        this.setState({ [name]: value.trim() });
-    };
+    handleInputChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
 
     handleStartDateChange = date => {
         this.setState({

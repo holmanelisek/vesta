@@ -6,44 +6,51 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 
 export class AddPantryItem extends Component {
-    state = {
-        item_name: undefined,
-        item_type: undefined,
-        quantity: undefined,
-        date_in: new Date(),
-        categories: [
-            'Baby',
-            'Beverages',
-            'Bread & Pasta',
-            'Breakfast & Cereal',
-            'Canned Goods & Soups',
-            'Condiments/Spices & Bake',
-            'Cookies, Snacks & Candy',
-            'Dairy, Eggs & Cheese',
-            'Deli',
-            'Frozen Foods',
-            'Produce',
-            'International Cuisine',
-            'Meat & Seafood',
-            'Miscellaneous',
-            'Paper Products',
-            'Cleaning Supplies',
-            'Health & Beauty',
-            'Pet Care',
-            'Pharmacy'
-        ]
-    }
+    constructor() {
+        super()
 
-    handleInputChange = event => {
-        const { name, value } = event.target;
-        this.setState({ [name]: value.trim() });
-    };
+        this.state = {
+            item_name: undefined,
+            item_type: undefined,
+            quantity: undefined,
+            date_in: new Date(),
+            categories: [
+                'Baby',
+                'Beverages',
+                'Bread & Pasta',
+                'Breakfast & Cereal',
+                'Canned Goods & Soups',
+                'Condiments/Spices & Bake',
+                'Cookies, Snacks & Candy',
+                'Dairy, Eggs & Cheese',
+                'Deli',
+                'Frozen Foods',
+                'Produce',
+                'International Cuisine',
+                'Meat & Seafood',
+                'Miscellaneous',
+                'Paper Products',
+                'Cleaning Supplies',
+                'Health & Beauty',
+                'Pet Care',
+                'Pharmacy'
+            ]
+        }
+
+        this.handleInputChange = this.handleInputChange.bind(this)
+    }
 
     handleDateChange = date => {
         this.setState({
             date_in: date
         });
     };
+
+    handleInputChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
 
     handleChange = selection => this.setState({ item_type: selection.value });
 
