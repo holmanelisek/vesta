@@ -125,7 +125,7 @@ export class AddPantryItem extends Component {
                         placeholderText="Date added"
                     />
                 </div>
-                <button type="button" className="btn btn-secondary" onClick={this.submitItem}>Add</button>
+                <button disabled={!this.state.item_name || !this.state.item_type || !this.state.quantity || !this.state.date_in} type="button" className="btn btn-secondary" onClick={this.submitItem}>Add</button>
             </div>
         )
     }

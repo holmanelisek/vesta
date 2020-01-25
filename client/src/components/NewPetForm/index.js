@@ -142,7 +142,7 @@ export class NewPetForm extends Component {
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                     {/* Submit Button */}
-                    <button type="submit" onClick={this.submitNewPet} className="btn btn-deep-orange">Add Pet</button>
+                    <button disabled={!this.state.pet_name || !this.state.age || !this.state.animal_type || !this.state.primary_vet_id || !this.state.emergency_vet_id} type="submit" onClick={this.submitNewPet} className="btn btn-deep-orange">Add Pet</button>
                 </div>
             </div>
         );

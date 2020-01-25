@@ -41,7 +41,7 @@ export class DeleteChore extends Component {
                     onChange={this.handleChange}
                     options={this.buildOptions()}
                 />
-                <button type='button' className='btn btn-danger' onClick={this.deleteChore}>Delete</button>
+                <button disabled={!this.state.chore_id} type='button' className='btn btn-danger' onClick={this.deleteChore}>Delete</button>
             </div>
         )
 

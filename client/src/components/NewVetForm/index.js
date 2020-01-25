@@ -153,7 +153,7 @@ export class NewVetForm extends Component {
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                     {/* Submit Button */}
-                    <button type="submit" onClick={this.submitNewVet} className="btn btn-deep-orange">Add Vet</button>
+                    <button disabled={!this.state.practice_name || !this.state.phone_number || !this.state.street || !this.state.city || !this.state.us_state || !this.state.zip || !this.state.email || !this.state.emergency_clinic} type="submit" onClick={this.submitNewVet} className="btn btn-deep-orange">Add Vet</button>
                 </div>
             </div>
         );
