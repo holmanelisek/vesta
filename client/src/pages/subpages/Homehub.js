@@ -13,12 +13,9 @@ import { DeleteChore, DeleteChoreTitle } from '../../components/DeleteChore/inde
 import PantryItem from '../../components/PantryItem/index'
 import { AddPantryItem, AddPantryItemTitle } from '../../components/AddPantryItem/index'
 import { DeletePantryItem, DeletePantryItemTitle } from '../../components/DeletePantryItem/index'
-import { HavePantry, NeedPantry, Recipe } from '../../components/Pantry'
-//import recipeeval from "../../../public/assets/javascript/recipes"
+import {Recipe } from '../../components/Recipe'
 import Table from 'react-bootstrap/Table'
 
-// import { Pantry, Recipe } from '../../components/Pantry'
-// import recipeeval from "../../../public/assets/javascript/recipes"
 
 
 class Homehub extends Component {
@@ -35,8 +32,6 @@ class Homehub extends Component {
       // users: []
       pantryItems: [],
       orderedPantryItems: [],
-      itemsneeded: [],
-      recipesuggested: [],
       user_id: undefined,
       username: undefined,
       firstname: undefined,
@@ -84,11 +79,11 @@ class Homehub extends Component {
       this.getPetData(this.props.state.home_id);
       this.handleFindHome(this.props.state.home_id);
       this.listPantry(this.props.state.home_id);
-      console.log(this.state.pantryItems)
-      this.needPantry(this.props.state.home_id);
 
 //      this.recipeInfo(this.props.state.home_id);
     }
+
+    console.log(this.props)
   }
 
   submitPet = (newPetData, admin, user) => {
@@ -310,26 +305,29 @@ class Homehub extends Component {
 }
 
 
-needPantry = homeID => {
- API.getPantryItems({
-    home_id: homeID
-  })
-      .then(res =>{          
-          var needed = [];
-          for(const item of res.data){
-            if(item.data_out>0){
-              var currently = Date.now();
-              var timeLeft = item.date_out - (((((currently)/1000)/60)/60)/24);
-              if (timeLeft<3){
-                needed.append(item);
-              }
-            }else if(item.quantity<=item.low_quantity){
-              needed.append(item);
-            }
-          }
-          this.setState({itemsneeded: needed})
-      })
-  }
+//needPantry = homeID => {
+ //API.getPantryItems({
+//    home_id: homeID
+//  })
+//      .then(res =>{          
+//          var needed = [];
+//          var index = 0;
+//          for(const item of res.data){
+//            if(item.data_out>0){
+//              var currently = Date.now();
+//              var timeLeft = item.date_out - (((((currently)/1000)/60)/60)/24);
+//              if (timeLeft<3){
+//                needed[index] = item;
+//                index++;
+//              }
+//            }else if(item.quantity<=item.low_quantity){
+//              needed[index] = item;
+//                index++;
+//            }
+//          }
+//          this.setState({itemsneeded: needed})
+//      })
+//  }
   orderPantryItems = (a, b) => {
     const itemA = a.item_name.toUpperCase();
     const itemB = b.item_name.toUpperCase();
@@ -605,8 +603,13 @@ needPantry = homeID => {
                         ))}
                       </Table>
                       {/* </ul> */}
+                      
                     </div>
-                    { <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
+                    <div>
+                          <Recipe home_id = {this.props.state.home_id}
+                          ></Recipe>
+                      </div>
+                    {/* <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
                       <div className="container">
                         <div className="row">
                           <div className="col-6">
@@ -625,9 +628,9 @@ needPantry = homeID => {
                       </div>
                       <br />
                       <div className="row">
-                        {/*{this.state.recipesuggested.map(recipe => (<Recipe recipe={recipe} />))} */}
+                        {/*{this.state.recipesuggested.map(recipe => (<Recipe recipe={recipe} />))} }
                       </div>
-                    </div> }
+                    </div> */}
                   </div>
                 </div>
               </div>
