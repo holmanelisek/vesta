@@ -543,21 +543,24 @@ class Homehub extends Component {
                         <span>{this.adminFunctionDeleteChore(this.state.home_admin, this.state.user_id)}</span>
                       </div>
                       <hr />
-                      {this.state.chores.map(chore => (
-                        < Chores
-                          key={chore.id}
-                          // users={this.state.users}
-                          id={chore.id}
-                          choreName={chore.chore_name}
-                          createdBy={chore.created_by}
-                          assignedUser={chore.assigned_user}
-                          pointValue={chore.point_value}
-                          startDateTime={chore.start_date_time}
-                          endDateTime={chore.end_date_time}
-                          repeatInterval={chore.repeat_interval}
-                          getChores={this.getChores}
-                        />
-                      ))}
+                      {this.state.chores.length > 0 ?
+                        this.state.chores.map(chore => (
+                          < Chores
+                            key={chore.id}
+                            id={chore.id}
+                            choreName={chore.chore_name}
+                            createdBy={chore.created_by}
+                            assignedUser={chore.assigned_user}
+                            pointValue={chore.point_value}
+                            startDateTime={chore.start_date_time}
+                            endDateTime={chore.end_date_time}
+                            repeatInterval={chore.repeat_interval}
+                            getChores={this.getChores}
+                          />
+                        ))
+                        :
+                        <h2>No chores</h2>
+                      }
                     </div>
 
                     {/* pet data goes here */}
