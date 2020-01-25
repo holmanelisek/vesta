@@ -503,6 +503,8 @@ class Homehub extends Component {
   }
 
   render() {
+    console.log(this.state.pantryItems)
+
     this.state.pantryItems.sort(this.orderPantryItems)
     return (
       <div>
@@ -587,33 +589,34 @@ class Homehub extends Component {
                         <span>{this.adminFunctionDeletePantry(this.state.home_admin, this.state.user_id)}</span>
                       </div>
                       <br />
-                      {/* <ul className="list-group"> */}
-                      <Table striped bordered>
-                        <thead>
-                          <tr>
-                            <th>Icon</th>
-                            <th>Item</th>
-                            <th>Item Type</th>
-                            <th>Date In</th>
-                            <th><i className="fas fa-minus"></i></th>
-                            <th>Quantity</th>
-                            <th><i className="fas fa-plus"></i></th>
-                          </tr>
-                        </thead>
-                        {this.state.pantryItems.map(item => (
-                          <PantryItem
-                            key={item.id}
-                            id={item.id}
-                            home_id={this.state.home_id}
-                            item_name={item.item_name}
-                            item_type={item.item_type}
-                            quantity={item.quantity}
-                            date_in={item.date_in}
-                            listPantry={this.listPantry}
-                          />
-                        ))}
-                      </Table>
-                      {/* </ul> */}
+                      {this.state.pantryItems.length > 0 ?
+                        <Table striped bordered>
+                          <thead>
+                            <tr>
+                              <th>Icon</th>
+                              <th>Item</th>
+                              <th>Item Type</th>
+                              <th>Date In</th>
+                              <th><i className="fas fa-minus"></i></th>
+                              <th>Quantity</th>
+                              <th><i className="fas fa-plus"></i></th>
+                            </tr>
+                          </thead>
+                          {this.state.pantryItems.map(item => (
+                            <PantryItem
+                              key={item.id}
+                              id={item.id}
+                              home_id={this.state.home_id}
+                              item_name={item.item_name}
+                              item_type={item.item_type}
+                              quantity={item.quantity}
+                              date_in={item.date_in}
+                              listPantry={this.listPantry}
+                            />
+                          ))}
+                        </Table> :
+                        <h2>No items</h2>
+                      }
                     </div>
                     {/* <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
                       <div className="container">
