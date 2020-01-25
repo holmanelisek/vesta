@@ -14,7 +14,7 @@ export class AddPantryItem extends Component {
         categories: [
             'Baby',
             'Beverages',
-            'Bread & Bakery',
+            'Bread & Pasta',
             'Breakfast & Cereal',
             'Canned Goods & Soups',
             'Condiments/Spices & Bake',
@@ -23,7 +23,6 @@ export class AddPantryItem extends Component {
             'Deli',
             'Frozen Foods',
             'Produce',
-            'Grains, Pasta & Sides',
             'International Cuisine',
             'Meat & Seafood',
             'Miscellaneous',
