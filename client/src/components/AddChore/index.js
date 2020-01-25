@@ -93,15 +93,19 @@ export class AddChore extends Component {
             });
     }
 
-    render() {
-        // Calling grabUsers function
+    // Creating object of user names for dropdown
+    buildOptions = () => {
+        const userOptions = this.state.users.map(user => ({ value: user, label: user }))
+
+        return userOptions;
+    }
+
+    // Calling grabUsers function
+    componentDidMount = () => {
         this.grabUsers(this.props.home_id)
+    }
 
-        // Creating object of user names for dropdown
-        const userOptions = this.state.users.map(user => (
-            { value: user, label: user }
-        ))
-
+    render() {
         return (
             <div>
                 <div className="my-2">
@@ -120,7 +124,7 @@ export class AddChore extends Component {
                 < Select
                     value={this.assigned_user}
                     onChange={this.handleChange}
-                    options={userOptions}
+                    options={this.buildOptions()}
                 />
                 <div className="my-2">
                     {/*Point Value*/}

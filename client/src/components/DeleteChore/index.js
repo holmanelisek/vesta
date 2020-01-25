@@ -7,8 +7,10 @@ export class DeleteChore extends Component {
         chore_id: undefined
     }
 
+    // Handling dropdown
     handleChange = selection => this.setState({ chore_id: selection.value })
 
+    // Post to API for deleting chore
     deleteChore = () => {
         console.log(this.state.chore_id)
         API.deleteChore({
@@ -24,18 +26,20 @@ export class DeleteChore extends Component {
             })
     }
 
-    render() {
-        // this.props.getChores(this.props.home_id)
-        console.log(this.props.chores[0].chore_name)
+    // Creating object of chores for dropdown
+    buildOptions = () => {
         const choreOptions = this.props.chores.map(chore => ({ value: chore.id, label: chore.chore_name }))
-        console.log(choreOptions)
 
+        return choreOptions;
+    }
+
+    render() {
         return (
             <div>
                 <Select
                     value={this.chore_id}
                     onChange={this.handleChange}
-                    options={choreOptions}
+                    options={this.buildOptions()}
                 />
                 <button type='button' className='btn btn-danger' onClick={this.deleteChore}>Delete</button>
             </div>
@@ -44,6 +48,7 @@ export class DeleteChore extends Component {
     }
 }
 
+// Delete Chore modal title
 export function DeleteChoreTitle() {
     return (
         <div>

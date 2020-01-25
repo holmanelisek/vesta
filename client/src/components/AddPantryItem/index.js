@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Select from 'react-select'
 import API from '../../utils/API'
-// import { Modal } from 'react-bootstrap'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -40,20 +39,24 @@ export class AddPantryItem extends Component {
         this.handleInputChange = this.handleInputChange.bind(this)
     }
 
+    // Handles date box
     handleDateChange = date => {
         this.setState({
             date_in: date
         });
     };
 
+    // Handles text input
     handleInputChange(e) {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
 
+    // Handles drop down selector
     handleChange = selection => this.setState({ item_type: selection.value });
 
+    // Post call to API for adding new item to pantry
     submitItem = () => {
         API.addPantryItem({
             home_id: this.props.home_id,
@@ -72,11 +75,14 @@ export class AddPantryItem extends Component {
             });
     }
 
-    render() {
-        const typeOptions = this.state.categories.map(category => (
-            { value: category, label: category }
-        ))
+    // Creates options for dropdown selector
+    buildOptions = () => {
+        const typeOptions = this.state.categories.map(category => ({ value: category, label: category }))
 
+        return typeOptions;
+    }
+
+    render() {
         return (
             <div>
                 <div className="my-2">
@@ -95,7 +101,7 @@ export class AddPantryItem extends Component {
                 < Select
                     value={this.item_type}
                     onChange={this.handleChange}
-                    options={typeOptions}
+                    options={this.buildOptions()}
                 />
                 <div className="my-2">
                     {/*Point Value*/}
@@ -115,10 +121,6 @@ export class AddPantryItem extends Component {
                     <DatePicker
                         selected={this.state.date_in}
                         onChange={this.handleDateChange}
-                        // showTimeSelect
-                        // showYearDropdown
-                        // timeIntervals={30}
-                        // timeCaption="time"
                         dateFormat="MMMM d"
                         placeholderText="Date added"
                     />
@@ -129,6 +131,7 @@ export class AddPantryItem extends Component {
     }
 }
 
+// Add Pantry Item modal title
 export function AddPantryItemTitle() {
     return (
         <div>
