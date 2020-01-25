@@ -346,7 +346,10 @@ router.post("/get/pantryitem", function (req, res) {
     where: {
       home_id: req.body.home_id,
       item_name: name
-    }
+    },
+    order: [
+      ['item_name', 'DESC']
+    ]
   }).then(function (dbPantry) {
     res.json(dbPantry);
   })
@@ -369,6 +372,22 @@ router.post("/add/pantry", function (req, res) {
       res.status(401).json(err);
     });
 });
+
+router.post("/update/quantity", function (req, res) {
+  db.Pantry.update({
+    quantity: req.body.quantity
+  }, {
+    where: {
+      id: req.body.id
+    }
+  })
+    .then(function (dbPantry) {
+      res.json(dbPantry);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+})
 
 router.post("/delete/pantry", function (req, res) {
   db.Pantry.destroy({
