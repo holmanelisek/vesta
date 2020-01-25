@@ -11,28 +11,28 @@ use vesta_test;
 INSERT INTO homes
     (street,city,state,zip,home_name,home_admin,master_key,invitation_key,createdAt,updatedAt)
 VALUES
-    ("157 W Garfield Rd", "Aurora", "OH", 44202, "Holman House",1, "lockdown", "beourguest", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+    ("157 W Garfield Rd", "Aurora", "OH", 44202, "Holman House", 1, "lockdown", "beourguest", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 
 INSERT INTO users
     (username,email,password,first_name,last_name,age,phoneNumber,parent,points,home_id,createdAt,updatedAt)
 VALUES
-    ("mom50", "mom@gmail.com","$2a$10$eD.EJWKpH/V2iHLgUozHZ.qwIF5T0uCPLAE8Y5r9lS.5jGYUBgo5.", "Laura", "Holman", 50, "1230984567", true, 0, 1, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+    ("mom50", "mom@gmail.com", "$2a$10$eD.EJWKpH/V2iHLgUozHZ.qwIF5T0uCPLAE8Y5r9lS.5jGYUBgo5.", "Laura", "Holman", 50, "1230984567", true, 0, 1, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 INSERT INTO users
     (username,email,password,first_name,last_name,age,phoneNumber,parent,points,home_id,createdAt,updatedAt)
 VALUES
-    ("dad52", "dad@gmail.com","$2a$10$eD.EJWKpH/V2iHLgUozHZ.qwIF5T0uCPLAE8Y5r9lS.5jGYUBgo5.", "Scott", "Holman", 52, "0987654321", true, 0, 1, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+    ("dad52", "dad@gmail.com", "$2a$10$eD.EJWKpH/V2iHLgUozHZ.qwIF5T0uCPLAE8Y5r9lS.5jGYUBgo5.", "Scott", "Holman", 52, "0987654321", true, 0, 1, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 INSERT INTO users
     (username,email,password,first_name,last_name,age,phoneNumber,parent,points,home_id,createdAt,updatedAt)
 VALUES
-    ("elise1", "elise@gmail.com","$2a$10$eD.EJWKpH/V2iHLgUozHZ.qwIF5T0uCPLAE8Y5r9lS.5jGYUBgo5.", "Elise", "Holman", 23, "3305621234", false, 200, 1, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+    ("elise1", "elise@gmail.com", "$2a$10$eD.EJWKpH/V2iHLgUozHZ.qwIF5T0uCPLAE8Y5r9lS.5jGYUBgo5.", "Elise", "Holman", 23, "3305621234", false, 200, 1, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 INSERT INTO users
     (username,email,password,first_name,last_name,age,phoneNumber,parent,points,home_id,createdAt,updatedAt)
 VALUES
-    ("lydia2", "lydia@gmail.com","$2a$10$eD.EJWKpH/V2iHLgUozHZ.qwIF5T0uCPLAE8Y5r9lS.5jGYUBgo5.", "Lydia", "Holman", 20, "2161234567", false, 10, 1, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+    ("lydia2", "lydia@gmail.com", "$2a$10$eD.EJWKpH/V2iHLgUozHZ.qwIF5T0uCPLAE8Y5r9lS.5jGYUBgo5.", "Lydia", "Holman", 20, "2161234567", false, 10, 1, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 INSERT INTO users
     (username,email,password,first_name,last_name,age,phoneNumber,parent,points,home_id,createdAt,updatedAt)
 VALUES
-    ("corinne3", "corinne@gmail.com","$2a$10$eD.EJWKpH/V2iHLgUozHZ.qwIF5T0uCPLAE8Y5r9lS.5jGYUBgo5.", "Corinne", "Holman", 18, "3301234567", false, 1, 1, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+    ("corinne3", "corinne@gmail.com", "$2a$10$eD.EJWKpH/V2iHLgUozHZ.qwIF5T0uCPLAE8Y5r9lS.5jGYUBgo5.", "Corinne", "Holman", 18, "3301234567", false, 1, 1, "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 
 
 
@@ -131,4 +131,24 @@ INSERT INTO pantries
     (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out,createdAt,updatedAt) 
 VALUES 
     (1,"apple juice","Beverages",3,"cups",0,18284,18290,'2020-1-24 19:52:39','2020-1-24 19:52:39');
+INSERT INTO pantries
+    (home_id,item_name,item_type,quantity,date_in,createdAt,updatedAt)
+VALUES
+    (1, "Nestle Hot Cocoa Mix", "Beverages", 1, "October 19,2020", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+INSERT INTO pantries
+    (home_id,item_name,item_type,quantity,date_in,createdAt,updatedAt)
+VALUES
+    (1, "Chinese Leftovers", "International Cuisine", 1, "October 19,2020", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+INSERT INTO pantries
+    (home_id,item_name,item_type,quantity,date_in,createdAt,updatedAt)
+VALUES
+    (1, "Milk", "Dairy", 1, "October 19,2020", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+INSERT INTO pantries
+    (home_id,item_name,item_type,quantity,date_in,createdAt,updatedAt)
+VALUES
+    (1, "Coffee", "Beverages", 1, "October 19,2020", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
+INSERT INTO pantries
+    (home_id,item_name,item_type,quantity,date_in,createdAt,updatedAt)
+VALUES
+    (1, "Honey Nut Cheerios", "Breakfast & Cereal", 1, "October 19,2020", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 
