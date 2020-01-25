@@ -7,16 +7,21 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export class AddChore extends Component {
-    state = {
-        // user_id: undefined,
-        // selectedOption: undefined,
-        users: [],
-        // created_by: undefined,
-        chore_name: undefined,
-        assigned_user: undefined,
-        point_value: undefined,
-        startDate: new Date(),
-        endDate: new Date(),
+    constructor() {
+        super()
+        this.state = {
+            // user_id: undefined,
+            // selectedOption: undefined,
+            users: [],
+            // created_by: undefined,
+            chore_name: undefined,
+            assigned_user: undefined,
+            point_value: undefined,
+            startDate: new Date(),
+            endDate: new Date(),
+        }
+
+        this.handleInputChange = this.handleInputChange.bind(this)
     }
 
     handleInputChange = event => {
