@@ -568,18 +568,23 @@ class Homehub extends Component {
                         <div>{this.adminFunctionAddpet(this.state.home_admin, this.state.user_id)}</div>
                         <hr />
                         <div className="row">
-                          {this.state.petData.map(pet => (
-                            <Pets
-                              key={pet.id}
-                              pet={pet}
-                              user={this.state.user_id}
-                              firstname={this.state.firstname}
-                              home_id={this.state.home_id}
-                              primary_vets={this.state.primary_vets}
-                              home_admin={this.state.home_admin}
-                              getPetData={this.getPetData}
-                            />
-                          ))}
+                          {this.state.petData.length > 0 ?
+                            this.state.petData.map(pet => (
+                              <Pets
+                                key={pet.id}
+                                pet={pet}
+                                user={this.state.user_id}
+                                firstname={this.state.firstname}
+                                home_id={this.state.home_id}
+                                primary_vets={this.state.primary_vets}
+                                home_admin={this.state.home_admin}
+                                getPetData={this.getPetData}
+                              />
+                            ))
+                            :
+                            // TODO not centered
+                            <h2>No Pets</h2>
+                          }
                         </div>
                       </div>
                     </div>
