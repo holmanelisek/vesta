@@ -125,7 +125,7 @@ class PantryItem extends Component {
 
         return (
             <tr>
-                <td><i className={`fas fa-${this.iconGenerator(this.props.item_type)}`}></i></td>
+                <td><i className={`fas fa-${this.iconGenerator(this.props.item_type)} fa-2x`}></i></td>
                 <td>{this.props.item_name}</td>
                 <td>{this.props.item_type}</td>
                 <td>Date In: <Moment format="MMMM DD">{this.props.date_in}</Moment></td>
