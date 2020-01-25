@@ -13,8 +13,8 @@ import { DeleteChore, DeleteChoreTitle } from '../../components/DeleteChore/inde
 import PantryItem from '../../components/PantryItem/index'
 import { AddPantryItem, AddPantryItemTitle } from '../../components/AddPantryItem/index'
 import { DeletePantryItem, DeletePantryItemTitle } from '../../components/DeletePantryItem/index'
-// import { Pantry, Recipe } from '../../components/Pantry'
-// import recipeeval from "../../../public/assets/javascript/recipes"
+import { HavePantry, NeedPantry, Recipe } from '../../components/Pantry'
+//import recipeeval from "../../../public/assets/javascript/recipes"
 
 
 class Homehub extends Component {
@@ -79,6 +79,10 @@ class Homehub extends Component {
       this.getPetData(this.props.state.home_id);
       this.handleFindHome(this.props.state.home_id);
       this.listPantry(this.props.state.home_id);
+      console.log(this.state.pantryItems)
+      this.needPantry(this.props.state.home_id);
+
+//      this.recipeInfo(this.props.state.home_id);
     }
   }
 
@@ -296,33 +300,8 @@ class Homehub extends Component {
     })
         .then(res => {
             let pantry = res.data;
-            this.setState({pantryitems: pantry});
+            this.setState({pantryItems: pantry});
         })
-}
-
-
-convertToDays = milliseconds => {
-  var seconds = (milliseconds/1000);
-  var minutes = seconds/60;
-  var hours = minutes/60;
-  var days = hours/24;
-  return days
-}
-
-needItems = pantry => {
-  var need = []
-  for(var i=0;i++;i<pantry.length){
-      if(pantry[i].date_out>0){
-          var currently = convertToDays(date.now());
-          var timeLeft = pantry[i].date_out - currently;
-          if(timeLeft<3){
-              need.append(pantry[i]);
-          }
-      }else if(pantry[i].quantity<=pantry[i].low_quantity){
-          need.append(pantry[i]);
-      }
-  }
-  return need;
 }
 
 
@@ -331,57 +310,32 @@ needPantry = homeID => {
     home_id: homeID
   })
       .then(res =>{          
-          var needed = needItems(res);
+          var needed = [];
+          for(const item of res.data){
+            if(item.data_out>0){
+              var currently = Date.now();
+              var timeLeft = item.date_out - (((((currently)/1000)/60)/60)/24);
+              if (timeLeft<3){
+                needed.append(item);
+              }
+            }else if(item.quantity<=item.low_quantity){
+              needed.append(item);
+            }
+          }
           this.setState({itemsneeded: needed})
       })
   }
 
+//   recipeInfo = homeID => {
+//     API.getPantryItems({
+//       home_id: homeID
+//     })
+//       .then(res => {
+//         var chosen = recipeeval.pickRecipe(res)
+//         this.setState({ recipesuggested: chosen })
+//       })
+//   }
 
-  // convertToDays = milliseconds => {
-  //   var seconds = (milliseconds / 1000);
-  //   var minutes = seconds / 60;
-  //   var hours = minutes / 60;
-  //   var days = hours / 24;
-  //   return days
-  // }
-
-  // needItems = pantry => {
-  //   var need = []
-  //   for (var i = 0; i++; i < pantry.length) {
-  //     if (pantry[i].date_out > 0) {
-  //       var timeLeft = pantry[i].date_out - Date.now();
-  //       var dayOut = convertToDays(timeLeft);
-  //       if (dayOut < 3) {
-  //         need.append(pantry[i]);
-  //       }
-  //     } else if (pantry[i].quantity <= pantry[i].low_quantity) {
-  //       need.append(pantry[i]);
-  //     }
-  //   }
-  //   return need;
-  // }
-
-
-  // needPantry = homeID => {
-  //   API.getPantryItems({
-  //     home_id: homeID
-  //   })
-  //     .then(res => {
-  //       var needed = needItems(res);
-  //       this.setState({ itemsneeded: needed })
-  //     })
-  // }
-
-
-  // recipeInfo = homeID => {
-  //   API.getPantryItems({
-  //     home_id: homeID
-  //   })
-  //     .then(res => {
-  //       var chosen = recipeeval.pickRecipe(res)
-  //       this.setState({ recipesuggested: chosen })
-  //     })
-  // }
 
   //Function to change the state values on input change
   handleInputChange = event => { }
@@ -621,32 +575,28 @@ needPantry = homeID => {
                         ))}
                       </ul>
                     </div>
-                    {/* <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
+                    { <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
                       <div className="container">
                         <div className="row">
                           <div className="col-6">
                             <h4>Items in pantry:</h4>
                             <ul className="list-group list-group-flush">
-                              <li className="list-group-item list-group-item-success">
-                                {this.state.pantryitems.map(item => (<Pantry item={item} />))}
-                              </li>
+                                {this.state.pantryItems.map(item => (<HavePantry item={item} />))}
                             </ul>
                           </div>
                           <div className="col-6">
                             <h4>Items needed:</h4>
                             <ul className="list-group list-group-flush">
-                              <li className="list-group-item list-group-item-danger"><h4>Milk</h4>
-                                {this.state.itemsneeded.map(item => (<Pantry item={item} />))}
-                              </li>
+                                {this.state.itemsneeded.map(item => (<NeedPantry item={item} />))}
                             </ul>
                           </div>
                         </div>
                       </div>
                       <br />
                       <div className="row">
-                        {this.state.recipesuggested.map(recipe => (<Recipe recipe={recipe} />))}
+                        {/*{this.state.recipesuggested.map(recipe => (<Recipe recipe={recipe} />))} */}
                       </div>
-                    </div> */}
+                    </div> }
                   </div>
                 </div>
               </div>
