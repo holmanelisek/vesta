@@ -1,70 +1,78 @@
 import React from "react";
+import { Alert } from 'react-bootstrap'
 
-function SignUp(props){
+function SignUp(props) {
+    console.log(props)
     return (
-        <div>
+        < div >
             <div className="modal-body mx-2">
                 {/* First Name Input */}
                 <div className="my-2">
-                    <input 
+                    <input
                         value={props.firstname}
-                        onChange = {props.handleInputChange}
-                        type="text" 
-                        name ="firstname"
-                        id="first-name" 
+                        onChange={props.handleInputChange}
+                        type="text"
+                        name="firstname"
+                        id="first-name"
                         className="form-control validate"
-                        placeholder="First Name"/>
+                        placeholder="First Name" />
                 </div>
                 {/* Last Name Input */}
                 <div className="my-2">
                     <input
                         value={props.lastname}
-                        onChange = {props.handleInputChange}
+                        onChange={props.handleInputChange}
                         type="text"
                         name="lastname"
-                        id="last-name" 
+                        id="last-name"
                         className="form-control validate"
-                        placeholder="Last Name"/>
+                        placeholder="Last Name" />
                 </div>
                 {/* Username Input */}
                 <div className="my-2">
-                    <input 
+                    <input
                         value={props.username}
-                        onChange = {props.handleInputChange}
-                        type="text" 
+                        onChange={props.handleInputChange}
+                        type="text"
                         name="username"
-                        id="user-name" 
+                        id="user-name"
                         className="form-control validate"
-                        placeholder="Username"/>
+                        placeholder="Username" />
                 </div>
                 {/* Email Input */}
                 <div className="my-2">
-                    <input 
+                    <input
                         value={props.email}
-                        onChange = {props.handleInputChange}
-                        type="email" 
+                        onChange={props.handleInputChange}
+                        type="email"
                         name="email"
-                        id="emailid" 
+                        id="emailid"
                         className="form-control validate"
-                        placeholder="Email"/>
+                        placeholder="Email" />
                 </div>
                 {/* Password Input */}
                 <div className="my-2">
-                    <input 
+                    <input
                         value={props.password}
-                        onChange = {props.handleInputChange}
-                        type="password" 
+                        onChange={props.handleInputChange}
+                        type="password"
                         name="password"
-                        id="password" 
+                        id="password"
                         className="form-control validate"
-                        placeholder="Password"/>
+                        placeholder="Password" />
                 </div>
             </div>
             <div className="modal-footer d-flex justify-content-center">
                 {/* Submit Button */}
                 <button type="submit" onClick={props.handleSignUpSubmit} className="btn btn-deep-orange">Sign up</button>
             </div>
-        </div>
+            {/* <Alert variant="danger">
+                This is a danger alert—check it out!
+             </Alert> */}
+            <div>
+                {props.errResponse ? <Alert variant="danger" className="justify-content-center">This email is already in use. Please log in or try a different email.</Alert> : <span></span>}
+            </div>
+        </div >
     );
 }
 

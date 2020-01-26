@@ -34,7 +34,8 @@ class Vesta extends Component {
       home_zip: undefined,
       authenticated: false,
       modalShow: false,
-      modalFunc: undefined
+      modalFunc: undefined,
+      errResponse: false
     };
 
     this.handleClose = this.handleClose.bind(this);
@@ -46,22 +47,22 @@ class Vesta extends Component {
   }
 
   authentication = () => {
-      API.isSignedIn().then(res => {
-          console.log("Authentication")
-          //If res.email is true then render this menu
-          if(res.data.id){
-              this.setState({
-                authenticated: true,
-                firstname: res.data.first_name,
-                lastname: res.data.last_name,
-                home_id: res.data.home_id,
-                user_id: res.data.id,
-                email: res.data.email
-              });
-              console.log("[Vesta.js getHomeInfomration]")
-              this.getHomeInformation(res.data.home_id)
-          }
-      }).catch();
+    API.isSignedIn().then(res => {
+      console.log("Authentication")
+      //If res.email is true then render this menu
+      if (res.data.id) {
+        this.setState({
+          authenticated: true,
+          firstname: res.data.first_name,
+          lastname: res.data.last_name,
+          home_id: res.data.home_id,
+          user_id: res.data.id,
+          email: res.data.email
+        });
+        console.log("[Vesta.js getHomeInfomration]")
+        this.getHomeInformation(res.data.home_id)
+      }
+    }).catch();
   }
 
   getHomeInformation = homeKey => {
@@ -142,7 +143,13 @@ class Vesta extends Component {
       this.handleClose()
       this.props.history.push("/Homeless")
     }).catch(err => {
+      // console.log(err)
       //Do something with error
+      if (err.response) {
+        this.errorTimeout()
+        // this.setState({ errResponse: true })
+        console.log(this.state.errResponse);
+      }
     });
   }
 
@@ -169,34 +176,45 @@ class Vesta extends Component {
     this.setState({ modalShow: true })
   }
 
+  errorTimeout = () => {
+    this.setState({ errResponse: true });
+    setTimeout(
+      function () {
+        this.setState({ errResponse: false });
+      }
+        .bind(this),
+      5000
+    );
+  }
+
   render() {
     return (
       <div>
         {/* Navbar Component */}
-          <Navbar 
-            authenticated={this.state.authenticated} 
-            user_id={this.state.user_id} 
-            username={this.state.username} 
-            firstname= {this.state.firstname} 
-            lastname= {this.state.lastname} 
-            email= {this.state.email} 
-            home_id= {this.state.home_id} 
-            clickModalSignIn = {this.handleSignInShow}
-            clickModalSignUp = {this.handleSignUpShow}
-            clickSignout = {this.handleSignOutSubmit}
-          />
+        <Navbar
+          authenticated={this.state.authenticated}
+          user_id={this.state.user_id}
+          username={this.state.username}
+          firstname={this.state.firstname}
+          lastname={this.state.lastname}
+          email={this.state.email}
+          home_id={this.state.home_id}
+          clickModalSignIn={this.handleSignInShow}
+          clickModalSignUp={this.handleSignUpShow}
+          clickSignout={this.handleSignOutSubmit}
+        />
 
         {/* Page Content Routes */}
         <div id="page-top">
 
-        <Switch>
-          <Route path="/" exact render={Home}/>
-          <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)} />
-          <Route path="/Account" exact render={ props => (<Account {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)}/>
-          <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)}/>
-          <Route component={NoMatch}/>
-        </Switch>
-      
+          <Switch>
+            <Route path="/" exact render={Home} />
+            <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
+            <Route path="/Account" exact render={props => (<Account {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
+            <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
+            <Route component={NoMatch} />
+          </Switch>
+
         </div>
         <Footer />
 
@@ -221,6 +239,7 @@ class Vesta extends Component {
                   // Passing through functions
                   handleSignUpSubmit={this.handleSignUpSubmit}
                   handleInputChange={this.handleInputChange}
+                  errResponse={this.state.errResponse}
                 />
                 : null
             }

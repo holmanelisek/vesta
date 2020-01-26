@@ -31,7 +31,10 @@ router.post("/signup", function (req, res) {
       res.json(dbUser);
     })
     .catch(function (err) {
-      res.status(401).json(err);
+      // console.log(err.responseJSON.errors[0].message)
+      console.log(err.errors[0].message)
+      res.status(401).json({ error: err.errors[0].message });
+      // res.status(401)
     });
 });
 
