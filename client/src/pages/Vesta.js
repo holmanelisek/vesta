@@ -35,7 +35,8 @@ class Vesta extends Component {
       home_members: undefined,
       authenticated: false,
       modalShow: false,
-      modalFunc: undefined
+      modalFunc: undefined,
+      errResponse: false
     };
 
     this.handleClose = this.handleClose.bind(this);
@@ -155,7 +156,14 @@ class Vesta extends Component {
       this.handleClose()
       this.props.history.push("/Homeless")
     }).catch(err => {
-      console.log(err.response)
+
+      // console.log(err)
+      //Do something with error
+      if (err.response) {
+        this.errorTimeout()
+        // this.setState({ errResponse: true })
+        console.log(this.state.errResponse);
+      }
     });
   }
 
@@ -182,22 +190,33 @@ class Vesta extends Component {
     this.setState({ modalShow: true })
   }
 
+  errorTimeout = () => {
+    this.setState({ errResponse: true });
+    setTimeout(
+      function () {
+        this.setState({ errResponse: false });
+      }
+        .bind(this),
+      5000
+    );
+  }
+
   render() {
     return (
       <div>
         {/* Navbar Component */}
-          <Navbar 
-            authenticated={this.state.authenticated} 
-            user_id={this.state.user_id} 
-            username={this.state.username} 
-            firstname= {this.state.firstname} 
-            lastname= {this.state.lastname} 
-            email= {this.state.email} 
-            home_id= {this.state.home_id} 
-            clickModalSignIn = {this.handleSignInShow}
-            clickModalSignUp = {this.handleSignUpShow}
-            clickSignout = {this.handleSignOutSubmit}
-          />
+        <Navbar
+          authenticated={this.state.authenticated}
+          user_id={this.state.user_id}
+          username={this.state.username}
+          firstname={this.state.firstname}
+          lastname={this.state.lastname}
+          email={this.state.email}
+          home_id={this.state.home_id}
+          clickModalSignIn={this.handleSignInShow}
+          clickModalSignUp={this.handleSignUpShow}
+          clickSignout={this.handleSignOutSubmit}
+        />
 
         {/* Page Content Routes */}
         <div id="page-top">
@@ -217,7 +236,6 @@ class Vesta extends Component {
           <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)}/>
           <Route component={NoMatch}/>
         </Switch>
-      
         </div>
         <Footer />
 
@@ -242,6 +260,7 @@ class Vesta extends Component {
                   // Passing through functions
                   handleSignUpSubmit={this.handleSignUpSubmit}
                   handleInputChange={this.handleInputChange}
+                  errResponse={this.state.errResponse}
                 />
                 : null
             }
