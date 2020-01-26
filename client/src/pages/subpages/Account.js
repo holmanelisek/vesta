@@ -18,6 +18,7 @@ class Account extends Component{
             last_name: undefined,
             email: undefined,
             home_members: [],
+            old_password: undefined,
             password: undefined,
             password_confirm: undefined,
             admin_name: undefined,
@@ -27,9 +28,7 @@ class Account extends Component{
     }
     
     componentDidMount(){
-        console.log("Account: Auth");
         if (this.props.authenticate) {
-            console.log("Accounts: Passed")
             this.getHomeMembers(this.props.state.home_id);
         }
     }
@@ -50,10 +49,7 @@ class Account extends Component{
       }
 
     findAdminName = adminId =>{
-        console.log(adminId)
-        console.log(this.state.home_members)
         let adminName = this.state.home_members.find(({id}) => id === adminId)
-        console.log(adminName);
         this.setState({ admin_name: adminName.first_name});
     }
 
@@ -66,20 +62,33 @@ class Account extends Component{
         }
         API.updateUserInfo(userData)
         .then(response => {
-            console.log(response)
+            console.log(response.data)
             this.closeModal();
             this.props.authenticate();
         })
     }
 
-    handleAccountPasswordChange = () =>{
-        if(this.state.password === this.password_confirm){
-
+    handleAccountPasswordChange = event =>{
+        event.preventDefault();
+        console.log(this.state.password)
+        console.log(this.state.password_confirm)
+        if(this.state.password === this.state.password_confirm){
+            console.log("[Password Matches]")
+            let userData ={
+                old_password: this.state.old_password,
+                password: this.state.password,
+                user_id: this.props.state.user_id
+            }
+            API.updateAccountPass(userData)
+            .then(response => {
+                console.log("[New Password Hash]")
+                console.log(response)
+                this.closeModal();
+                this.props.authenticate();
+            })
         }else{
             this.setState({ onSubmitErr: "border border-warning"})
-            console.log("Change Password")
-            console.log(this.state.password)
-            console.log(this.state.password_confirm)
+            console.log("[Password doesn't match]")
             //console.log(this.state.onSubmitErr)
             setTimeout(()=>{
                 console.log(this.state.onSubmitErr)
@@ -93,12 +102,13 @@ class Account extends Component{
     }
 
     closeModal = () => {
-        this.setState({ modalShow: false });
+        this.setState({ 
+            modalShow: false,
+            onSubmitErr: ""
+        });
     }
 
     switchEditFunction = field =>{
-        console.log("[switchEditFucntion")
-        console.log(field)
         switch (field){
             case "firstName":
                 return(
