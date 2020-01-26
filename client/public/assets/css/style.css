@@ -27,6 +27,7 @@ nav ul {
 }
 
 /* BUTTONS */
+
 .btn_blue{
     display: inline-block;
     padding: 0.5em 1em;
@@ -34,6 +35,16 @@ nav ul {
     background: #4281a4;/*Button Color*/
     color: #FFF;
     border-bottom: solid 4px #33637f;
+    border-radius: 3px;
+}
+
+.btn_blue_dark{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #33637f;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #234960;
     border-radius: 3px;
 }
 
@@ -47,6 +58,16 @@ nav ul {
     border-radius: 3px;
 }
 
+.btn_green_dark{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #32807e;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #256968;
+    border-radius: 3px;
+}
+
 .btn_cream{
     display: inline-block;
     padding: 0.5em 1em;
@@ -54,6 +75,16 @@ nav ul {
     background: #e4dfda;/*Button Color*/
     color: #FFF;
     border-bottom: solid 4px #aba8a6;
+    border-radius: 3px;
+}
+
+.btn_cream_dark{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #aba8a6;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #80807f;
     border-radius: 3px;
 }
 
@@ -67,7 +98,67 @@ nav ul {
     border-radius: 3px;
 }
 
+.btn_yellow_dark{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #9d8763;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #7f6e4f;
+    border-radius: 3px;
+}
+
 .btn_red{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #c1666b;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #964e53;
+    border-radius: 3px;
+}
+
+.btn_red_dark{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #964e53;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #773b40;
+    border-radius: 3px;
+}
+
+.deleteThisPet {
+        display: inline-block;
+        padding: 0.5em 1em;
+        text-decoration: none;
+        background: #c1666b;/*Button Color*/
+        color: #FFF;
+        border-bottom: solid 4px #964e53;
+        border-radius: 3px;
+}
+
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #4281a4;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #33637f;
+    border-radius: 3px;
+}
+
+.btn-success {
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #48A9A6;/*Button Color*/
+    color: #FFF;
+    border-bottom: solid 4px #32807e;
+    border-radius: 3px;
+}
+
+.btn-danger {
     display: inline-block;
     padding: 0.5em 1em;
     text-decoration: none;
@@ -128,6 +219,27 @@ h1, h2, h3, h5, p {
 .headshot {
     width: 60%;
 }
+
+/* HOMEHUB */
+
+#chores-tab {
+    font-family: 'Caveat', cursive;
+    font-size: 30px;
+    color: #4281a4;
+}
+
+#pets-tab {
+    font-family: 'Caveat', cursive;
+    font-size: 30px;
+    color: #d4b483;
+}
+
+#pantry-tab {
+    font-family: 'Caveat', cursive;
+    font-size: 30px;
+    color: #c1666b;
+}
+
 
 /* FOOTER   */
 .footer {

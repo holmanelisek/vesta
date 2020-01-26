@@ -1,6 +1,5 @@
 import React from "react";
 import Container from "../Container";
-import "./information.css";
 
 
 function Information (){
@@ -135,7 +134,7 @@ function Information (){
                     {/* 4TH PERSON */}
                     <div className="col-sm-3">
                     <div className="team-member">
-                    <img className="rounded-circle headshot" src="./assets/images/steph.jpg" alt="Stephanie Rose"></img>
+                    <img className="rounded-circle headshot" src="./assets/images/stephanie.jpg" alt="Stephanie Rose"></img>
                     <h4>Stephanie Rose</h4>
                     <p className="text-muted">Front-End Developer</p>
                     <ul className="list-inline social-buttons">

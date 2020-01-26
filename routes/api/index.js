@@ -35,6 +35,7 @@ router.post("/signup", function (req, res) {
       console.log(err.errors[0].message)
       res.status(401).json({ error: err.errors[0].message });
       // res.status(401)
+
     });
 });
 
@@ -178,6 +179,24 @@ router.post("/get/users", function (req, res) {
   }).then(function (dbUser) {
     res.json(dbUser);
   });
+});
+
+//Update user account info
+// Post for changing the 'completed' to true
+router.post("/users/account_update", function (req, res) {
+  db.User.update({
+    [req.body.field]: req.body.value
+  }, {
+    where: {
+      id: req.body.user_id
+    }
+  })
+    .then(function (dbUpdatedUser) {
+      res.json(dbUpdatedUser);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
 });
 
 // Grabbing all chores by the user's home_id

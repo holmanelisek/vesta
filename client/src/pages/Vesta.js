@@ -32,6 +32,7 @@ class Vesta extends Component {
       home_city: undefined,
       home_state: undefined,
       home_zip: undefined,
+      home_members: undefined,
       authenticated: false,
       modalShow: false,
       modalFunc: undefined,
@@ -47,22 +48,34 @@ class Vesta extends Component {
   }
 
   authentication = () => {
-    API.isSignedIn().then(res => {
-      console.log("Authentication")
-      //If res.email is true then render this menu
-      if (res.data.id) {
-        this.setState({
-          authenticated: true,
-          firstname: res.data.first_name,
-          lastname: res.data.last_name,
-          home_id: res.data.home_id,
-          user_id: res.data.id,
-          email: res.data.email
-        });
-        console.log("[Vesta.js getHomeInfomration]")
-        this.getHomeInformation(res.data.home_id)
-      }
-    }).catch();
+      API.isSignedIn().then(res => {
+          console.log("Authentication")
+          //If res.email is true then render this menu
+          if(res.data.id){
+              this.setState({
+                authenticated: true,
+                firstname: res.data.first_name,
+                lastname: res.data.last_name,
+                home_id: res.data.home_id,
+                user_id: res.data.id,
+                email: res.data.email
+              });
+              console.log("[Vesta.js getHomeInfomration]")
+              this.getHomeInformation(res.data.home_id)
+              this.getHomeMembers(res.data.home_id)
+          }
+      }).catch();
+  }
+
+  getHomeMembers = homeKey => {
+    console.log("finding members")
+    API.getAllHomeUsers({home_id: homeKey})
+      .then(response => {
+        console.log(response)
+        this.setState({ home_members: response.data})
+      }).catch(err => {
+        console.log(err)
+      })
   }
 
   getHomeInformation = homeKey => {
@@ -143,6 +156,7 @@ class Vesta extends Component {
       this.handleClose()
       this.props.history.push("/Homeless")
     }).catch(err => {
+
       // console.log(err)
       //Do something with error
       if (err.response) {
@@ -207,14 +221,21 @@ class Vesta extends Component {
         {/* Page Content Routes */}
         <div id="page-top">
 
-          <Switch>
-            <Route path="/" exact render={Home} />
-            <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
-            <Route path="/Account" exact render={props => (<Account {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
-            <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
-            <Route component={NoMatch} />
-          </Switch>
-
+        <Switch>
+          <Route path="/" exact render={Home}/>
+          <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)} />
+          <Route path="/Account" exact render={ props => (
+              <Account 
+                {...props} 
+                state={this.state} 
+                authenticated={this.state.authenticated} 
+                authenticate={this.authentication}
+                getHomeMembers = {this.getHomeMembers}
+              />
+          )}/>
+          <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)}/>
+          <Route component={NoMatch}/>
+        </Switch>
         </div>
         <Footer />
 
