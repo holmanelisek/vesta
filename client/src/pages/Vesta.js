@@ -36,7 +36,8 @@ class Vesta extends Component {
       authenticated: false,
       modalShow: false,
       modalFunc: undefined,
-      errResponse: false
+      signupErrResponse: false,
+      signInErrResponse: false
     };
 
     this.handleClose = this.handleClose.bind(this);
@@ -128,8 +129,10 @@ class Vesta extends Component {
         this.props.history.push("/Homehub")
       }
     }).catch(err => {
-      //Do something with the err
-      //console.log(err)
+      if (err) {
+        this.signInErrorTimeout()
+        console.log("error" + err)
+      }
     })
   };
 
@@ -160,9 +163,9 @@ class Vesta extends Component {
       // console.log(err)
       //Do something with error
       if (err.response) {
-        this.errorTimeout()
-        // this.setState({ errResponse: true })
-        console.log(this.state.errResponse);
+        this.signupErrorTimeout()
+        // this.setState({ signupErrResponse: true })
+        console.log(this.state.signupErrResponse);
       }
     });
   }
@@ -190,12 +193,23 @@ class Vesta extends Component {
     this.setState({ modalShow: true })
   }
 
-  // Sets errResponse state for Alert on Signup component. Resets to false after 5 seconds to dismiss modal
-  errorTimeout = () => {
-    this.setState({ errResponse: true });
+  // Sets signupErrResponse state for Alert on Signup component. Resets to false after 5 seconds to dismiss modal
+  signupErrorTimeout = () => {
+    this.setState({ signupErrResponse: true });
     setTimeout(
       function () {
-        this.setState({ errResponse: false });
+        this.setState({ signupErrResponse: false });
+      }
+        .bind(this),
+      5000
+    );
+  }
+
+  signInErrorTimeout = () => {
+    this.setState({ signInErrResponse: true });
+    setTimeout(
+      function () {
+        this.setState({ signInErrResponse: false });
       }
         .bind(this),
       5000
@@ -255,13 +269,14 @@ class Vesta extends Component {
                 // Passing through functions
                 handleFormSubmit={this.handleSignInSubmit}
                 handleInputChange={this.handleInputChange}
+                signInErrResponse={this.state.signInErrResponse}
               />
               : this.state.modalFunc === "SignUp" ?
                 <SignUp
                   // Passing through functions
                   handleSignUpSubmit={this.handleSignUpSubmit}
                   handleInputChange={this.handleInputChange}
-                  errResponse={this.state.errResponse}
+                  signupErrResponse={this.state.signupErrResponse}
                 />
                 : null
             }

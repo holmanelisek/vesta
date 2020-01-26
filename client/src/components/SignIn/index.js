@@ -1,6 +1,7 @@
 import React from "react";
+import { Alert } from 'react-bootstrap'
 
-function SignIn (props) {
+function SignIn(props) {
     return (
         <div>
             <div className="form-group">
@@ -8,25 +9,25 @@ function SignIn (props) {
                     {/* Username Input */}
                     <form>
                         <div className="md-form mb-5">
-                            <input 
+                            <input
                                 value={props.username}
-                                onChange = {props.handleInputChange}
+                                onChange={props.handleInputChange}
                                 type="text"
                                 name="email"
-                                id="email" 
+                                id="email"
                                 className="form-control"
-                                placeholder="Email"/>
+                                placeholder="Email" />
                         </div>
                         {/* Password Input */}
                         <div className="md-form mb-4">
-                            <input 
+                            <input
                                 value={props.password}
-                                onChange = {props.handleInputChange}
-                                type="password" 
+                                onChange={props.handleInputChange}
+                                type="password"
                                 name="password"
-                                id="passwords" 
+                                id="passwords"
                                 className="form-control"
-                                placeholder="Password"/>
+                                placeholder="Password" />
                         </div>
                     </form>
                 </div>
@@ -34,6 +35,9 @@ function SignIn (props) {
             <div className="modal-footer d-flex justify-content-center">
                 {/* Submit form button */}
                 <button type="submit" onClick={props.handleFormSubmit} className="btn btn-default">Login</button>
+            </div>
+            <div>
+                {props.signInErrResponse ? <Alert variant="danger" className="justify-content-center">Your email or password is wrong. Please try again</Alert> : <span></span>}
             </div>
         </div>
     );
