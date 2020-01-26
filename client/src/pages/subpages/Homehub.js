@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-import Select from 'react-select';
-import DatePicker from "react-datepicker";
 import Pets from "../../components/Pets";
 import { NewPetForm, NewPetTitle } from "../../components/NewPetForm";
 import { NewVetForm, NewVetTitle } from "../../components/NewVetForm";
