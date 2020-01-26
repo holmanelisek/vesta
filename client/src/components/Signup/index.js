@@ -2,7 +2,6 @@ import React from "react";
 import { Alert } from 'react-bootstrap'
 
 function SignUp(props) {
-    console.log(props)
     return (
         < div >
             <div className="modal-body mx-2">

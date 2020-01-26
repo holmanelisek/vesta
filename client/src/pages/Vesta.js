@@ -48,31 +48,31 @@ class Vesta extends Component {
   }
 
   authentication = () => {
-      API.isSignedIn().then(res => {
-          console.log("Authentication")
-          //If res.email is true then render this menu
-          if(res.data.id){
-              this.setState({
-                authenticated: true,
-                firstname: res.data.first_name,
-                lastname: res.data.last_name,
-                home_id: res.data.home_id,
-                user_id: res.data.id,
-                email: res.data.email
-              });
-              console.log("[Vesta.js getHomeInfomration]")
-              this.getHomeInformation(res.data.home_id)
-              this.getHomeMembers(res.data.home_id)
-          }
-      }).catch();
+    API.isSignedIn().then(res => {
+      console.log("Authentication")
+      //If res.email is true then render this menu
+      if (res.data.id) {
+        this.setState({
+          authenticated: true,
+          firstname: res.data.first_name,
+          lastname: res.data.last_name,
+          home_id: res.data.home_id,
+          user_id: res.data.id,
+          email: res.data.email
+        });
+        console.log("[Vesta.js getHomeInfomration]")
+        this.getHomeInformation(res.data.home_id)
+        this.getHomeMembers(res.data.home_id)
+      }
+    }).catch();
   }
 
   getHomeMembers = homeKey => {
     console.log("finding members")
-    API.getAllHomeUsers({home_id: homeKey})
+    API.getAllHomeUsers({ home_id: homeKey })
       .then(response => {
         console.log(response)
-        this.setState({ home_members: response.data})
+        this.setState({ home_members: response.data })
       }).catch(err => {
         console.log(err)
       })
@@ -190,6 +190,7 @@ class Vesta extends Component {
     this.setState({ modalShow: true })
   }
 
+  // Sets errResponse state for Alert on Signup component. Resets to false after 5 seconds to dismiss modal
   errorTimeout = () => {
     this.setState({ errResponse: true });
     setTimeout(
@@ -221,21 +222,21 @@ class Vesta extends Component {
         {/* Page Content Routes */}
         <div id="page-top">
 
-        <Switch>
-          <Route path="/" exact render={Home}/>
-          <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)} />
-          <Route path="/Account" exact render={ props => (
-              <Account 
-                {...props} 
-                state={this.state} 
-                authenticated={this.state.authenticated} 
+          <Switch>
+            <Route path="/" exact render={Home} />
+            <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
+            <Route path="/Account" exact render={props => (
+              <Account
+                {...props}
+                state={this.state}
+                authenticated={this.state.authenticated}
                 authenticate={this.authentication}
-                getHomeMembers = {this.getHomeMembers}
+                getHomeMembers={this.getHomeMembers}
               />
-          )}/>
-          <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication}/>)}/>
-          <Route component={NoMatch}/>
-        </Switch>
+            )} />
+            <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
+            <Route component={NoMatch} />
+          </Switch>
         </div>
         <Footer />
 
