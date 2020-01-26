@@ -1,4 +1,5 @@
 import axios from "axios";
+import { it } from "date-fns/locale";
 
 export default {
   // PASSPORT CALLS
@@ -31,6 +32,12 @@ export default {
   joinHome: joinData => {
     return axios.post("/api/users/join_home", joinData);
   },
+
+  //Update account information
+  updateUserInfo: userData =>{
+    return axios.post("/api/users/account_update", userData)
+  },
+
   //----------------------//
 
 
@@ -139,8 +146,12 @@ export default {
   },
   // Adds new item to user home's pantry
   addPantryItem: itemData => {
-    console.log(itemData)
     return axios.post("/api/add/pantry", itemData);
+  },
+  // Adds 1 to chosen item's quantity
+  addOrRemoveOneFromItem: itemData => {
+    console.log(itemData)
+    return axios.post("/api/update/quantity", itemData);
   },
   // Deletes item from pantry
   deletePantryItem: itemData => {
