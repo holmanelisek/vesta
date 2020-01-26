@@ -4,6 +4,14 @@ var passport = require("../../config/passport");
 var router = require("express").Router();
 const { Op } = require("sequelize");
 
+//Bcrypt
+var bcrypt = require("bcryptjs");
+const saltRounds = 10;
+
+
+//------------------------------//
+//----------User Routes---------//
+//------------------------------//
 // Using the passport.authenticate middleware with our local strategy.
 // If the user has valid login credentials, send them to the members page.
 // Otherwise the user will be sent an error
@@ -56,6 +64,110 @@ router.post("/users/join_home", (req, res) => {
     })
 })
 
+// Route for logging user out
+router.get("/logout", function (req, res) {
+  req.logout();
+  res.json({ message: "Logging out" });
+});
+
+// Route for getting some data about our user to be used client side
+router.get("/user_data", function (req, res) {
+  if (!req.user) {
+    // The user is not logged in, send back an empty object
+    res.json({ response: "User Not Logged In" });
+  } else {
+    // Otherwise perform API call to find users updated information then send information back to client
+    db.User.findOne({
+      where: {
+        id: req.user.id
+      }
+    }).then(function (dbUser) {
+      res.json({
+        id: dbUser.id,
+        username: dbUser.username,
+        email: dbUser.email,
+        first_name: dbUser.first_name,
+        last_name: dbUser.last_name,
+        home_id: dbUser.home_id
+      });
+    });
+  }
+});
+
+//Get all users by home id
+router.post("/get/users", function (req, res) {
+  db.User.findAll({
+    where: {
+      home_id: req.body.home_id
+    }
+  }).then(function (dbUser) {
+    res.json(dbUser);
+  });
+});
+
+//Update user account info
+// Post for changing the 'completed' to true
+router.post("/users/account_update",  (req, res) => {
+  db.User.update({
+    [req.body.field]: req.body.value
+  }, {
+    where: {
+      id: req.body.user_id
+    }
+  })
+    .then(function (dbUpdatedUser) {
+      res.json(dbUpdatedUser);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+});
+
+//Updating user password
+router.post("/users/password_update", (req, res) => {
+  //Find users old password in database
+  db.User.findOne({
+    where: {
+      id: req.body.user_id
+    }
+  }).then(dbUser =>{
+    //Compare database password with user input old password
+    bcrypt.compare(req.body.old_password, dbUser.password)
+      .then( result=>{
+        //if result === true
+        if(result){
+          //Hash the new password
+          bcrypt.hash(req.body.password, saltRounds, (err, hash) =>{
+            //update the db with the new hased password
+            db.User.update({
+              password: hash
+            },{
+              where: {
+                id: req.body.user_id
+              }
+            }).then( userData=>{
+              //return userData
+              res.json(userData)
+            }).catch(err =>{
+              //return error
+              res.status(401).json(err.errors[0].message)
+            })
+          })
+        //if result === false
+        }else{
+          //return failure
+          res.json({
+            update: "Failed",
+            message: "Incorrect old password"
+          })
+        }
+      })
+  })
+})
+
+//------------------------------//
+//----------Home Routes---------//
+//------------------------------//
 // Route to create home
 router.post("/home/create", (req, res) => {
   db.Homes.create({
@@ -137,65 +249,9 @@ router.post("/home/master_key/retrieve", (req, res) => {
   })
 });
 
-// Route for logging user out
-router.get("/logout", function (req, res) {
-  req.logout();
-  res.json({ message: "Logging out" });
-});
-
-// Route for getting some data about our user to be used client side
-router.get("/user_data", function (req, res) {
-  if (!req.user) {
-    // The user is not logged in, send back an empty object
-    res.json({ response: "User Not Logged In" });
-  } else {
-    // Otherwise perform API call to find users updated information then send information back to client
-    db.User.findOne({
-      where: {
-        id: req.user.id
-      }
-    }).then(function (dbUser) {
-      res.json({
-        id: dbUser.id,
-        username: dbUser.username,
-        email: dbUser.email,
-        first_name: dbUser.first_name,
-        last_name: dbUser.last_name,
-        home_id: dbUser.home_id
-      });
-    });
-  }
-});
-
-//Get all users by home id
-router.post("/get/users", function (req, res) {
-  db.User.findAll({
-    where: {
-      home_id: req.body.home_id
-    }
-  }).then(function (dbUser) {
-    res.json(dbUser);
-  });
-});
-
-//Update user account info
-// Post for changing the 'completed' to true
-router.post("/users/account_update", function (req, res) {
-  db.User.update({
-    [req.body.field]: req.body.value
-  }, {
-    where: {
-      id: req.body.user_id
-    }
-  })
-    .then(function (dbUpdatedUser) {
-      res.json(dbUpdatedUser);
-    })
-    .catch(function (err) {
-      res.json(err);
-    });
-});
-
+//------------------------------//
+//---------Chore Routes---------//
+//------------------------------//
 // Grabbing all chores by the user's home_id
 router.post("/get/chores", function (req, res) {
   db.Chore.findAll({
@@ -258,6 +314,10 @@ router.post("/edit/complete-chore", function (req, res) {
     });
 });
 
+
+//------------------------------//
+//----------Pet Routes----------//
+//------------------------------//
 // Grabbing all pets by the user's home_id
 router.post("/get/pets", function (req, res) {
   db.Pets.findAll({
@@ -302,7 +362,8 @@ router.post("/remove/pet/:id", function (req, res) {
 })
 
 
-//----------Vet Route-----------//
+//------------------------------//
+//----------Vet Routes----------//
 //------------------------------//
 //Route to get all vets from array
 router.post("/get/vets", function (req, res) {
@@ -348,7 +409,9 @@ router.post("/add/vet", (req, res) => {
   })
 })
 
-
+//------------------------------//
+//------Pantry Routes-----------//
+//-----------------------------//
 // Grabbing all pantry items by the user's home_id
 router.post("/get/pantry", function (req, res) {
   db.Pantry.findAll({

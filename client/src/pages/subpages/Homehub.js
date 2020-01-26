@@ -532,7 +532,6 @@ class Homehub extends Component {
                     {/* chores content goes here */}
                     <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
                       {/* <AddChore user_id={this.state.user_id} handleClick={this.handleClick} getChores={this.getChores} /> */}
-                      <br />
                       <div>
                         <span>{this.adminFunctionAddChore(this.state.home_admin, this.state.user_id)}</span>
                         <span> </span>

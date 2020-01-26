@@ -1,7 +1,6 @@
 import React from "react";
 
 export function HouseMemeber(props){
-    console.log(props)
     return (
         <div>
             <div>
@@ -83,7 +82,18 @@ export function UpdatePassword(props){
     return(
         <div className ={props.onSubmitErr}>
             <form>
-                {/* New First Name */}
+                {/* New Password*/}
+                <label htmlFor="password">Old Password</label>
+                <input 
+                    value={props.old_password}
+                    onChange = {props.handleInputChange}
+                    type="password"
+                    name ="old_password"
+                    id="old_password" 
+                    className="form-control validate"
+                    placeholder="Old Password"
+                />
+                <br/>
                 <label htmlFor="password">New Password</label>
                 <input 
                     value={props.password}
@@ -92,9 +102,10 @@ export function UpdatePassword(props){
                     name ="password"
                     id="password" 
                     className="form-control validate"
-                    placeholder="Password"
+                    placeholder="New Password"
                 />
-                <label htmlFor="password">Confirm Password</label>
+                <br/>
+                <label htmlFor="password">Confirm New Password</label>
                 <input 
                     value={props.password_confirm}
                     onChange = {props.handleInputChange}
@@ -102,10 +113,11 @@ export function UpdatePassword(props){
                     name ="password_confirm"
                     id="password_confirm" 
                     className="form-control validate"
-                    placeholder="Password"
+                    placeholder="New Password"
                 />
+                <br/>
             </form>
-            <button type="button" onClick={props.handleAccountPasswordChange}>Update</button>
+            <button type="button" className="btn btn-info" name="password"onClick={props.handleAccountPasswordChange}>Update</button>
         </div>
     )
 }

@@ -38,6 +38,12 @@ export default {
     return axios.post("/api/users/account_update", userData)
   },
 
+  //Update account password
+  updateAccountPass: newPass => {
+    console.log("[API.js]")
+    console.log(newPass);
+    return axios.post("/api/users/password_update", newPass)
+  },
   //----------------------//
 
 
