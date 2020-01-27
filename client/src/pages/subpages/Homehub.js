@@ -566,6 +566,7 @@ class Homehub extends Component {
                           < Chores
                             key={chore.id}
                             id={chore.id}
+                            home_id={this.state.home_id}
                             choreName={chore.chore_name}
                             createdBy={chore.created_by}
                             assignedUser={chore.assigned_user}
