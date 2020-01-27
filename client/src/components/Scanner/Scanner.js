@@ -59,7 +59,8 @@ const Scanner = ({
         drawingCtx.fillStyle = 'green';
 
         if (result) {
-            // console.warn('* quagga onProcessed', result);
+            //console.warn('* quagga onProcessed', result);
+            console.log(result)
             if (result.boxes) {
                 drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute('width')), parseInt(drawingCanvas.getAttribute('height')));
                 result.boxes.filter((box) => box !== result.box).forEach((box) => {
@@ -70,6 +71,7 @@ const Scanner = ({
                 Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: 'blue', lineWidth: 2 });
             }
             if (result.codeResult && result.codeResult.code) {
+                console.log(result.codeResult.code)
                 //const validated = barcodeValidator(result.codeResult.code);
                 //const validated = validateBarcode(result.codeResult.code);
                 //Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: validated ? 'green' : 'red', lineWidth: 3 });
