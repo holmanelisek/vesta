@@ -77,7 +77,7 @@ class AdminChoreDisplay extends React.Component {
                     <li className="list-group-item list-group-item-warning">{this.props.choreName}<br />
                         <button type="button" className="btn btn-secondary" style={{ margin: 5 }} onClick={this.openModal}>More Info...</button>
                         <button type="button" className="btn btn-warning" onClick={() => this.markUncompleted(this.props.id)} style={{ margin: 5 }}>This isn't done</button>
-                        <button type="button" className="btn btn-success" onClick={() => this.deleteChore(this.props.id)} >Delete</button>
+                        <button type="button" className="btn btn-danger" onClick={() => this.deleteChore(this.props.id)} >Delete</button>
                     </li>
                 </ul>
                 <Modal
