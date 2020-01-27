@@ -307,14 +307,6 @@ class Homehub extends Component {
     API.getPantryItems({
       home_id: homeID
     })
-<<<<<<< HEAD
-        .then(res => {
-            let pantry = res.data;
-            this.setState({pantryItems: pantry});
-        })
-}
-
-=======
       .then(res => {
         console.log("[Homehub.js listPantry - Complete]")
         //console.log(res)
@@ -322,7 +314,6 @@ class Homehub extends Component {
         this.setState({ pantryItems: pantry });
       })
   }
->>>>>>> 5c901cc1b898f90102a456403cf3364cbbc68240
 
 //needPantry = homeID => {
  //API.getPantryItems({
@@ -620,36 +611,6 @@ class Homehub extends Component {
                         <span>{this.adminFunctionDeletePantry(this.state.home_admin, this.state.user_id)}</span>
                       </div>
                       <br />
-<<<<<<< HEAD
-                      {/* <ul className="list-group"> */}
-                      <Table striped bordered>
-                        <thead>
-                          <tr>
-                            <th>Icon</th>
-                            <th>Item</th>
-                            <th>Item Type</th>
-                            <th>Date In</th>
-                            <th><i className="fas fa-minus"></i></th>
-                            <th>Quantity</th>
-                            <th><i className="fas fa-plus"></i></th>
-                          </tr>
-                        </thead>
-                        {this.state.pantryItems.map(item => (
-                          <PantryItem
-                            key={item.id}
-                            id={item.id}
-                            home_id={this.state.home_id}
-                            item_name={item.item_name}
-                            item_type={item.item_type}
-                            quantity={item.quantity}
-                            date_in={item.date_in}
-                            listPantry={this.listPantry}
-                          />
-                        ))}
-                      </Table>
-                      {/* </ul> */}
-                      
-=======
                       {this.state.pantryItems.length > 0 ?
                         <div className="table-responsive">
                           <Table striped bordered>
@@ -680,7 +641,6 @@ class Homehub extends Component {
                         </div> :
                         <h2>No items</h2>
                       }
->>>>>>> 5c901cc1b898f90102a456403cf3364cbbc68240
                     </div>
                     <div>
                           <Recipe home_id = {this.props.state.home_id}

@@ -8,16 +8,60 @@ export class Recipe extends React.Component {
     constructor() {
         super();
         this.state = {
-            recipe: [],
+            recipe: {},
         }
     };
     
     
     componentDidMount = () => {
-        var homeID = this.props.home_id;
-        console.log("Here you are!" + homeID);
-        this.pickRecipe(homeID);
+        //var homeID = this.props.home_id;
+        console.log("Here you are!" + this.props.home_id);
+        //var choice = this.placeHolderFunction(this.props.home_id);
+        //console.log(choice);
+        //this.setState({recipe: choice});
+        console.log("You made it to the placeholder!")
+        var recipechoice = {};
+        var that = this;
+        API.getPantryItems({
+            home_id: this.props.home_id
+        }).then(function(res){
+            var random = Math.floor(Math.random() * Math.floor(res.data.length));
+            var randompantry = res.data[random].item_name;
+            var queryURL = "https://api.edamam.com/search?q='" + randompantry + "'&app_id=" + appID + "&app_key=" + apiKey + "&from=0&to=10";
+            console.log("You made it 2")
+            API.getRecipe(queryURL).then(function(response){
+                let recipes = response.data.hits;
+                let randomnum = Math.floor(Math.random()* Math.floor(recipes.length));
+                recipechoice = recipes[randomnum].recipe;
+                that.setState({recipe:recipechoice});
+                //return {recipe: chosen.label, url: chosen.url, image: chosen.image};
+            })
+            console.log("This is: "+this);
+        })
+        console.log("This is: "+this);
     };
+
+
+    placeHolderFunction = homeID => {
+        console.log("You made it to the placeholder!")
+        API.getPantryItems({
+            home_id: homeID
+        }).then(function(res){
+            var pantry = res.data;
+            var random = Math.floor(Math.random() * Math.floor(pantry.length));
+            var randompantry = pantry[random].item_name;
+            var queryURL = "https://api.edamam.com/search?q='" + randompantry + "'&app_id=" + appID + "&app_key=" + apiKey + "&from=0&to=10";
+            var recipechoice = {};
+            console.log("You made it 2")
+            API.getRecipe(queryURL).then(function(response){
+                let recipes = response.data.hits;
+                let randomnum = Math.floor(Math.random()* Math.floor(recipes.length));
+                let chosen = recipes[randomnum].recipe;
+                console.log("You made it 3");
+                //return {recipe: chosen.label, url: chosen.url, image: chosen.image};
+            })
+        })
+    }
 
     pickRecipe = homeID => {
         console.log("You made it!" + homeID);
@@ -225,9 +269,8 @@ export class Recipe extends React.Component {
     render() {
         return (
             <div class="col-12">
-                <p>Suggested for you: {this.state.recipe.recipe}</p>
-                <p><a href={this.state.recipe.url}></a></p>
-                <p>You have {this.state.recipe.percent}% of the items you need!</p>
+                <p><a href={this.state.recipe.url}>Suggested for you: {this.state.recipe.label}</a></p>
+                {/* <p>You have {this.state.recipe.percent}% of the items you need!</p> */}
             </div>)
     }
 }
