@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import API from "../../utils/API";
-// import Modal from 'react-modal'
-// import { Modal } from 'react-bootstrap'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -11,10 +9,7 @@ export class AddChore extends Component {
         super()
 
         this.state = {
-            // user_id: undefined,
-            // selectedOption: undefined,
             users: [],
-            // created_by: undefined,
             chore_name: undefined,
             assigned_user: undefined,
             point_value: undefined,
@@ -25,28 +20,34 @@ export class AddChore extends Component {
         this.handleInputChange = this.handleInputChange.bind(this)
     }
 
+    // Handles text input
     handleInputChange(e) {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
 
+    // Handles date changing in 'start date' field
     handleStartDateChange = date => {
         this.setState({
             startDate: date
         });
     };
 
+    // Handles date changing in 'end date' field
     handleEndDateChange = date => {
         this.setState({
             endDate: date
         });
     };
 
+    // Handles dropdown
     handleChange = selection => this.setState({ assigned_user: selection.value });
 
+    // Function for storing users first names for dropdown list
     storeNames = array => array.first_name;
 
+    // Gets all home users
     grabUsers = userHome => {
         API.getAllHomeUsers({
             home_id: userHome
@@ -58,6 +59,7 @@ export class AddChore extends Component {
             })
     }
 
+    // Sets 'created_by' start to current user's first name
     assignCreatedBy = () => {
         API.isSignedIn().then(res => {
             console.log(res)
@@ -66,6 +68,7 @@ export class AddChore extends Component {
         })
     }
 
+    // Post to API for submitting new chore
     submitChore = () => {
         API.addChore({
             home_id: this.props.home_id,
@@ -90,13 +93,19 @@ export class AddChore extends Component {
             });
     }
 
-    render() {
+    // Creating object of user names for dropdown
+    buildOptions = () => {
+        const userOptions = this.state.users.map(user => ({ value: user, label: user }))
+
+        return userOptions;
+    }
+
+    // Calling grabUsers function
+    componentDidMount = () => {
         this.grabUsers(this.props.home_id)
+    }
 
-        const userOptions = this.state.users.map(user => (
-            { value: user, label: user }
-        ))
-
+    render() {
         return (
             <div>
                 <div className="my-2">
@@ -115,7 +124,7 @@ export class AddChore extends Component {
                 < Select
                     value={this.assigned_user}
                     onChange={this.handleChange}
-                    options={userOptions}
+                    options={this.buildOptions()}
                 />
                 <div className="my-2">
                     {/*Point Value*/}
@@ -132,7 +141,6 @@ export class AddChore extends Component {
                 </div>
                 <div className="my-2">
                     {/*Chore start*/}
-                    {/* <br /> */}
                     <DatePicker
                         selected={this.state.startDate}
                         onChange={this.handleStartDateChange}
@@ -146,7 +154,6 @@ export class AddChore extends Component {
                 </div>
                 <div className="my-2">
                     {/*Be done before*/}
-                    {/* <br /> */}
                     <DatePicker
                         selected={this.state.endDate}
                         onChange={this.handleEndDateChange}
@@ -158,12 +165,13 @@ export class AddChore extends Component {
                         placeholderText="End date and time"
                     />
                 </div>
-                <button type="button" className="btn btn-secondary" onClick={this.submitChore}>Add</button>
+                <button disabled={!this.state.chore_name || !this.state.assigned_user || !this.state.point_value || !this.state.startDate || !this.state.endDate} type="button" className="btn btn-secondary" onClick={this.submitChore}>Add</button>
             </div >
         );
     }
 }
 
+// Add Chore modal title
 export function AddChoreTitle() {
     return (
         <div>

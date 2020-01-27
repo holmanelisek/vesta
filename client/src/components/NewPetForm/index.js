@@ -12,7 +12,10 @@ export class NewPetForm extends Component {
             animal_type: undefined,
             primary_vet_id: undefined,
             emergency_vet_id: undefined,
-            vet_display: "myVets"
+            vet_display: "myVets",
+            pet_image: undefined,
+            pet_image_Data: undefined,
+            pet_image_url: undefined
         }
 
         this.handleInputChange = this.handleInputChange.bind(this)
@@ -71,13 +74,68 @@ export class NewPetForm extends Component {
             age: this.state.age,
             animal_type: this.state.animal_type,
             primary_vet_id: this.state.primary_vet_id,
-            emergency_vet_id: this.state.emergency_vet_id
+            emergency_vet_id: this.state.emergency_vet_id,
+            image_url: this.state.pet_image_url
         }).then(response => {
             console.log(response)
             this.props.getPetData(this.props.home_id)
             this.props.closeModal();
         }).catch(err => {
             console.log(err)
+        })
+    }
+
+    getImageSigned = () => {
+        //Sending Image to S3
+        console.log("Sending Image")
+        console.log(this.state.pet_image_Data)
+        let imgData = this.state.pet_image_Data
+        console.log(imgData)
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', "/api/sign-s3?file-name=" + imgData.name + "&file-type=" + imgData.type);
+        xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(imgData.name)
+            console.log(imgData.type)
+            console.log(response.signedRequest);
+            this.upLoadImage(imgData, response.signedRequest, response.url);
+            } else {
+                console.log("failure")
+            alert('Could not get signed URL.');
+            }
+        }
+        };
+        xhr.send();
+    }
+
+    upLoadImage = (file, signedRequest, url) => {
+        console.log(file)
+        console.log(signedRequest)
+        const xhr = new XMLHttpRequest();
+        xhr.open('PUT', signedRequest);
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              alert("Upload Complete");
+              this.setState({pet_image_url: url})
+              this.submitNewPet()
+            } else {
+                console.log(xhr.responseText)
+              alert('Could not upload file.');
+            }
+          }
+        };
+        xhr.send(file);
+    }
+
+
+    getPetImage = event => {
+        console.log(event.target.files[0])
+        this.setState({
+            pet_image: URL.createObjectURL(event.target.files[0]),
+            pet_image_Data: event.target.files[0]
         })
     }
 
@@ -139,10 +197,23 @@ export class NewPetForm extends Component {
                             name="emergency_vet_id"
                         />
                     </div>
+                    <div>
+                        <label htmlFor="sighting_image">Upload Image</label>
+                        <br />
+                        <input 
+                            id="logImg" 
+                            type="file" 
+                            accept="image/*" 
+                            capture="camera" 
+                            name="photo" 
+                            onChange={this.getPetImage}
+                            />
+                        <img className="w-50 h-50" id="pet-preview" src={this.state.pet_image} />
+                    </div>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                     {/* Submit Button */}
-                    <button type="submit" onClick={this.submitNewPet} className="btn btn-deep-orange">Add Pet</button>
+                    <button disabled={!this.state.pet_name || !this.state.age || !this.state.animal_type || !this.state.primary_vet_id || !this.state.emergency_vet_id} type="submit" onClick={this.getImageSigned} className="btn btn-deep-orange">Add Pet</button>
                 </div>
             </div>
         );

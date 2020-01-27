@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Modal } from "react-bootstrap";
-import Select from 'react-select';
-import DatePicker from "react-datepicker";
 import Pets from "../../components/Pets";
 import { NewPetForm, NewPetTitle } from "../../components/NewPetForm";
 import { NewVetForm, NewVetTitle } from "../../components/NewVetForm";
@@ -15,6 +13,7 @@ import { AddPantryItem, AddPantryItemTitle } from '../../components/AddPantryIte
 import { DeletePantryItem, DeletePantryItemTitle } from '../../components/DeletePantryItem/index'
 import {Recipe } from '../../components/Recipe'
 import Table from 'react-bootstrap/Table'
+import Scanner from '../../components/Scanner/BarcodeScanner'
 
 
 
@@ -88,7 +87,7 @@ class Homehub extends Component {
 
   submitPet = (newPetData, admin, user) => {
     if (admin === user) {
-      console.log("Here doggy!")
+      //console.log("Here doggy!")
       API.addPet(newPetData)
         .then(response => {
           console.log(response.data)
@@ -98,7 +97,7 @@ class Homehub extends Component {
   }
 
   adminFunctionAddpet = (admin, user) => {
-    console.log(this.props)
+    //console.log(this.props)
     if (admin === user) {
       return (
         <div>
@@ -112,7 +111,7 @@ class Homehub extends Component {
   }
 
   adminFunctionAddChore = (admin, user) => {
-    console.log(this.props)
+    //console.log(this.props)
     if (admin === user) {
       return (
         <button type="button" className="btn btn-secondary" onClick={() => this.openModal("addChore")}>Add Chore</button>
@@ -123,7 +122,7 @@ class Homehub extends Component {
   }
 
   adminFunctionDeleteChore = (admin, user) => {
-    console.log(this.props)
+    //console.log(this.props)
     if (admin === user) {
       return (
         <button type="button" className="btn btn-danger" onClick={() => this.openModal("deleteChore")}>Delete Chore</button>
@@ -134,7 +133,7 @@ class Homehub extends Component {
   }
 
   adminFunctionAddPantry = (admin, user) => {
-    console.log(this.props)
+    //console.log(this.props)
     if (admin === user) {
       return (
         <button type="button" className="btn btn-secondary" onClick={() => this.openModal("addItem")}>Add Item</button>
@@ -144,8 +143,19 @@ class Homehub extends Component {
     }
   }
 
+  adminFunctionPantryScanner = (admin, user) => {
+    //console.log(this.props)
+    if (admin === user) {
+      return (
+        <button type="button" className="btn btn-secondary" onClick={() => this.openModal("scanItem")}>Scan Item</button>
+      )
+    } else {
+      return null
+    }
+  }
+
   adminFunctionDeletePantry = (admin, user) => {
-    console.log(this.props)
+    //console.log(this.props)
     if (admin === user) {
       return (
         <button type="button" className="btn btn-danger" onClick={() => this.openModal("deleteItem")}>Delete Item</button>
@@ -156,8 +166,10 @@ class Homehub extends Component {
   }
 
   handleFindHome = (homeid) => {
+    console.log("[Homehub.js handleFindHome]")
     API.findHomeById(homeid)
       .then(response => {
+        console.log("[Homehub.js handleFindHome - Complete]")
         //console.log(response.data)
         this.setState({
           user_id: this.props.state.user_id,
@@ -185,13 +197,14 @@ class Homehub extends Component {
   }
 
   grabUsers = userHome => {
+    console.log("[Homehub.js grabUsers]")
     API.getAllHomeUsers({
       home_id: userHome
     })
       .then(res => {
         let usersArray = res.data.map(this.storeUsernames)
         this.setState({ users: usersArray });
-        console.log(this.state.users);
+        console.log("[Homehub.js grabUsers - Complete]")
       })
   }
 
@@ -211,19 +224,15 @@ class Homehub extends Component {
   //Function that iterates through each pet and inserts primary pet info as a new property
   insertVetToPet = (petArray, vetArray) => {
     petArray.forEach(thisPet => {
-      let petVet = vetArray.find(({ id }) =>
-        id = thisPet.primary_vet_id
-      )
+      let petVet = vetArray.find(({ id }) => id === thisPet.primary_vet_id)
       thisPet.primary_vet_info = petVet;
     })
-
     return petArray;
   }
 
   getAllVets = () => {
     API.getAllVets()
       .then(response => {
-        console.log(response)
         this.setState({ all_vets: response.data })
         this.displayAllVetsInPets();
       }).catch()
@@ -243,7 +252,6 @@ class Homehub extends Component {
   };
 
   deleteChore = (choreId) => {
-    console.log("test")
     // API.deleteChore({
     //   chore_id: choreId
     // })
@@ -295,15 +303,26 @@ class Homehub extends Component {
 
   //pull pantry info to state
   listPantry = homeID => {
+    console.log("[Homehub.js listPantry]")
     API.getPantryItems({
       home_id: homeID
     })
+<<<<<<< HEAD
         .then(res => {
             let pantry = res.data;
             this.setState({pantryItems: pantry});
         })
 }
 
+=======
+      .then(res => {
+        console.log("[Homehub.js listPantry - Complete]")
+        //console.log(res)
+        let pantry = res.data;
+        this.setState({ pantryItems: pantry });
+      })
+  }
+>>>>>>> 5c901cc1b898f90102a456403cf3364cbbc68240
 
 //needPantry = homeID => {
  //API.getPantryItems({
@@ -479,6 +498,15 @@ class Homehub extends Component {
             created_by={this.props.state.firstname}
           />
         );
+      case "scanItem":
+        return (
+          <Scanner
+          // home_id={this.state.home_id}
+          // listPantry={this.listPantry}
+          // closeModal={this.closeModal}
+          // created_by={this.props.state.firstname}
+          />
+        );
       case "deleteItem":
         return (
           <DeletePantryItem
@@ -492,6 +520,8 @@ class Homehub extends Component {
   }
 
   render() {
+    //console.log(this.state.pantryItems)
+
     this.state.pantryItems.sort(this.orderPantryItems)
     return (
       <div>
@@ -506,13 +536,13 @@ class Homehub extends Component {
               <div className="card">
                 <div className="card-body" style={{ textAlign: "center" }}>
                   <ul className="nav nav-tabs" id="home-hub-tabs" role="tablist" style={{ display: "inline-block", fontSize: 20, fontWeight: "bold" }}>
-                    <li className="nav-item" style={{ display: "inline" }}>
+                    <li className="nav-item no-padding" style={{ display: "inline" }}>
                       <a className="nav-link active" id="chores-tab" data-toggle="tab" href="#chores" role="tab" aria-controls="chores" aria-selected="true" style={{ float: "left" }}>Chores</a>
                     </li>
-                    <li className="nav-item" style={{ display: "inline" }}>
+                    <li className="nav-item no-padding" style={{ display: "inline" }}>
                       <a className="nav-link" id="pets-tab" data-toggle="tab" href="#pets" role="tab" aria-controls="pets" aria-selected="false" style={{ float: "left" }}>Pets</a>
                     </li>
-                    <li className="nav-item" style={{ display: "inline" }}>
+                    <li className="nav-item no-padding" style={{ display: "inline" }}>
                       <a className="nav-link" id="pantry-tab" data-toggle="tab" href="#pantry" role="tab" aria-controls="pantry" aria-selected="false" style={{ float: "left" }}>Pantry</a>
                     </li>
                   </ul>
@@ -523,28 +553,31 @@ class Homehub extends Component {
                     {/* chores content goes here */}
                     <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
                       {/* <AddChore user_id={this.state.user_id} handleClick={this.handleClick} getChores={this.getChores} /> */}
-                      <br />
                       <div>
                         <span>{this.adminFunctionAddChore(this.state.home_admin, this.state.user_id)}</span>
                         <span> </span>
                         <span>{this.adminFunctionDeleteChore(this.state.home_admin, this.state.user_id)}</span>
                       </div>
                       <hr />
-                      {this.state.chores.map(chore => (
-                        < Chores
-                          key={chore.id}
-                          // users={this.state.users}
-                          id={chore.id}
-                          choreName={chore.chore_name}
-                          createdBy={chore.created_by}
-                          assignedUser={chore.assigned_user}
-                          pointValue={chore.point_value}
-                          startDateTime={chore.start_date_time}
-                          endDateTime={chore.end_date_time}
-                          repeatInterval={chore.repeat_interval}
-                          getChores={this.getChores}
-                        />
-                      ))}
+                      {this.state.chores.length > 0 ?
+                        this.state.chores.map(chore => (
+                          < Chores
+                            key={chore.id}
+                            id={chore.id}
+                            home_id={this.state.home_id}
+                            choreName={chore.chore_name}
+                            createdBy={chore.created_by}
+                            assignedUser={chore.assigned_user}
+                            pointValue={chore.point_value}
+                            startDateTime={chore.start_date_time}
+                            endDateTime={chore.end_date_time}
+                            repeatInterval={chore.repeat_interval}
+                            getChores={this.getChores}
+                          />
+                        ))
+                        :
+                        <h2>No chores</h2>
+                      }
                     </div>
 
                     {/* pet data goes here */}
@@ -553,18 +586,27 @@ class Homehub extends Component {
                         <div>{this.adminFunctionAddpet(this.state.home_admin, this.state.user_id)}</div>
                         <hr />
                         <div className="row">
-                          {this.state.petData.map(pet => (
-                            <Pets
-                              key={pet.id}
-                              pet={pet}
-                              user={this.state.user_id}
-                              firstname={this.state.firstname}
-                              home_id={this.state.home_id}
-                              primary_vets={this.state.primary_vets}
-                              home_admin={this.state.home_admin}
-                              getPetData={this.getPetData}
-                            />
-                          ))}
+                          <div className="col">
+                            <div className="card-deck">
+                              {this.state.petData.length > 0 ?
+                                this.state.petData.map(pet => (
+                                  <Pets
+                                    key={pet.id}
+                                    pet={pet}
+                                    user={this.state.user_id}
+                                    firstname={this.state.firstname}
+                                    home_id={this.state.home_id}
+                                    primary_vets={this.state.primary_vets}
+                                    home_admin={this.state.home_admin}
+                                    getPetData={this.getPetData}
+                                  />
+                                ))
+                                :
+                                // TODO not centered
+                                <h2>No Pets</h2>
+                              }
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -573,9 +615,12 @@ class Homehub extends Component {
                       <div>
                         <span>{this.adminFunctionAddPantry(this.state.home_admin, this.state.user_id)}</span>
                         <span> </span>
+                        <span>{this.adminFunctionPantryScanner(this.state.home_admin, this.state.user_id)}</span>
+                        <span> </span>
                         <span>{this.adminFunctionDeletePantry(this.state.home_admin, this.state.user_id)}</span>
                       </div>
                       <br />
+<<<<<<< HEAD
                       {/* <ul className="list-group"> */}
                       <Table striped bordered>
                         <thead>
@@ -604,6 +649,38 @@ class Homehub extends Component {
                       </Table>
                       {/* </ul> */}
                       
+=======
+                      {this.state.pantryItems.length > 0 ?
+                        <div className="table-responsive">
+                          <Table striped bordered>
+                            <thead>
+                              <tr>
+                                <th>Icon</th>
+                                <th>Item</th>
+                                <th>Item Type</th>
+                                <th>Date In</th>
+                                <th><i className="fas fa-minus"></i></th>
+                                <th>Quantity</th>
+                                <th><i className="fas fa-plus"></i></th>
+                              </tr>
+                            </thead>
+                            {this.state.pantryItems.map(item => (
+                              <PantryItem
+                                key={item.id}
+                                id={item.id}
+                                home_id={this.state.home_id}
+                                item_name={item.item_name}
+                                item_type={item.item_type}
+                                quantity={item.quantity}
+                                date_in={item.date_in}
+                                listPantry={this.listPantry}
+                              />
+                            ))}
+                          </Table>
+                        </div> :
+                        <h2>No items</h2>
+                      }
+>>>>>>> 5c901cc1b898f90102a456403cf3364cbbc68240
                     </div>
                     <div>
                           <Recipe home_id = {this.props.state.home_id}

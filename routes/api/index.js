@@ -1,9 +1,58 @@
 // Requiring our models and passport as we've configured it
+require('dotenv').config();
 var db = require("../../models");
 var passport = require("../../config/passport");
 var router = require("express").Router();
 const { Op } = require("sequelize");
 
+//Bcrypt
+var bcrypt = require("bcryptjs");
+const saltRounds = 10;
+
+//Amazon S3 and photouploading packages
+var aws = require('aws-sdk');
+aws.config.region = "us-east-2";
+var Bucket_Name = process.env.S3_BUCKET;
+var User_Key = process.env.AWS_ACCESS_KEY;
+var Secret_Key = process.env.AWS_SECRET_ACCESS_KEY;
+
+//-------------------------------//
+//-----Upload to Amazon S3-------//
+//-------------------------------//
+router.get('/sign-s3', function(req, res) {
+  var s3 = new aws.S3({
+    accessKeyId: User_Key,
+    secretAccessKey: Secret_Key,
+  });
+
+  var fileName = req.query['file-name'];
+  var fileType = req.query['file-type'];
+  var uniqueName = Date.now()+""+fileName;
+  var s3Params = {
+    Bucket: Bucket_Name,
+    Key: uniqueName,
+    Expires: 60,
+    ContentType: fileType,
+    ACL: 'public-read'
+  };
+
+  s3.getSignedUrl('putObject', s3Params, function(err, data) {
+    if(err){
+      console.log(err);
+      return res.end();
+    }
+    var returnData = {
+      signedRequest: data,
+      url: "https://"+Bucket_Name+".s3.amazonaws.com/"+uniqueName
+    };
+    res.write(JSON.stringify(returnData));
+    res.end();
+  });
+});
+
+//------------------------------//
+//----------User Routes---------//
+//------------------------------//
 // Using the passport.authenticate middleware with our local strategy.
 // If the user has valid login credentials, send them to the members page.
 // Otherwise the user will be sent an error
@@ -31,9 +80,29 @@ router.post("/signup", function (req, res) {
       res.json(dbUser);
     })
     .catch(function (err) {
-      res.status(401).json(err);
+      console.log(err.errors[0].message)
+      res.status(401).json({ error: err.errors[0].message });
+
     });
 });
+
+//Remove user from home
+router.post("/users/remove_from_home", (req, res)=>{
+  db.User.update({
+    home_id: null
+  },
+  {
+    where: {
+      id: req.body.user_id
+    }
+  }).then( response => {
+    console.log(response)
+    res.json(response)
+  }).catch( err =>{
+    console.log(err)
+    res.status(401).json(err)
+  })
+})
 
 // Route for joining a home
 router.post("/users/join_home", (req, res) => {
@@ -55,6 +124,113 @@ router.post("/users/join_home", (req, res) => {
     })
 })
 
+// Route for logging user out
+router.get("/logout", function (req, res) {
+  req.logout();
+  res.json({ message: "Logging out" });
+});
+
+// Route for getting some data about our user to be used client side
+router.get("/user_data", function (req, res) {
+  if (!req.user) {
+    // The user is not logged in, send back an empty object
+    res.json({ response: "User Not Logged In" });
+  } else {
+    // Otherwise perform API call to find users updated information then send information back to client
+    db.User.findOne({
+      where: {
+        id: req.user.id
+      }
+    }).then(function (dbUser) {
+      res.json({
+        id: dbUser.id,
+        username: dbUser.username,
+        email: dbUser.email,
+        first_name: dbUser.first_name,
+        last_name: dbUser.last_name,
+        home_id: dbUser.home_id
+      });
+    });
+  }
+});
+
+//Get all users by home id
+router.post("/get/users", function (req, res) {
+  db.User.findAll({
+    where: {
+      home_id: req.body.home_id
+    }
+  }).then(function (dbUser) {
+    res.json(dbUser);
+  });
+});
+
+//Update user account info
+// Post for changing the 'completed' to true
+router.post("/users/account_update",  (req, res) => {
+  db.User.update(
+    {
+      [req.body.field]: req.body.value
+    }, 
+    {
+      where: {
+        id: req.body.user_id
+      }
+    }
+  )
+    .then(function (dbUpdatedUser) {
+      res.json(dbUpdatedUser);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+});
+
+//Updating user password
+router.post("/users/password_update", (req, res) => {
+  //Find users old password in database
+  db.User.findOne({
+    where: {
+      id: req.body.user_id
+    }
+  }).then(dbUser =>{
+    //Compare database password with user input old password
+    bcrypt.compare(req.body.old_password, dbUser.password)
+      .then( result=>{
+        //if result === true
+        if(result){
+          //Hash the new password
+          bcrypt.hash(req.body.password, saltRounds, (err, hash) =>{
+            //update the db with the new hased password
+            db.User.update({
+              password: hash
+            },{
+              where: {
+                id: req.body.user_id
+              }
+            }).then( userData=>{
+              //return userData
+              res.json(userData)
+            }).catch(err =>{
+              //return error
+              res.status(401).json(err.errors[0].message)
+            })
+          })
+        //if result === false
+        }else{
+          //return failure
+          res.json({
+            update: "Failed",
+            message: "Incorrect old password"
+          })
+        }
+      })
+  })
+})
+
+//------------------------------//
+//----------Home Routes---------//
+//------------------------------//
 // Route to create home
 router.post("/home/create", (req, res) => {
   db.Homes.create({
@@ -70,6 +246,29 @@ router.post("/home/create", (req, res) => {
     res.json(homeData)
   }).catch(err => {
     res.status(401).json(err);
+  })
+})
+
+//Route to update home address
+router.post("/home/update_address", (req, res)=>{
+  db.Homes.update({
+      home_name:  req.body.home_name,
+      street: req.body.home_street,
+      city: req.body.home_city,
+      state: req.body.home_state,
+      zip: req.body.home_zip,
+      master_key:  req.body.master_key,
+      invitation_key:  req.body.home_key,
+      home_admin:  req.body.home_admin
+    },
+    {
+      where: {
+        id: req.body.home_id
+      }
+    }).then( homeData => {
+      res.json(homeData)
+    }).catch( err =>{
+    res.status(401).json({ error: err.errors[0].message });
   })
 })
 
@@ -136,47 +335,9 @@ router.post("/home/master_key/retrieve", (req, res) => {
   })
 });
 
-// Route for logging user out
-router.get("/logout", function (req, res) {
-  req.logout();
-  res.json({ message: "Logging out" });
-});
-
-// Route for getting some data about our user to be used client side
-router.get("/user_data", function (req, res) {
-  if (!req.user) {
-    // The user is not logged in, send back an empty object
-    res.json({ response: "User Not Logged In" });
-  } else {
-    // Otherwise perform API call to find users updated information then send information back to client
-    db.User.findOne({
-      where: {
-        id: req.user.id
-      }
-    }).then(function (dbUser) {
-      res.json({
-        id: dbUser.id,
-        username: dbUser.username,
-        email: dbUser.email,
-        first_name: dbUser.first_name,
-        last_name: dbUser.last_name,
-        home_id: dbUser.home_id
-      });
-    });
-  }
-});
-
-//Get all users by home id
-router.post("/get/users", function (req, res) {
-  db.User.findAll({
-    where: {
-      home_id: req.body.home_id
-    }
-  }).then(function (dbUser) {
-    res.json(dbUser);
-  });
-});
-
+//------------------------------//
+//---------Chore Routes---------//
+//------------------------------//
 // Grabbing all chores by the user's home_id
 router.post("/get/chores", function (req, res) {
   db.Chore.findAll({
@@ -239,6 +400,10 @@ router.post("/edit/complete-chore", function (req, res) {
     });
 });
 
+
+//------------------------------//
+//----------Pet Routes----------//
+//------------------------------//
 // Grabbing all pets by the user's home_id
 router.post("/get/pets", function (req, res) {
   db.Pets.findAll({
@@ -258,7 +423,8 @@ router.post("/add/pet", function (req, res) {
     age: req.body.age,
     animal_type: req.body.animal_type,
     primary_vet_id: req.body.primary_vet_id,
-    emergency_vet_id: req.body.emergency_vet_id
+    emergency_vet_id: req.body.emergency_vet_id,
+    image_url: req.body.image_url
   })
     .then(function (dbPets) {
       res.json(dbPets);
@@ -283,7 +449,8 @@ router.post("/remove/pet/:id", function (req, res) {
 })
 
 
-//----------Vet Route-----------//
+//------------------------------//
+//----------Vet Routes----------//
 //------------------------------//
 //Route to get all vets from array
 router.post("/get/vets", function (req, res) {
@@ -329,7 +496,9 @@ router.post("/add/vet", (req, res) => {
   })
 })
 
-
+//------------------------------//
+//------Pantry Routes-----------//
+//-----------------------------//
 // Grabbing all pantry items by the user's home_id
 router.post("/get/pantry", function (req, res) {
   db.Pantry.findAll({

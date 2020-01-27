@@ -13,7 +13,7 @@ class Pets extends Component {
 
   deletePet = (petId, admin, user) => {
     if (admin === user) {
-      console.log("All dogs go to heaven " + petId)
+      //console.log("All dogs go to heaven " + petId)
       API.removePet(petId)
         .then(response => {
           console.log(response.data);
@@ -23,6 +23,8 @@ class Pets extends Component {
   }
 
   openModal = (modalFunc) => {
+    //console.log(this.props.pet)
+    //console.log(this.props.primary_vets)
     this.setState({ modalFunc: modalFunc })
     this.setState({ modalShow: true });
   }
@@ -37,7 +39,6 @@ class Pets extends Component {
   }
 
   adminFunctionDeletePet = (admin, user) => {
-    console.log(this.props)
     if (admin === user) {
       return (
         <DeletePet
@@ -90,29 +91,28 @@ class Pets extends Component {
 
   render() {
     return (
-      <div className="col-sm-3">
         <div className="card">
-          <img src={'https://i.pinimg.com/originals/ae/c4/53/aec453161b2f33ffc6219d8a758307a9.jpg'} className="card-img-top img-responsive" alt="Cute Puppy" />
+          <img src={this.props.pet.image_url} className="card-img-top img-responsive" alt="Cute Puppy" />
           <div className="card-body">
             <h5 className="card-title">{this.props.pet.pet_name}</h5>
             <p className="card-text">Age:{this.props.pet.age}</p>
             <button onClick={() => this.openModal("pet")} className="btn btn-primary">More information</button>
           </div>
+
+          <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
+            <Modal.Title>
+              {this.modalTitleSwitch(this.state.modalFunc)}
+            </Modal.Title>
+            <Modal.Body>
+              {this.modalBodySwitch(this.state.modalFunc)}
+            </Modal.Body>
+            <Modal.Footer>
+              <div>
+                <button type="button" className="btn btn-secondary" onClick={this.closeModal}>Close</button>
+              </div>
+            </Modal.Footer>
+          </Modal>
         </div>
-        <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
-          <Modal.Title>
-            {this.modalTitleSwitch(this.state.modalFunc)}
-          </Modal.Title>
-          <Modal.Body>
-            {this.modalBodySwitch(this.state.modalFunc)}
-          </Modal.Body>
-          <Modal.Footer>
-            <div>
-              <button type="button" className="btn btn-secondary" onClick={this.closeModal}>Close</button>
-            </div>
-          </Modal.Footer>
-        </Modal>
-      </div>
     )
   };
 }

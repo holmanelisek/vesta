@@ -1,29 +1,20 @@
 
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Modal } from 'react-bootstrap'
 import API from '../../utils/API'
 import Moment from 'react-moment'
-
-// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-// Modal.setAppElement('#yourAppElement')
 
 class Chores extends React.Component {
     constructor() {
         super();
 
         this.state = {
-            // modalIsOpen: false,
             users: [],
             modalShow: false
         };
 
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
-
-        // this.openModal = this.openModal.bind(this);
-        // this.afterOpenModal = this.afterOpenModal.bind(this);
-        // this.closeModal = this.closeModal.bind(this);
     }
 
     openModal() {
@@ -33,12 +24,6 @@ class Chores extends React.Component {
     closeModal() {
         this.setState({ modalShow: false });
     }
-
-    afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        // this.subtitle.style.color = '#f00';
-    }
-
 
     storeUsernames = array => {
         return array.username;
@@ -61,12 +46,7 @@ class Chores extends React.Component {
             .then(res => {
                 console.log(res)
                 alert("Chore completed!")
-                this.props.getChores(1)
-                // if (res) {
-                //     alert("Chore Completed")
-                //     console.log(res)
-                // }
-                // this.props.getChores()
+                this.props.getChores(this.props.home_id)
             })
     }
 
@@ -75,7 +55,7 @@ class Chores extends React.Component {
     }
 
     componentDidMount = () => {
-        this.grabUsers(1);
+        this.grabUsers(this.props.home_id);
     }
 
     render() {
@@ -102,11 +82,6 @@ class Chores extends React.Component {
                         <p>Point value: {this.props.pointValue ? this.props.pointValue : "None"}</p>
                         <p>Time/Date assigned: <Moment format="MM/DD/YYYY LT">{this.props.startDateTime}</Moment></p>
                         <p>Needs done before: <Moment format="MM/DD/YYYY LT">{this.props.endDateTime}</Moment></p>
-                        <p>Repeats: {this.props.repeatInterval === "d" ? "daily"
-                            : this.props.repeatInterval === "w" ? "weekly"
-                                : this.props.repeatInterval === "m" ? "monthly"
-                                    : this.props.repeatInterval === "y" ? "yearly"
-                                        : "No repeat"}</p>
                         <button type="button" className="btn btn-secondary" onClick={this.closeModal}>Close</button>
                     </Modal.Body>
                 </Modal>

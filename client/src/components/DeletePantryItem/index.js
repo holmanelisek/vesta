@@ -7,8 +7,10 @@ export class DeletePantryItem extends Component {
         item_id: undefined
     }
 
+    // Handles dropdown selector
     handleChange = selection => this.setState({ item_id: selection.value })
 
+    // Post call to API for deleting 
     deleteItem = () => {
         console.log(this.state.item_id)
         API.deletePantryItem({
@@ -24,17 +26,20 @@ export class DeletePantryItem extends Component {
             })
     }
 
-    render() {
+    buildOptions = () => {
         const itemOptions = this.props.pantry.map(item => ({ value: item.id, label: item.item_name }))
 
+        return itemOptions;
+    }
+    render() {
         return (
             <div>
                 <Select
                     value={this.item_id}
                     onChange={this.handleChange}
-                    options={itemOptions}
+                    options={this.buildOptions()}
                 />
-                <button type='button' className='btn btn-danger' onClick={this.deleteItem}>Delete</button>
+                <button disabled={!this.state.item_id} type='button' className='btn btn-danger' onClick={this.deleteItem}>Delete</button>
             </div>
         )
     }

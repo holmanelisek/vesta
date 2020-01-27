@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import { Modal, Alert } from 'react-bootstrap'
 import API from '../../utils/API'
 import Moment from 'react-moment'
 
@@ -11,15 +9,7 @@ class PantryItem extends Component {
         cardIcon: undefined
     }
 
-    openModal = modalFunc => {
-        this.setState({ modalFunc: modalFunc })
-        this.setState({ modalShow: true });
-    }
-
-    closeModal = () => {
-        this.setState({ modalShow: false });
-    }
-
+    // Generates an icon depending on item_type
     iconGenerator = type => {
         let icon = undefined;
 
@@ -82,12 +72,11 @@ class PantryItem extends Component {
                 icon = "prescription-bottle";
                 break;
         }
-
-        // this.setState({ cardIcon: icon })
         return icon;
 
     }
 
+    // Function adding 1 to current item quantity
     addOne = id => {
         API.addOrRemoveOneFromItem({
             id: id,
@@ -102,6 +91,7 @@ class PantryItem extends Component {
             });
     }
 
+    // Function removing 1 to current item quantity or alerts user if item is already at 0 quantity
     removeOne = id => {
         if (this.props.quantity > 0) {
             API.addOrRemoveOneFromItem({
@@ -122,10 +112,9 @@ class PantryItem extends Component {
     }
 
     render() {
-
         return (
             <tr>
-                <td><i className={`fas fa-${this.iconGenerator(this.props.item_type)}`}></i></td>
+                <td><i className={`fas fa-${this.iconGenerator(this.props.item_type)} fa-2x`}></i></td>
                 <td>{this.props.item_name}</td>
                 <td>{this.props.item_type}</td>
                 <td>Date In: <Moment format="MMMM DD">{this.props.date_in}</Moment></td>
@@ -134,17 +123,6 @@ class PantryItem extends Component {
                 <td><button type="button" className="btn btn-success" onClick={() => this.addOne(this.props.id)}><i className="fas fa-plus"></i></button></td>
             </tr>
         )
-
-        // return (
-        //     <li className="list-group-item d-flex justify-content-between align-items-left">
-        //         <span><i className={`fas fa-${this.iconGenerator(this.props.item_type)}`}></i></span>
-        //         {this.props.item_name}
-        //         <span>Date In: <Moment format="MMMM DD">{this.props.date_in}</Moment></span>
-        //         <button type="button" className="btn btn-danger" onClick={() => this.removeOne(this.props.id)}><i className="fas fa-minus"></i></button>
-        //         <span>Quantity: <span className="badge badge-secondary badge-pill">{this.props.quantity}</span></span>
-        //         <button type="button" className="btn btn-success" onClick={() => this.addOne(this.props.id)}><i className="fas fa-plus"></i></button>
-        //     </li>
-        // )
     }
 }
 
