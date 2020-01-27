@@ -1,9 +1,21 @@
 import React, { Component, memo } from "react";
 import API from "../../utils/API";
 import { Redirect } from "react-router-dom";
-import { Modal } from "react-bootstrap";
+import { Modal, Alert } from "react-bootstrap";
 import Container from "../../components/Container"
-import {HouseMemeber,UpdateEmail, UpdateFirstName, UpdateLastName, UpdatePassword} from "../../components/AccountComponent";
+import {
+    HouseMemeber,
+    UpdateEmail, 
+    UpdateFirstName, 
+    UpdateLastName, 
+    UpdatePassword, 
+    UpdateHomeName,
+    UpdateHomeAddress,
+    UpdateMasterKey,
+    UpdateHomeKey,
+    UpdateAdmin,
+} from "../../components/AccountComponent";
+import Crypto from "crypto-random-string";
 
 class Account extends Component{
     constructor(){
@@ -14,14 +26,25 @@ class Account extends Component{
             modalShow: false,
             user_id: undefined,
             home_id: undefined,
+            home_name: undefined,
+            home_street: undefined,
+            home_city: undefined,
+            home_state: undefined,
+            home_zip: undefined,
             first_name: undefined,
             last_name: undefined,
             email: undefined,
             home_members: [],
+            members_selection: [],
             old_password: undefined,
             password: undefined,
             password_confirm: undefined,
+            home_key: undefined,
+            master_key: undefined,
+            new_master_key: undefined,
             admin_name: undefined,
+            admin_id: undefined,
+            new_admin_id: undefined,
             onSubmitErr: "",
             updateSwitch: false
         }
@@ -31,8 +54,41 @@ class Account extends Component{
         if (this.props.authenticate) {
             this.getHomeMembers(this.props.state.home_id);
         }
+        if( this.props.state.home_admin === this.props.state.user_id){
+            this.getMasterKey();
+        }
     }
-    
+
+    resetInfo = () => {
+        this.setState({
+            home_street: this.props.state.home_street,
+            home_city: this.props.state.home_city,
+            home_state: this.props.state.home_state,
+            home_zip: this.props.state.home_zip,
+            old_password: undefined,
+            password: undefined,
+            password_confirm: undefined,
+            new_master_key: this.state.master_key,
+            home_key: undefined,
+            new_admin_id: undefined,
+        })
+    }
+
+    getMasterKey = () =>{
+        API.findHomeMasterKey({
+            home_id: this.props.state.home_id,
+            user_id: this.props.state.user_id
+        }).then( response => {
+            this.setState({
+                master_key: response.data.master_key,
+                new_master_key: response.data.master_key,
+                admin_id: this.props.state.home_admin
+            })
+        }).catch( err => {
+            console.log(err.response)
+        })
+    }
+
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({ [name]: value.trim() });
@@ -42,7 +98,16 @@ class Account extends Component{
         API.getAllHomeUsers({home_id: homeId})
           .then(response => {
             this.setState({ home_members: response.data})
+            this.setState({
+                home_street: this.props.state.home_street,
+                home_city: this.props.state.home_city,
+                home_state: this.props.state.home_state,
+                home_zip: this.props.state.home_zip,
+                home_name: this.props.state.home_name,
+                home_key: this.props.state_home_key,
+            })
             this.findAdminName(this.props.state.home_admin);
+            this.buildMembersSelection(response.data);
           }).catch(err => {
             console.log(err)
           })
@@ -51,6 +116,11 @@ class Account extends Component{
     findAdminName = adminId =>{
         let adminName = this.state.home_members.find(({id}) => id === adminId)
         this.setState({ admin_name: adminName.first_name});
+    }
+
+    buildMembersSelection = array => {
+        let selection = array.map(member => ({value: member.id, label: (member.first_name+" "+member.last_name)}))
+        this.setState({ members_selection: selection})
     }
 
     handleAccountInfoChange = event =>{
@@ -65,6 +135,58 @@ class Account extends Component{
             console.log(response.data)
             this.closeModal();
             this.props.authenticate();
+        })
+    }
+
+    handleSelectionMember = selection => {
+        console.log(selection.value)
+        this.setState({ new_admin_id: selection.value })
+    }
+
+    handleHomeInfoChange = event =>{
+        if( this.props.state.user_id === this.props.state.home_admin){
+            event.preventDefault();
+            API.updateHomeAddress({
+                home_name: this.props.state.home_name,
+                home_street: this.state.home_street,
+                home_city: this.state.home_city,
+                home_state: this.state.home_state,
+                home_zip: this.state.home_zip,
+                home_id: this.props.state.home_id,
+                master_key: this.state.new_master_key,
+                home_key: this.state.home_key,
+                home_admin: this.state.new_admin_id,
+            }).then( response => {
+                console.log(response.data)
+                this.props.authenticate();
+                this.props.getHomeInformation();
+                this.findAdminName(this.state.new_admin_id)
+                this.getMasterKey();
+                this.closeModal();
+            }).catch( err => {
+                console.log(err.response)
+            })
+        }else{
+            alert("Access Denied");
+        }
+    }
+
+    generateHomeKey = event => {
+        event.preventDefault()
+        this.setState({
+            home_key: Crypto({length: 10, type: 'url-safe'})
+        })
+        
+    }
+
+    removeMember = (id, first_name) => {
+        console.log(id)
+        console.log(first_name)
+        API.removeMember({
+            user_id: id
+        }).then( response => {
+            console.log(response.data)
+            this.getHomeMembers(this.props.state.home_id)
         })
     }
 
@@ -106,6 +228,67 @@ class Account extends Component{
             modalShow: false,
             onSubmitErr: ""
         });
+        this.resetInfo();
+    }
+    switchModalTitle = field =>{
+        switch (field){
+            case "firstName":
+                return(
+                    <div>
+                        <h2>Update First Name</h2>
+                    </div>
+                );
+            case "lastName":
+                return(
+                    <div>
+                        <h2>Update Last Name</h2>
+                    </div>
+                );
+            case "email":
+                return(
+                    <div>
+                        <h2>Update Email</h2>
+                    </div>
+                );
+            case "password":
+                return(
+                    <div>
+                        <h2>Update Password</h2>
+                    </div>
+                );
+            case "homeName":
+                return(
+                    <div>
+                        <h2>New Home Name</h2>
+                    </div>
+                );
+            case "homeAddress":
+                return(
+                    <div>
+                        <h2>New Home Address</h2>
+                    </div>
+                );
+            case "homeKey":
+                return(
+                    <div>
+                        <h2>New Home Key</h2>
+                    </div>
+                );
+            case "masterKey":
+                return(
+                    <div>
+                        <h2>New Master key</h2>
+                    </div>
+                );
+            case "admin":
+                return(
+                    <div>
+                        <h2>Change Home Administrator</h2>
+                    </div>
+                );
+            default:
+                return(<div></div>);
+        }
     }
 
     switchEditFunction = field =>{
@@ -140,6 +323,53 @@ class Account extends Component{
                         handleAccountPasswordChange = {this.handleAccountPasswordChange}
                     />
                 );
+            case "homeName":
+                return(
+                    <UpdateHomeName
+                        onSubmitErr = {this.state.onSubmitErr} 
+                        handleInputChange = {this.handleInputChange}
+                        handleHomeInfoChange = {this.handleHomeInfoChange}
+                    />
+                );
+            case "homeAddress":
+                return(
+                    <UpdateHomeAddress
+                        onSubmitErr = {this.state.onSubmitErr}
+                        handleInputChange = {this.handleInputChange}
+                        handleHomeInfoChange = {this.handleHomeInfoChange}
+                        oldhome_street= {this.props.state.home_street}
+                        oldhome_city= {this.props.state.home_city}
+                        oldhome_state= {this.props.state.home_state}
+                        oldhome_zip= {this.props.state.home_zip}
+                    />
+                );
+            case "homeKey":
+                return(
+                    <UpdateHomeKey
+                        home_key= {this.state.home_key}
+                        handleInputChange = {this.handleInputChange}
+                        handleHomeInfoChange = {this.handleHomeInfoChange}
+                        generateHomeKey = {this.generateHomeKey}
+                    />
+                );
+            case "masterKey":
+                return(
+                    <UpdateMasterKey
+                        handleInputChange = {this.handleInputChange}
+                        handleHomeInfoChange = {this.handleHomeInfoChange}
+                    />
+                );
+            case "admin":
+                return(
+                    <UpdateAdmin
+                        members = {this.state.members_selection}
+                        onSubmitErr = {this.state.onSubmitErr} 
+                        handleSelectionMember = {this.handleSelectionMember}
+                        handleHomeInfoChange = {this.handleHomeInfoChange}
+                    />
+                );
+            default:
+                return(<div></div>);
         }
     }
 
@@ -152,80 +382,112 @@ class Account extends Component{
                         <div style={{ textAlign: "center", height: 200, clear: "both", paddingTop: 120 }} className="jumbotron">
                             <h1>Account Settings</h1>
                         </div>
-                    <Container>
                     <div className="row">
                     {/* User Account Settings */}
                         <div className="col-md m-2">
-                            <div>Account Information</div>
-                            <div className="border border-rounded p-2">
+                            <div><h4>Account Information</h4></div>
+                            <div className="border border-rounded p-4">
                                 {/* First Name  */}
                                 <div>
-                                    First Name: {this.props.state.firstname}<a href="#" onClick={() => this.openModal("firstName")} ><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    <b>First Name:</b> {this.props.state.firstname}<a href="#" onClick={() => this.openModal("firstName")} ><span className="float-right"><i className="fas fa-edit"></i></span></a>
                                 </div>
+                                <hr />
                                 {/* Last Name */}
                                 <div>
-                                    Last Name: {this.props.state.lastname}<a href="#" onClick={() => this.openModal("lastName")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    <b>Last Name:</b> {this.props.state.lastname}<a href="#" onClick={() => this.openModal("lastName")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
                                 </div>
+                                <hr />
                                 {/* Email */}
                                 <div>
-                                    Email: {this.props.state.email}<a href="#" onClick={() => this.openModal("email")} ><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    <b>Email:</b> {this.props.state.email}<a href="#" onClick={() => this.openModal("email")} ><span className="float-right"><i className="fas fa-edit"></i></span></a>
                                 </div>
+                                <hr />
                                 {/* Password */}
                                 <div>
-                                    Password: •••••••••••••<a href="#" onClick={() => this.openModal("password")} ><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    <b>Password:</b> •••••••••••••<a href="#" onClick={() => this.openModal("password")} ><span className="float-right"><i className="fas fa-edit"></i></span></a>
                                 </div>
                             </div>
                         </div>
 
                     {/* Home Settings */}
                         <div className="col-md m-2">
-                            <div> Home Information</div>
-                            <div className="border border-rounded p-2"> 
+                            <div><h4>Home Information</h4></div>
+                            <div className="border border-rounded p-4"> 
                                 {/* Home Nmae */}
                                 <div>
-                                    Home Name: {this.props.state.home_name}<a href="#" ><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    <b>Home Name:</b> {this.props.state.home_name}
+                                        {(this.props.state.home_admin === this.props.state.user_id) ? 
+                                            <a href="#" onClick={() => this.openModal("homeName")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                        :
+                                            null
+                                        }
                                 </div>
+                                <hr />
                                 {/* Home Address */}
                                 <div>
-                                    <div>Home Address<a href="#" ><span className="float-right"><i className="fas fa-edit"></i></span></a></div>
+                                    <div>
+                                        <b>Home Address</b>
+                                        {(this.props.state.home_admin === this.props.state.user_id) ? 
+                                            <a href="#" onClick={() => this.openModal("homeAddress")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                        :null}
+                                    </div>
                                     <div className="ml-3">
                                         <div>{this.props.state.home_street}</div>
                                         <div>{this.props.state.home_city}, {this.props.state.home_state} {this.props.state.home_zip}</div>
                                     </div>
                                 </div>
+                                <hr />
                                 {/* Master Key */}
                                 <div>
-
+                                    {(this.props.state.home_admin === this.props.state.user_id) ? 
+                                        <div>
+                                            <b>Master Key:</b> {this.state.master_key}<a href="#" onClick={() => this.openModal("masterKey")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                        </div>
+                                    :null }
                                 </div>
+                                <hr />
                                 {/* Home Key */}
                                 <div>
-                                    Home Key: {this.props.state.home_key}<a href="#" ><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    <b>Home Key:</b> {this.props.state.home_key}
+                                    {(this.props.state.home_admin === this.props.state.user_id) ? 
+                                        <a href="#" onClick={() => this.openModal("homeKey")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    :null}
                                 </div>
+                                <hr />
                                 {/* Admin */}
                                 <div>
-                                    Administrator: {this.state.admin_name}<a href="#" ><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    <b>Administrator:</b> {this.state.admin_name}
+                                    {(this.props.state.home_admin === this.props.state.user_id) ? 
+                                        <a href="#" onClick={() => this.openModal("admin")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    :null}
                                 </div>
                             </div>
                         </div>
 
                     {/* Home Users Settings */}
                         <div  className="col-md m-2">
-                            <div>Home Members</div>
+                            <div><h4>Home Members</h4></div>
                             <div className="border border-rounded p-2">
                                 {this.state.home_members.map(member => (
                                     <HouseMemeber
                                         key = {member.id}
                                         member = {member}
+                                        user_id = {this.props.state.user_id}
+                                        home_admin = {this.props.state.home_admin}
+                                        openModal = {this.openModal}
+                                        removeMember = {this.removeMember}
                                     />
                                 ))}
                             </div>
                         </div>
                 </div>
-                </Container>
 
                 <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
-                    <Modal.Title>
-                    </Modal.Title>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            {this.switchModalTitle(this.state.modalFunc)}
+                        </Modal.Title>
+                    </Modal.Header>
                     <Modal.Body>
                         {this.switchEditFunction(this.state.modalFunc)}
                     </Modal.Body>

@@ -40,9 +40,12 @@ export default {
 
   //Update account password
   updateAccountPass: newPass => {
-    console.log("[API.js]")
-    console.log(newPass);
     return axios.post("/api/users/password_update", newPass)
+  },
+
+  removeMember: data => {
+    console.log(data)
+    return axios.post("/api/users/remove_from_home", data)
   },
   //----------------------//
 
@@ -51,6 +54,12 @@ export default {
   //Find home by invitation key aka home key
   findHomeByInvKey: id => {
     return axios.get("/api/home/find_by_key/" + id)
+  },
+
+  updateHomeAddress: homeData => {
+    console.log("[Update Home Address]")
+    console.log(homeData)
+    return axios.post("/api/home/update_address", homeData);
   },
 
   //find home by home id

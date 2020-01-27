@@ -68,9 +68,9 @@ class Vesta extends Component {
     }).catch();
   }
 
-  getHomeMembers = homeKey => {
+  getHomeMembers = home_id => {
     console.log("finding members")
-    API.getAllHomeUsers({ home_id: homeKey })
+    API.getAllHomeUsers({ home_id: home_id })
       .then(response => {
         console.log(response)
         this.setState({ home_members: response.data })
@@ -79,9 +79,9 @@ class Vesta extends Component {
       })
   }
 
-  getHomeInformation = homeKey => {
+  getHomeInformation = home_id => {
     console.log("finding home")
-    API.findHomeById(homeKey)
+    API.findHomeById(home_id)
       .then(response => {
         console.log(response)
         this.setState({
@@ -93,7 +93,9 @@ class Vesta extends Component {
           home_state: response.data.state,
           home_zip: response.data.zip
         })
-      }).catch()
+      }).catch(err=>{
+        console.log(err.response)
+      })
   }
 
   //Function to change the state values on input change
@@ -246,6 +248,7 @@ class Vesta extends Component {
                 authenticated={this.state.authenticated}
                 authenticate={this.authentication}
                 getHomeMembers={this.getHomeMembers}
+                getHomeInformation={this.getHomeInformation}
               />
             )} />
             <Route path="/Homehub" exact render={props => (<Homehub {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
