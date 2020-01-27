@@ -12,6 +12,7 @@ import PantryItem from '../../components/PantryItem/index'
 import { AddPantryItem, AddPantryItemTitle } from '../../components/AddPantryItem/index'
 import { DeletePantryItem, DeletePantryItemTitle } from '../../components/DeletePantryItem/index'
 import Table from 'react-bootstrap/Table'
+import Scanner from '../../components/Scanner/BarcodeScanner'
 
 // import { Pantry, Recipe } from '../../components/Pantry'
 // import recipeeval from "../../../public/assets/javascript/recipes"
@@ -135,6 +136,17 @@ class Homehub extends Component {
     if (admin === user) {
       return (
         <button type="button" className="btn btn-secondary" onClick={() => this.openModal("addItem")}>Add Item</button>
+      )
+    } else {
+      return null
+    }
+  }
+
+  adminFunctionPantryScanner = (admin, user) => {
+    //console.log(this.props)
+    if (admin === user) {
+      return (
+        <button type="button" className="btn btn-secondary" onClick={() => this.openModal("scanItem")}>Scan Item</button>
       )
     } else {
       return null
@@ -488,6 +500,15 @@ class Homehub extends Component {
             created_by={this.props.state.firstname}
           />
         );
+      case "scanItem":
+        return (
+          <Scanner
+            // home_id={this.state.home_id}
+            // listPantry={this.listPantry}
+            // closeModal={this.closeModal}
+            // created_by={this.props.state.firstname}
+          />
+        );
       case "deleteItem":
         return (
           <DeletePantryItem
@@ -594,6 +615,8 @@ class Homehub extends Component {
                     <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
                       <div>
                         <span>{this.adminFunctionAddPantry(this.state.home_admin, this.state.user_id)}</span>
+                        <span> </span>
+                        <span>{this.adminFunctionPantryScanner(this.state.home_admin, this.state.user_id)}</span>
                         <span> </span>
                         <span>{this.adminFunctionDeletePantry(this.state.home_admin, this.state.user_id)}</span>
                       </div>
