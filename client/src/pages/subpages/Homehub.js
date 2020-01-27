@@ -6,6 +6,7 @@ import { NewPetForm, NewPetTitle } from "../../components/NewPetForm";
 import { NewVetForm, NewVetTitle } from "../../components/NewVetForm";
 import API from "../../utils/API";
 import Chores from '../../components/Chores/index'
+import AdminChoreDisplay from '../../components/AdminChoreDisplay/index'
 import { AddChore, AddChoreTitle } from '../../components/AddChore/index'
 import { DeleteChore, DeleteChoreTitle } from '../../components/DeleteChore/index'
 import PantryItem from '../../components/PantryItem/index'
@@ -27,7 +28,8 @@ class Homehub extends Component {
       selectedAddOption: undefined,
       mondalFunc: undefined,
       modalShow: undefined,
-      chores: [],
+      uncompletedChores: [],
+      completedChores: [],
       petData: [],
       // users: []
       pantryItems: [],
@@ -113,7 +115,7 @@ class Homehub extends Component {
     //console.log(this.props)
     if (admin === user) {
       return (
-        <button type="button" className="btn btn-secondary" onClick={() => this.openModal("addChore")}>Add Chore</button>
+        <button type="button" className="btn btn-secondary add-chore" onClick={() => this.openModal("addChore")}>Add Chore</button>
       )
     } else {
       return null
@@ -187,9 +189,6 @@ class Homehub extends Component {
       })
   }
 
-  findUncompletedChores = item => {
-    return !item.completed
-  }
 
   storeUsernames = array => {
     return array.username;
@@ -237,16 +236,27 @@ class Homehub extends Component {
       }).catch()
   }
 
+  findUncompletedChores = item => {
+    return !item.completed
+  }
+
+  findCompletedChores = item => {
+    return item.completed
+  }
+
   //Function to get all chroes by home id
-  getChores = (homeid) => {
+  getChores = homeid => {
     API.getAllChores({
       home_id: homeid
     })
       .then(res => {
         //console.log(res.data)
-        let choresArray = res.data.filter(this.findUncompletedChores)
-        this.setState({ chores: choresArray });
-        //console.log(this.state.chores);
+        let completedChoresArray = res.data.filter(this.findCompletedChores)
+        let uncompletedChoresArray = res.data.filter(this.findUncompletedChores)
+        this.setState({ uncompletedChores: uncompletedChoresArray });
+        this.setState({ completedChores: completedChoresArray });
+        console.log(this.state.uncompletedChores);
+        console.log(this.state.completedChores);
       })
   };
 
@@ -429,14 +439,14 @@ class Homehub extends Component {
   };
 
   modalBodySwitch(modalFunc) {
-    const choreOptions = this.state.chores.map(chore => (
-      { value: chore.id, label: chore.chore_name }
-    ))
-    const { selectedDeleteOption } = this.state;
+    // const choreOptions = this.state.chores.map(chore => (
+    //   { value: chore.id, label: chore.chore_name }
+    // ))
+    // const { selectedDeleteOption } = this.state;
 
-    const userOptions = this.state.users.map(user => (
-      { value: user, label: user }
-    ))
+    // const userOptions = this.state.users.map(user => (
+    //   { value: user, label: user }
+    // ))
     // const { selectedAddOption } = this.state;
 
     switch (modalFunc) {
@@ -550,19 +560,59 @@ class Homehub extends Component {
                   </ul>
 
                   {/* all the content for the tabs goes below */}
-                  <div className="tab-content" id="myTabContent" style={{ paddingTop: 20 }}>
+                  <div className="tab-content" id="myTabContent">
 
                     {/* chores content goes here */}
                     <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
                       {/* <AddChore user_id={this.state.user_id} handleClick={this.handleClick} getChores={this.getChores} /> */}
                       <div>
                         <span>{this.adminFunctionAddChore(this.state.home_admin, this.state.user_id)}</span>
-                        <span> </span>
-                        <span>{this.adminFunctionDeleteChore(this.state.home_admin, this.state.user_id)}</span>
+                        {/* <span> </span> */}
+                        {/* <span>{this.adminFunctionDeleteChore(this.state.home_admin, this.state.user_id)}</span> */}
                       </div>
                       <hr />
-                      {this.state.chores.length > 0 ?
-                        this.state.chores.map(chore => (
+                      {this.state.home_admin === this.state.user_id ?
+                        [(this.state.completedChores.length > 0 ?
+                          this.state.completedChores.map(chore => (
+                            < AdminChoreDisplay
+                              key={chore.id}
+                              id={chore.id}
+                              home_id={this.state.home_id}
+                              choreName={chore.chore_name}
+                              createdBy={chore.created_by}
+                              assignedUser={chore.assigned_user}
+                              pointValue={chore.point_value}
+                              startDateTime={chore.start_date_time}
+                              endDateTime={chore.end_date_time}
+                              repeatInterval={chore.repeat_interval}
+                              getChores={this.getChores}
+                            />
+                          ))
+                          :
+                          <h2>No completed chores</h2>
+                        )] : <span></span>}
+                      {/* {this.state.home_admin === this.state.user_id ?
+                        this.state.completedChores.map(chore => (
+                          < AdminChoreDisplay
+                            key={chore.id}
+                            id={chore.id}
+                            home_id={this.state.home_id}
+                            choreName={chore.chore_name}
+                            createdBy={chore.created_by}
+                            assignedUser={chore.assigned_user}
+                            pointValue={chore.point_value}
+                            startDateTime={chore.start_date_time}
+                            endDateTime={chore.end_date_time}
+                            repeatInterval={chore.repeat_interval}
+                            getChores={this.getChores}
+                          />
+                        ))
+                        :
+                        <span></span>
+                      } */}
+                      <hr />
+                      {this.state.uncompletedChores.length > 0 ?
+                        this.state.uncompletedChores.map(chore => (
                           < Chores
                             key={chore.id}
                             id={chore.id}
@@ -578,7 +628,7 @@ class Homehub extends Component {
                           />
                         ))
                         :
-                        <h2>No chores</h2>
+                        <h2>No uncompleted chores</h2>
                       }
                     </div>
 
