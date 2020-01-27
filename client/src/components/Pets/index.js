@@ -13,7 +13,7 @@ class Pets extends Component {
 
   deletePet = (petId, admin, user) => {
     if (admin === user) {
-      console.log("All dogs go to heaven " + petId)
+      //console.log("All dogs go to heaven " + petId)
       API.removePet(petId)
         .then(response => {
           console.log(response.data);
@@ -23,6 +23,8 @@ class Pets extends Component {
   }
 
   openModal = (modalFunc) => {
+    //console.log(this.props.pet)
+    //console.log(this.props.primary_vets)
     this.setState({ modalFunc: modalFunc })
     this.setState({ modalShow: true });
   }
@@ -37,7 +39,6 @@ class Pets extends Component {
   }
 
   adminFunctionDeletePet = (admin, user) => {
-    console.log(this.props)
     if (admin === user) {
       return (
         <DeletePet

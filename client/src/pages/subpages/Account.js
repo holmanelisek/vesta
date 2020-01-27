@@ -55,7 +55,7 @@ class Account extends Component{
             this.getHomeMembers(this.props.state.home_id);
         }
         if( this.props.state.home_admin === this.props.state.user_id){
-            this.getMasterKey();
+            this.getMasterKey(this.props.state.home_id, this.props.state.user_id);
         }
     }
 
@@ -68,17 +68,19 @@ class Account extends Component{
             old_password: undefined,
             password: undefined,
             password_confirm: undefined,
-            new_master_key: this.state.master_key,
+            new_master_key: undefined,
             home_key: undefined,
             new_admin_id: undefined,
         })
     }
 
-    getMasterKey = () =>{
+    getMasterKey = (home_id, user_id) =>{
+        console.log("[Account.js getMasterKey]")
         API.findHomeMasterKey({
-            home_id: this.props.state.home_id,
-            user_id: this.props.state.user_id
+            home_id: home_id,
+            user_id: user_id
         }).then( response => {
+            console.log("[Account.js getMasterKey - Complete]")
             this.setState({
                 master_key: response.data.master_key,
                 new_master_key: response.data.master_key,
@@ -95,8 +97,10 @@ class Account extends Component{
       };
 
     getHomeMembers = homeId => {
+        console.log("[Account.js getHomeMembers]")
         API.getAllHomeUsers({home_id: homeId})
           .then(response => {
+            console.log("[Account.js getHomeMember - Complete]")
             this.setState({ home_members: response.data})
             this.setState({
                 home_street: this.props.state.home_street,
@@ -124,6 +128,7 @@ class Account extends Component{
     }
 
     handleAccountInfoChange = event =>{
+        console.log("[Account.js handleAccountInfoChange]")
         event.preventDefault();
         let userData ={
             field: event.target.name,
@@ -132,20 +137,21 @@ class Account extends Component{
         }
         API.updateUserInfo(userData)
         .then(response => {
-            console.log(response.data)
+            console.log("[Account.js handleAccountInfoChange - Complete]")
             this.closeModal();
             this.props.authenticate();
         })
     }
 
     handleSelectionMember = selection => {
-        console.log(selection.value)
+        //console.log(selection.value)
         this.setState({ new_admin_id: selection.value })
     }
 
     handleHomeInfoChange = event =>{
+        event.preventDefault();
         if( this.props.state.user_id === this.props.state.home_admin){
-            event.preventDefault();
+            console.log("[Account.js handleHomeInfoChange]")
             API.updateHomeAddress({
                 home_name: this.props.state.home_name,
                 home_street: this.state.home_street,
@@ -159,9 +165,14 @@ class Account extends Component{
             }).then( response => {
                 console.log(response.data)
                 this.props.authenticate();
-                this.props.getHomeInformation();
-                this.findAdminName(this.state.new_admin_id)
-                this.getMasterKey();
+                this.props.getHomeInformation(this.props.state.home_id);
+                if (this.state.new_admin_id){
+                    this.findAdminName(this.state.admin_id)
+                }
+                if(this.state.new_master_key && this.props.state.home_admin === this.props.state.user_id){
+                    this.getMasterKey(this.props.state.home_id, this.props.state.user_id);
+                }else{
+                }
                 this.closeModal();
             }).catch( err => {
                 console.log(err.response)
@@ -169,6 +180,12 @@ class Account extends Component{
         }else{
             alert("Access Denied");
         }
+    }
+
+    updateVestaPromise = () =>{
+        return new Promise((reslove, reject)=>{
+
+        })
     }
 
     generateHomeKey = event => {
@@ -180,8 +197,8 @@ class Account extends Component{
     }
 
     removeMember = (id, first_name) => {
-        console.log(id)
-        console.log(first_name)
+        //console.log(id)
+        //console.log(first_name)
         API.removeMember({
             user_id: id
         }).then( response => {
@@ -192,8 +209,8 @@ class Account extends Component{
 
     handleAccountPasswordChange = event =>{
         event.preventDefault();
-        console.log(this.state.password)
-        console.log(this.state.password_confirm)
+        //console.log(this.state.password)
+        //console.log(this.state.password_confirm)
         if(this.state.password === this.state.password_confirm){
             console.log("[Password Matches]")
             let userData ={

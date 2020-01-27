@@ -85,7 +85,7 @@ class Homehub extends Component {
 
   submitPet = (newPetData, admin, user) => {
     if (admin === user) {
-      console.log("Here doggy!")
+      //console.log("Here doggy!")
       API.addPet(newPetData)
         .then(response => {
           console.log(response.data)
@@ -95,7 +95,7 @@ class Homehub extends Component {
   }
 
   adminFunctionAddpet = (admin, user) => {
-    console.log(this.props)
+    //console.log(this.props)
     if (admin === user) {
       return (
         <div>
@@ -109,7 +109,7 @@ class Homehub extends Component {
   }
 
   adminFunctionAddChore = (admin, user) => {
-    console.log(this.props)
+    //console.log(this.props)
     if (admin === user) {
       return (
         <button type="button" className="btn btn-secondary" onClick={() => this.openModal("addChore")}>Add Chore</button>
@@ -120,7 +120,7 @@ class Homehub extends Component {
   }
 
   adminFunctionDeleteChore = (admin, user) => {
-    console.log(this.props)
+    //console.log(this.props)
     if (admin === user) {
       return (
         <button type="button" className="btn btn-danger" onClick={() => this.openModal("deleteChore")}>Delete Chore</button>
@@ -131,7 +131,7 @@ class Homehub extends Component {
   }
 
   adminFunctionAddPantry = (admin, user) => {
-    console.log(this.props)
+    //console.log(this.props)
     if (admin === user) {
       return (
         <button type="button" className="btn btn-secondary" onClick={() => this.openModal("addItem")}>Add Item</button>
@@ -142,7 +142,7 @@ class Homehub extends Component {
   }
 
   adminFunctionDeletePantry = (admin, user) => {
-    console.log(this.props)
+    //console.log(this.props)
     if (admin === user) {
       return (
         <button type="button" className="btn btn-danger" onClick={() => this.openModal("deleteItem")}>Delete Item</button>
@@ -153,8 +153,10 @@ class Homehub extends Component {
   }
 
   handleFindHome = (homeid) => {
+    console.log("[Homehub.js handleFindHome]")
     API.findHomeById(homeid)
       .then(response => {
+        console.log("[Homehub.js handleFindHome - Complete]")
         //console.log(response.data)
         this.setState({
           user_id: this.props.state.user_id,
@@ -182,13 +184,14 @@ class Homehub extends Component {
   }
 
   grabUsers = userHome => {
+    console.log("[Homehub.js grabUsers]")
     API.getAllHomeUsers({
       home_id: userHome
     })
       .then(res => {
         let usersArray = res.data.map(this.storeUsernames)
         this.setState({ users: usersArray });
-        console.log(this.state.users);
+        console.log("[Homehub.js grabUsers - Complete]")
       })
   }
 
@@ -208,19 +211,15 @@ class Homehub extends Component {
   //Function that iterates through each pet and inserts primary pet info as a new property
   insertVetToPet = (petArray, vetArray) => {
     petArray.forEach(thisPet => {
-      let petVet = vetArray.find(({ id }) =>
-        id = thisPet.primary_vet_id
-      )
+      let petVet = vetArray.find(({id}) => id === thisPet.primary_vet_id)
       thisPet.primary_vet_info = petVet;
     })
-
     return petArray;
   }
 
   getAllVets = () => {
     API.getAllVets()
       .then(response => {
-        console.log(response)
         this.setState({ all_vets: response.data })
         this.displayAllVetsInPets();
       }).catch()
@@ -240,7 +239,6 @@ class Homehub extends Component {
   };
 
   deleteChore = (choreId) => {
-    console.log("test")
     // API.deleteChore({
     //   chore_id: choreId
     // })
@@ -292,11 +290,13 @@ class Homehub extends Component {
 
   //pull pantry info to state
   listPantry = homeID => {
+    console.log("[Homehub.js listPantry]")
     API.getPantryItems({
       home_id: homeID
     })
       .then(res => {
-        console.log(res)
+        console.log("[Homehub.js listPantry - Complete]")
+        //console.log(res)
         let pantry = res.data;
         this.setState({ pantryItems: pantry });
       })
@@ -501,7 +501,7 @@ class Homehub extends Component {
   }
 
   render() {
-    console.log(this.state.pantryItems)
+    //console.log(this.state.pantryItems)
 
     this.state.pantryItems.sort(this.orderPantryItems)
     return (

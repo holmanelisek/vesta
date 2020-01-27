@@ -50,7 +50,7 @@ class Vesta extends Component {
 
   authentication = () => {
     API.isSignedIn().then(res => {
-      console.log("Authentication")
+      console.log("[Vesta.js Authentication]")
       //If res.email is true then render this menu
       if (res.data.id) {
         this.setState({
@@ -61,7 +61,8 @@ class Vesta extends Component {
           user_id: res.data.id,
           email: res.data.email
         });
-        console.log("[Vesta.js getHomeInfomration]")
+        console.log(res.data)
+        console.log("[Vesta.js Authentication - Complete]")
         this.getHomeInformation(res.data.home_id)
         this.getHomeMembers(res.data.home_id)
       }
@@ -69,10 +70,10 @@ class Vesta extends Component {
   }
 
   getHomeMembers = home_id => {
-    console.log("finding members")
+    console.log("[Vesta.js getHomeMembers]")
     API.getAllHomeUsers({ home_id: home_id })
       .then(response => {
-        console.log(response)
+        console.log("[Vesta.js getHomeMembers - Complete]")
         this.setState({ home_members: response.data })
       }).catch(err => {
         console.log(err)
@@ -80,10 +81,10 @@ class Vesta extends Component {
   }
 
   getHomeInformation = home_id => {
-    console.log("finding home")
+    console.log("[Vesta.js getHomeInformation]")
     API.findHomeById(home_id)
       .then(response => {
-        console.log(response)
+        console.log("[Vesta.js getHomeInformation - Complete]")
         this.setState({
           home_key: response.data.invitation_key,
           home_admin: response.data.home_admin,
