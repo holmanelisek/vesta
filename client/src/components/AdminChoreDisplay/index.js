@@ -4,12 +4,12 @@ import { Modal } from 'react-bootstrap'
 import API from '../../utils/API'
 import Moment from 'react-moment'
 
-class Chores extends React.Component {
+class AdminChoreDisplay extends React.Component {
     constructor() {
         super();
 
         this.state = {
-            users: [],
+            // users: [],
             modalShow: false
         };
 
@@ -25,22 +25,22 @@ class Chores extends React.Component {
         this.setState({ modalShow: false });
     }
 
-    storeUsernames = array => {
-        return array.username;
-    }
+    // storeUsernames = array => {
+    //     return array.username;
+    // }
 
-    grabUsers = userHome => {
-        API.getAllHomeUsers({
-            home_id: userHome
-        })
-            .then(res => {
-                let usersArray = res.data.map(this.storeUsernames)
-                this.setState({ users: usersArray });
-            })
-    }
+    // grabUsers = userHome => {
+    //     API.getAllHomeUsers({
+    //         home_id: userHome
+    //     })
+    //         .then(res => {
+    //             let usersArray = res.data.map(this.storeUsernames)
+    //             this.setState({ users: usersArray });
+    //         })
+    // }
 
-    markCompleted = id => {
-        API.markChoreComplete({
+    markUncompleted = id => {
+        API.markChoreUncomplete({
             choreData: id
         })
             .then(res => {
@@ -49,21 +49,35 @@ class Chores extends React.Component {
             })
     }
 
+    deleteChore = id => {
+        API.deleteChore({
+            chore_id: id
+        })
+            .then(res => {
+                console.log(res)
+                this.props.getChores(this.props.home_id)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
     handleClose = () => {
         this.setState({ modalShow: false })
     }
 
     componentDidMount = () => {
-        this.grabUsers(this.props.home_id);
+        // this.grabUsers(this.props.home_id);
     }
 
     render() {
         return (
             <div>
                 <ul className="list-group list-group-flush">
-                    <li className="list-group-item list-group-item-success">{this.props.choreName}<br />
+                    <li className="list-group-item list-group-item-warning">{this.props.choreName}<br />
                         <button type="button" className="btn btn-secondary" style={{ margin: 5 }} onClick={this.openModal}>More Info...</button>
-                        <button type="button" className="btn btn-success" onClick={() => this.markCompleted(this.props.id)} style={{ margin: 5 }}>Completed!</button>
+                        <button type="button" className="btn btn-warning" onClick={() => this.markUncompleted(this.props.id)} style={{ margin: 5 }}>This isn't done</button>
+                        <button type="button" className="btn btn-success" onClick={() => this.deleteChore(this.props.id)} >Delete</button>
                     </li>
                 </ul>
                 <Modal
@@ -84,9 +98,9 @@ class Chores extends React.Component {
                         <button type="button" className="btn btn-secondary" onClick={this.closeModal}>Close</button>
                     </Modal.Body>
                 </Modal>
-            </div>
+            </div >
         );
     }
 }
 
-export default Chores
+export default AdminChoreDisplay;

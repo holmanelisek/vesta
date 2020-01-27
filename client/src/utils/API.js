@@ -34,7 +34,7 @@ export default {
   },
 
   //Update account information
-  updateUserInfo: userData =>{
+  updateUserInfo: userData => {
     return axios.post("/api/users/account_update", userData)
   },
 
@@ -93,11 +93,16 @@ export default {
 
   // Deletes specified chore
   deleteChore: choreData => {
+    console.log(choreData)
     return axios.post("/api/delete/chores", choreData);
   },
   // Used for marking a chore complete
   markChoreComplete: choreData => {
     return axios.post("/api/edit/complete-chore", choreData);
+  },
+  // Used for marking a chore uncomplete
+  markChoreUncomplete: choreData => {
+    return axios.post("/api/edit/uncomplete-chore", choreData);
   },
   //----------------------//
 
