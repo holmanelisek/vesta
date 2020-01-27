@@ -37,7 +37,7 @@ function SignIn(props) {
                 <button type="submit" onClick={props.handleFormSubmit} className="btn btn-default">Login</button>
             </div>
             <div>
-                {props.signInErrResponse ? <Alert variant="danger" className="justify-content-center">Your email or password is wrong. Please try again</Alert> : <span></span>}
+                {props.signInErrResponse ? <Alert variant="danger" className="text-center">Your email or password is wrong. Please try again</Alert> : <span></span>}
             </div>
         </div>
     );
