@@ -14,6 +14,7 @@ aws.config.region = "us-east-2";
 var Bucket_Name = "vestahomehub";
 var User_Key = "AKIAQIP4V7J5YFU53RZ4";
 var Secret_Key = "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";
+
 if (process.env.NODE_ENV === "production") {
   var Bucket_Name = process.env.S3_BUCKET;
   var User_Key = process.env.AWS_ACCESS_KEY;
