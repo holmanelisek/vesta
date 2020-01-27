@@ -45,6 +45,24 @@ router.post("/signup", function (req, res) {
     });
 });
 
+//Remove user from home
+router.post("/users/remove_from_home", (req, res)=>{
+  db.User.update({
+    home_id: null
+  },
+  {
+    where: {
+      id: req.body.user_id
+    }
+  }).then( response => {
+    console.log(response)
+    res.json(response)
+  }).catch( err =>{
+    console.log(err)
+    res.status(401).json(err)
+  })
+})
+
 // Route for joining a home
 router.post("/users/join_home", (req, res) => {
   db.User.update({
@@ -109,13 +127,16 @@ router.post("/get/users", function (req, res) {
 //Update user account info
 // Post for changing the 'completed' to true
 router.post("/users/account_update",  (req, res) => {
-  db.User.update({
-    [req.body.field]: req.body.value
-  }, {
-    where: {
-      id: req.body.user_id
+  db.User.update(
+    {
+      [req.body.field]: req.body.value
+    }, 
+    {
+      where: {
+        id: req.body.user_id
+      }
     }
-  })
+  )
     .then(function (dbUpdatedUser) {
       res.json(dbUpdatedUser);
     })
@@ -184,6 +205,29 @@ router.post("/home/create", (req, res) => {
     res.json(homeData)
   }).catch(err => {
     res.status(401).json(err);
+  })
+})
+
+//Route to update home address
+router.post("/home/update_address", (req, res)=>{
+  db.Homes.update({
+      home_name:  req.body.home_name,
+      street: req.body.home_street,
+      city: req.body.home_city,
+      state: req.body.home_state,
+      zip: req.body.home_zip,
+      master_key:  req.body.master_key,
+      invitation_key:  req.body.home_key,
+      home_admin:  req.body.home_admin
+    },
+    {
+      where: {
+        id: req.body.home_id
+      }
+    }).then( homeData => {
+      res.json(homeData)
+    }).catch( err =>{
+    res.status(401).json({ error: err.errors[0].message });
   })
 })
 
