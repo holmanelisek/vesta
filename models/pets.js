@@ -10,6 +10,10 @@ module.exports = function(sequelize, DataTypes) {
       required: true,
       allowNull: false
     },
+    image_url: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     age: {
       type: DataTypes.INTEGER
     },
