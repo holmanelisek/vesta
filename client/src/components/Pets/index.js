@@ -91,16 +91,15 @@ class Pets extends Component {
 
   render() {
     return (
-      <div className="col-sm-3">
-        <div className="card">
+        <div className="card " style={{width: "18rem"}}>
           <img src={'https://i.pinimg.com/originals/ae/c4/53/aec453161b2f33ffc6219d8a758307a9.jpg'} className="card-img-top img-responsive" alt="Cute Puppy" />
           <div className="card-body">
             <h5 className="card-title">{this.props.pet.pet_name}</h5>
             <p className="card-text">Age:{this.props.pet.age}</p>
             <button onClick={() => this.openModal("pet")} className="btn btn-primary">More information</button>
           </div>
-        </div>
-        <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
+
+          <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
           <Modal.Title>
             {this.modalTitleSwitch(this.state.modalFunc)}
           </Modal.Title>
@@ -113,7 +112,7 @@ class Pets extends Component {
             </div>
           </Modal.Footer>
         </Modal>
-      </div>
+        </div>
     )
   };
 }
