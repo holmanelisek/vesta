@@ -223,7 +223,7 @@ class Homehub extends Component {
   //Function that iterates through each pet and inserts primary pet info as a new property
   insertVetToPet = (petArray, vetArray) => {
     petArray.forEach(thisPet => {
-      let petVet = vetArray.find(({id}) => id === thisPet.primary_vet_id)
+      let petVet = vetArray.find(({ id }) => id === thisPet.primary_vet_id)
       thisPet.primary_vet_info = petVet;
     })
     return petArray;
@@ -503,10 +503,10 @@ class Homehub extends Component {
       case "scanItem":
         return (
           <Scanner
-            // home_id={this.state.home_id}
-            // listPantry={this.listPantry}
-            // closeModal={this.closeModal}
-            // created_by={this.props.state.firstname}
+          // home_id={this.state.home_id}
+          // listPantry={this.listPantry}
+          // closeModal={this.closeModal}
+          // created_by={this.props.state.firstname}
           />
         );
       case "deleteItem":
@@ -590,22 +590,22 @@ class Homehub extends Component {
                           <div className="col">
                             <div className="card-deck">
                               {this.state.petData.length > 0 ?
-                                  this.state.petData.map(pet => (
-                                    <Pets
-                                      key={pet.id}
-                                      pet={pet}
-                                      user={this.state.user_id}
-                                      firstname={this.state.firstname}
-                                      home_id={this.state.home_id}
-                                      primary_vets={this.state.primary_vets}
-                                      home_admin={this.state.home_admin}
-                                      getPetData={this.getPetData}
-                                    />
-                                  ))
-                                  :
-                                  // TODO not centered
-                                  <h2>No Pets</h2>
-                                }
+                                this.state.petData.map(pet => (
+                                  <Pets
+                                    key={pet.id}
+                                    pet={pet}
+                                    user={this.state.user_id}
+                                    firstname={this.state.firstname}
+                                    home_id={this.state.home_id}
+                                    primary_vets={this.state.primary_vets}
+                                    home_admin={this.state.home_admin}
+                                    getPetData={this.getPetData}
+                                  />
+                                ))
+                                :
+                                // TODO not centered
+                                <h2>No Pets</h2>
+                              }
                             </div>
                           </div>
                         </div>
@@ -622,31 +622,33 @@ class Homehub extends Component {
                       </div>
                       <br />
                       {this.state.pantryItems.length > 0 ?
-                        <Table striped bordered>
-                          <thead>
-                            <tr>
-                              <th>Icon</th>
-                              <th>Item</th>
-                              <th>Item Type</th>
-                              <th>Date In</th>
-                              <th><i className="fas fa-minus"></i></th>
-                              <th>Quantity</th>
-                              <th><i className="fas fa-plus"></i></th>
-                            </tr>
-                          </thead>
-                          {this.state.pantryItems.map(item => (
-                            <PantryItem
-                              key={item.id}
-                              id={item.id}
-                              home_id={this.state.home_id}
-                              item_name={item.item_name}
-                              item_type={item.item_type}
-                              quantity={item.quantity}
-                              date_in={item.date_in}
-                              listPantry={this.listPantry}
-                            />
-                          ))}
-                        </Table> :
+                        <div className="table-responsive">
+                          <Table striped bordered>
+                            <thead>
+                              <tr>
+                                <th>Icon</th>
+                                <th>Item</th>
+                                <th>Item Type</th>
+                                <th>Date In</th>
+                                <th><i className="fas fa-minus"></i></th>
+                                <th>Quantity</th>
+                                <th><i className="fas fa-plus"></i></th>
+                              </tr>
+                            </thead>
+                            {this.state.pantryItems.map(item => (
+                              <PantryItem
+                                key={item.id}
+                                id={item.id}
+                                home_id={this.state.home_id}
+                                item_name={item.item_name}
+                                item_type={item.item_type}
+                                quantity={item.quantity}
+                                date_in={item.date_in}
+                                listPantry={this.listPantry}
+                              />
+                            ))}
+                          </Table>
+                        </div> :
                         <h2>No items</h2>
                       }
                     </div>
