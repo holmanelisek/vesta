@@ -1,4 +1,5 @@
 // Requiring our models and passport as we've configured it
+require('dotenv').config();
 var db = require("../../models");
 var passport = require("../../config/passport");
 var router = require("express").Router();
@@ -11,15 +12,9 @@ const saltRounds = 10;
 //Amazon S3 and photouploading packages
 var aws = require('aws-sdk');
 aws.config.region = "us-east-2";
-var Bucket_Name = "vestahomehub";
-var User_Key = "AKIAQIP4V7J5YFU53RZ4";
-var Secret_Key = "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";
-
-if (process.env.NODE_ENV === "production") {
-  var Bucket_Name = process.env.S3_BUCKET;
-  var User_Key = process.env.AWS_ACCESS_KEY;
-  var Secret_Key = process.env.AWS_SECRET_ACCESS_KEY;
-}
+var Bucket_Name = process.env.S3_BUCKET;
+var User_Key = process.env.AWS_ACCESS_KEY;
+var Secret_Key = process.env.AWS_SECRET_ACCESS_KEY;
 
 //-------------------------------//
 //-----Upload to Amazon S3-------//
