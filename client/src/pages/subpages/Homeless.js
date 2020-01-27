@@ -5,6 +5,12 @@ import JoinHome from "../../components/JoinHome";
 import FindHome from "../../components/FindHome";
 import API from "../../utils/API";
 import Crypto from "crypto-random-string";
+import Container from "../../components/Container"
+import { Redirect } from "react-router";
+
+const abbrStates = ['AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY'];
+console.log("[NewVetForm]")
+const stateDropSelection = abbrStates.map(state => ({ value: state, label: state }))
 
 class Homeless extends Component{
     constructor(){
@@ -105,7 +111,8 @@ class Homeless extends Component{
             homeUnit: undefined,
             homeCity: undefined,
             homeState: undefined,
-            homeZip: undefined
+            homeZip: undefined,
+            us_state: undefined
         })
       }
 
@@ -115,6 +122,11 @@ class Homeless extends Component{
             modalFunc: "Create",
             modalShow: true
         })
+    }
+
+    handleSelectionState = selection => {
+        console.log(selection)
+        this.setState({ homeState: selection.value })
     }
 
     //Function to open the Find Home Modal
@@ -181,6 +193,8 @@ class Homeless extends Component{
                 return (
                     <Modal.Body>
                         <CreateHome
+                            handleSelectionState = {this.handleSelectionState}
+                            stateDropSelection = {stateDropSelection}
                             handleInputChange = {this.handleInputChange}
                             handleCreateSubmit = {this.handleCreateSubmit}
                         />
@@ -211,24 +225,58 @@ class Homeless extends Component{
 
     render(){
         return(
-            <div>    
-                <div style={{ textAlign: "center", height: 200, clear: "both", paddingTop: 120 }} className="jumbotron">
-                <h1>Homeless</h1>
-                </div>
-                <div>
-                    <button onClick={this.handleCreateModal}>Create New Home</button>
-                    <button onClick={this.handleFindHomeModal}>Find a Home</button>
-                </div>
-                <Modal show={this.state.modalShow} onHide={this.handleClose} backdrop='static'>
-                    <Modal.Header closeButton>
-                        {this.modalTitleSwitch(this.state.modalFunc)}
-                    </Modal.Header>
-                    <Modal.Body>
-                        {this.modalBodySwitch(this.state.modalFunc)}
-                    </Modal.Body>
-                </Modal>
+            <div>
+                {this.props.authenticated ? 
+                    <div>    
+                        <div style={{ textAlign: "center", height: 200, clear: "both", paddingTop: 120 }} className="jumbotron">
+                        <h1>Homeless</h1>
+                        </div>
+                        <Container>
+                            <div className="row">
+                                <div className="card-deck">
+                                    <div className="card">
+                                        <img className="card-img-top createHomeImg" id="createHomeImg" src="./assets/images/createhome.png" alt="Create a Home" />
+                                        <div className="card-body">
+                                            <h2>Create My Home</h2>
+                                            <p2>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum sodales risus, at auctor nunc cursus at.
+                                            </p2>
+                                        </div>
+                                        <div className="card-footer">
+                                            <button className="btn btn-info" onClick={this.handleCreateModal}>Create My Home</button>
+                                        </div>
+                                    </div>
+                                    <div className="card">
+                                        <img className="card-img-top findHomeImg" id="findHomeImg" src="./assets/images/findhome.jpg" alt="Create a Home" />
+                                        <div className="card-body">
+                                            <h2>Find My Home</h2>
+                                            <p2>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum sodales risus, at auctor nunc cursus at.
+                                            </p2>
+                                        </div>
+                                        <div className="card-footer">
+                                            <button className="btn btn-info" onClick={this.handleFindHomeModal}>Find My Home</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Container>
+                        <Modal show={this.state.modalShow} onHide={this.handleClose} backdrop='static'>
+                            <Modal.Header closeButton>
+                                <Modal.Title>
+                                    {this.modalTitleSwitch(this.state.modalFunc)}
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                {this.modalBodySwitch(this.state.modalFunc)}
+                            </Modal.Body>
+                        </Modal>
+                    </div>
+                :
+                    <Redirect to="/" />
+                }
             </div>
-        )
+        ) 
     }
 }
 

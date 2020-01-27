@@ -201,7 +201,7 @@ export class NewPetForm extends Component {
                         />
                     </div>
                     <div className="my-2">
-                        <button type="button" className="btn btn-warning" onClick={this.props.getAllVets}>Find All Vets</button><button type="button" className="btn btn-warning" onClick={this.getMyVetsDropSelection}>My Vets</button>
+                        <button type="button" className="btn btn-info" onClick={this.props.getAllVets}>Find All Vets</button><span> </span><button type="button" className="btn btn-info" onClick={this.getMyVetsDropSelection}>My Vets</button>
                     </div>
                     {/* Emergency Vet */}
                     <div className="my-2">
@@ -213,17 +213,22 @@ export class NewPetForm extends Component {
                         />
                     </div>
                     <div>
-                        <label htmlFor="sighting_image">Upload Image</label>
+                        <label htmlFor="Image">Upload Image</label>
                         <br />
                         <input
-                            id="logImg"
-                            type="file"
-                            accept="image/*"
-                            capture="camera"
-                            name="photo"
+                            id="Image" 
+                            type="file" 
+                            accept="image/*" 
+                            capture="camera" 
+                            name="photo" 
                             onChange={this.getPetImage}
-                        />
-                        <img className="w-50 h-50" id="pet-preview" src={this.state.pet_image} />
+                            />
+                    </div>
+                    <br />
+                    <div className="row justify-content-center">
+                        <div className="col-12">
+                            <img className="img-thumbnail" id="pet-preview" src={this.state.pet_image} />
+                        </div>
                     </div>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
@@ -249,7 +254,7 @@ export class NewPetForm extends Component {
 export function NewPetTitle() {
     return (
         <div className="">
-            <h2>New Pet Information</h2>
+            <h2>New Pet</h2>
         </div>
     )
 }

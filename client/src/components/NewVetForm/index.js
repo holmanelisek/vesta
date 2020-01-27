@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Select from 'react-select';
 import API from "../../utils/API";
+import {Button, ToggleButtonGroup, ToggleButton, ButtonToolbar} from "react-bootstrap"
 
 const abbrStates = ['AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY'];
 console.log("[NewVetForm]")
@@ -18,7 +19,7 @@ export class NewVetForm extends Component {
             us_state: undefined,
             zip: undefined,
             email: undefined,
-            emergency_clinic: undefined
+            emergency_clinic: 1
         }
 
         this.handleInputChange = this.handleInputChange.bind(this)
@@ -33,6 +34,10 @@ export class NewVetForm extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
+
+    handleEmergencyClinic = val =>{
+        this.setState({emergency_clinic: val})
     }
 
     handleSelectionState = selection => {
@@ -65,6 +70,7 @@ export class NewVetForm extends Component {
                 <div className="modal-body mx-2">
                     {/*Vet Practice Name*/}
                     <div className="my-2">
+                        <label>Practice Name</label>
                         <input
                             value={this.state.practice_name}
                             onChange={this.handleInputChange}
@@ -76,6 +82,7 @@ export class NewVetForm extends Component {
                     </div>
                     {/* Phone Number */}
                     <div className="my-2">
+                        <label>Phone Number</label>
                         <input
                             value={this.state.phone_number}
                             onChange={this.handleInputChange}
@@ -87,6 +94,7 @@ export class NewVetForm extends Component {
                     </div>
                     {/* Street Address */}
                     <div className="my-2">
+                        <label>Street Address</label>
                         <input
                             value={this.state.street}
                             onChange={this.handleInputChange}
@@ -98,6 +106,7 @@ export class NewVetForm extends Component {
                     </div>
                     {/* City*/}
                     <div className="my-2">
+                        <label>City</label>
                         <input
                             value={this.state.city}
                             onChange={this.handleInputChange}
@@ -109,27 +118,28 @@ export class NewVetForm extends Component {
                     </div>
                     {/*State and Zip*/}
                     <div className="my-2">
-                        <span>
-                            <Select
-                                value={this.us_state}
-                                onChange={this.handleSelectionState}
-                                options={stateDropSelection}
-                                name="us_state"
-                            />
-                        </span>
-                        <span>
-                            <input
-                                value={this.state.zip}
-                                onChange={this.handleInputChange}
-                                type="number"
-                                name="zip"
-                                id="zip"
-                                className="form-control validate"
-                                placeholder="Zip Code" />
-                        </span>
+                        <label>State</label>
+                        <Select
+                            value={this.us_state}
+                            onChange={this.handleSelectionState}
+                            options={stateDropSelection}
+                            name="us_state"
+                        />
+                    </div>
+                    <div className="my-2">
+                        <label>Zip Code</label>
+                        <input
+                            value={this.state.zip}
+                            onChange={this.handleInputChange}
+                            type="number"
+                            name="zip"
+                            id="zip"
+                            className="form-control validate"
+                            placeholder="Zip Code" />
                     </div>
                     {/* Email */}
                     <div className="my-2">
+                        <label>Email</label>
                         <input
                             value={this.state.email}
                             onChange={this.handleInputChange}
@@ -141,14 +151,13 @@ export class NewVetForm extends Component {
                     </div>
                     {/* Emergency CLinic */}
                     <div className="my-2">
-                        <input
-                            value={this.state.emergency_clinic}
-                            onChange={this.handleInputChange}
-                            type="emergency_clinic"
-                            name="emergency_clinic"
-                            id="street"
-                            className="form-control validate"
-                            placeholder="Emergency Clinic" />
+                        <label>Emergency Clinic</label>
+                        <ButtonToolbar>
+                            <ToggleButtonGroup type="radio" name="options" defaultValue={1} onChange={this.handleEmergencyClinic}>
+                                <ToggleButton value={1}>Yes</ToggleButton>
+                                <ToggleButton value={2}>No</ToggleButton>
+                            </ToggleButtonGroup>
+                        </ButtonToolbar>
                     </div>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
@@ -163,7 +172,7 @@ export class NewVetForm extends Component {
 export function NewVetTitle() {
     return (
         <div className="">
-            <h2>New Vet Information</h2>
+            <h2>New Vet</h2>
         </div>
     )
 }
