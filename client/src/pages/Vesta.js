@@ -36,7 +36,9 @@ class Vesta extends Component {
       authenticated: false,
       modalShow: false,
       modalFunc: undefined,
-      signupErrResponse: false,
+      formNotFilledErrResponse: false,
+      emailValidationErrResponse: false,
+      emailUserErrResponse: false,
       signInErrResponse: false
     };
 
@@ -94,7 +96,7 @@ class Vesta extends Component {
           home_state: response.data.state,
           home_zip: response.data.zip
         })
-      }).catch(err=>{
+      }).catch(err => {
         console.log(err.response)
       })
   }
@@ -162,16 +164,33 @@ class Vesta extends Component {
       this.handleClose()
       this.props.history.push("/Homeless")
     }).catch(err => {
+      console.log(err.response.data.error)
 
-      // console.log(err)
-      //Do something with error
-      if (err.response) {
-        this.signupErrorTimeout()
-        // this.setState({ signupErrResponse: true })
-        console.log(this.state.signupErrResponse);
+      switch (err.response.data.error) {
+        case "User.username cannot be null":
+          this.formNotFilledErrorTimeout();
+          break;
+        case "User.email cannot be null":
+          this.formNotFilledErrorTimeout();
+          break;
+        case "User.password cannot be null":
+          this.formNotFilledErrorTimeout();
+          break;
+        case "User.first_name cannot be null":
+          this.formNotFilledErrorTimeout();
+          break;
+        case "User.last_name cannot be null":
+          this.formNotFilledErrorTimeout();
+          break;
+        case "Validation isEmail on email failed":
+          this.emailValidationErrorTimeout();
+          break;
+        case "email must be unique":
+          this.emailUserErrorTimeout();
+          break;
       }
-    });
-  }
+    })
+  };
 
   handleSignOutSubmit = () => {
     API.signOut()
@@ -196,12 +215,34 @@ class Vesta extends Component {
     this.setState({ modalShow: true })
   }
 
-  // Sets signupErrResponse state for Alert on Signup component. Resets to false after 5 seconds to dismiss modal
-  signupErrorTimeout = () => {
-    this.setState({ signupErrResponse: true });
+  // Sets emailUserErrResponse state for Alert on Signup component. Resets to false after 5 seconds to dismiss modal
+  formNotFilledErrorTimeout = () => {
+    this.setState({ formNotFilledErrResponse: true });
     setTimeout(
       function () {
-        this.setState({ signupErrResponse: false });
+        this.setState({ formNotFilledErrResponse: false });
+      }
+        .bind(this),
+      5000
+    );
+  }
+
+  emailValidationErrorTimeout = () => {
+    this.setState({ emailValidationErrResponse: true });
+    setTimeout(
+      function () {
+        this.setState({ emailValidationErrResponse: false });
+      }
+        .bind(this),
+      5000
+    );
+  }
+
+  emailUserErrorTimeout = () => {
+    this.setState({ emailUserErrResponse: true });
+    setTimeout(
+      function () {
+        this.setState({ emailUserErrResponse: false });
       }
         .bind(this),
       5000
@@ -280,7 +321,9 @@ class Vesta extends Component {
                   // Passing through functions
                   handleSignUpSubmit={this.handleSignUpSubmit}
                   handleInputChange={this.handleInputChange}
-                  signupErrResponse={this.state.signupErrResponse}
+                  formNotFilledErrResponse={this.state.formNotFilledErrResponse}
+                  emailUserErrResponse={this.state.emailUserErrResponse}
+                  emailValidationErrResponse={this.state.emailValidationErrResponse}
                 />
                 : null
             }

@@ -69,7 +69,9 @@ function SignUp(props) {
                 This is a danger alert—check it out!
              </Alert> */}
             <div>
-                {props.signupErrResponse ? <Alert variant="danger" className="justify-content-center">This email is already in use. Please log in or try a different email.</Alert> : <span></span>}
+                {props.formNotFilledErrResponse ? <Alert variant="danger" className="text-center">Please fill out all fields</Alert> : <span></span>}
+                {props.emailUserErrResponse ? <Alert variant="danger" className="text-center">This email is already in use. Please log in or try a different email.</Alert> : <span></span>}
+                {props.emailValidationErrResponse ? <Alert variant="danger" className="text-center">Please enter a valid email address</Alert> : <span></span>}
             </div>
         </div >
     );
