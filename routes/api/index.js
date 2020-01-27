@@ -8,6 +8,51 @@ const { Op } = require("sequelize");
 var bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
+//Amazon S3 and photouploading packages
+var aws = require('aws-sdk');
+aws.config.region = "us-east-2";
+var Bucket_Name = "vestahomehub";
+var User_Key = "AKIAQIP4V7J5YFU53RZ4";
+var Secret_Key = "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";
+if (process.env.NODE_ENV === "production") {
+  var Bucket_Name = process.env.S3_BUCKET;
+  var User_Key = process.env.AWS_ACCESS_KEY;
+  var Secret_Key = process.env.AWS_SECRET_ACCESS_KEY;
+}
+
+//-------------------------------//
+//-----Upload to Amazon S3-------//
+//-------------------------------//
+router.get('/sign-s3', function(req, res) {
+  var s3 = new aws.S3({
+    accessKeyId: User_Key,
+    secretAccessKey: Secret_Key,
+  });
+
+  var fileName = req.query['file-name'];
+  var fileType = req.query['file-type'];
+  var uniqueName = Date.now()+""+fileName;
+  var s3Params = {
+    Bucket: Bucket_Name,
+    Key: uniqueName,
+    Expires: 60,
+    ContentType: fileType,
+    ACL: 'public-read'
+  };
+
+  s3.getSignedUrl('putObject', s3Params, function(err, data) {
+    if(err){
+      console.log(err);
+      return res.end();
+    }
+    var returnData = {
+      signedRequest: data,
+      url: "https://"+Bucket_Name+".s3.amazonaws.com/"+uniqueName
+    };
+    res.write(JSON.stringify(returnData));
+    res.end();
+  });
+});
 
 //------------------------------//
 //----------User Routes---------//
@@ -382,7 +427,8 @@ router.post("/add/pet", function (req, res) {
     age: req.body.age,
     animal_type: req.body.animal_type,
     primary_vet_id: req.body.primary_vet_id,
-    emergency_vet_id: req.body.emergency_vet_id
+    emergency_vet_id: req.body.emergency_vet_id,
+    image_url: req.body.image_url
   })
     .then(function (dbPets) {
       res.json(dbPets);

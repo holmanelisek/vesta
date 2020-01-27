@@ -57,7 +57,6 @@ export default {
   },
 
   updateHomeAddress: homeData => {
-    console.log("[Update Home Address]")
     console.log(homeData)
     return axios.post("/api/home/update_address", homeData);
   },
