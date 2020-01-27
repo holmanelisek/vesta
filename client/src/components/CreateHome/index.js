@@ -1,9 +1,10 @@
 import React from "react";
+import Select from "react-select";
 
 export function CreateHome(props){
     return (        
         <div>
-            <div className="modal-body mx-2">
+            <div className="modal-body">
                 {/* Home Name */}
                 <div className="my-2">
                     <label htmlFor="homeName">Home Name</label>
@@ -56,14 +57,12 @@ export function CreateHome(props){
                 {/* Home State */}
                 <div className="my-2">
                     <label htmlFor="homeState">State</label>
-                    <input 
+                    <Select 
                         value={props.homeState}
-                        onChange = {props.handleInputChange}
-                        type="text" 
+                        onChange={props.handleSelectionState}
+                        options={props.stateDropSelection}
                         name="homeState"
-                        id="homeState" 
-                        className="form-control validate"
-                        placeholder="Home State"/>
+                    />
                 </div>
                 {/* Home Zip */}
                 <div className="my-2">
