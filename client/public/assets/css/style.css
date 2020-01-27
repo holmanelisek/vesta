@@ -9,6 +9,10 @@ body {
     width: 100px
 }
 
+li.no-padding {
+    padding: 0px;
+}
+
 nav li {
     padding: 10px;
 }
@@ -228,17 +232,35 @@ h1, h2, h3, h5, p {
     color: #4281a4;
 }
 
+@media only screen and (max-width: 327px) {
+    #chores-tab {
+      font-size: 25px;
+    }
+  }
+
 #pets-tab {
     font-family: 'Caveat', cursive;
     font-size: 30px;
     color: #d4b483;
 }
 
+@media only screen and (max-width: 327px) {
+    #pets-tab {
+      font-size: 25px;
+    }
+  }
+
 #pantry-tab {
     font-family: 'Caveat', cursive;
     font-size: 30px;
     color: #c1666b;
 }
+
+@media only screen and (max-width: 327px) {
+    #pantry-tab {
+      font-size: 25px;
+    }
+  }
 
 
 /* FOOTER   */

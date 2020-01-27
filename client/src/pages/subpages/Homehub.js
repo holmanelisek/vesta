@@ -538,13 +538,13 @@ class Homehub extends Component {
               <div className="card">
                 <div className="card-body" style={{ textAlign: "center" }}>
                   <ul className="nav nav-tabs" id="home-hub-tabs" role="tablist" style={{ display: "inline-block", fontSize: 20, fontWeight: "bold" }}>
-                    <li className="nav-item" style={{ display: "inline" }}>
+                    <li className="nav-item no-padding" style={{ display: "inline" }}>
                       <a className="nav-link active" id="chores-tab" data-toggle="tab" href="#chores" role="tab" aria-controls="chores" aria-selected="true" style={{ float: "left" }}>Chores</a>
                     </li>
-                    <li className="nav-item" style={{ display: "inline" }}>
+                    <li className="nav-item no-padding" style={{ display: "inline" }}>
                       <a className="nav-link" id="pets-tab" data-toggle="tab" href="#pets" role="tab" aria-controls="pets" aria-selected="false" style={{ float: "left" }}>Pets</a>
                     </li>
-                    <li className="nav-item" style={{ display: "inline" }}>
+                    <li className="nav-item no-padding" style={{ display: "inline" }}>
                       <a className="nav-link" id="pantry-tab" data-toggle="tab" href="#pantry" role="tab" aria-controls="pantry" aria-selected="false" style={{ float: "left" }}>Pantry</a>
                     </li>
                   </ul>
