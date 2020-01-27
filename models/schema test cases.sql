@@ -56,17 +56,18 @@ VALUES
 
 
 INSERT INTO pets
-    (home_id,pet_name,age,animal_type,createdAt,updatedAt,primary_vet_id)
+    (home_id,pet_name,image_url,age,animal_type,createdAt,updatedAt,primary_vet_id)
 VALUES
-    (1, "Rocket", 7, "dog", "2020-01-11 12:15:00", "2020-01-11 12:15:00", 1);
+    (1, "Rocket","https://ih0.redbubble.net/image.632441746.7645/flat,1000x1000,075,f.jpg", 7, "dog", "2020-01-11 12:15:00", "2020-01-11 12:15:00", 1);
 INSERT INTO pets
-    (home_id,pet_name,age,animal_type,createdAt,updatedAt,primary_vet_id)
+    (home_id,pet_name,image_url,age,animal_type,createdAt,updatedAt,primary_vet_id)
 VALUES
-    (1, "Scout", 4, "dog", "2020-01-11 12:15:00", "2020-01-11 12:15:00", 1);
+    (1, "Scout","https://ih0.redbubble.net/image.632441746.7645/flat,1000x1000,075,f.jpg", 4, "dog", "2020-01-11 12:15:00", "2020-01-11 12:15:00", 1);
 INSERT INTO pets
-    (home_id,pet_name,age,animal_type,createdAt,updatedAt,primary_vet_id)
+    (home_id,pet_name,image_url,age,animal_type,createdAt,updatedAt,primary_vet_id)
 VALUES
-    (1, "Blue", 2, "dog", "2020-01-11 12:15:00", "2020-01-11 12:15:00", 1);
+    (1, "Blue","https://ih0.redbubble.net/image.632441746.7645/flat,1000x1000,075,f.jpg", 2, "dog", "2020-01-11 12:15:00", "2020-01-11 12:15:00", 1);
+
 
 INSERT INTO chores
     (home_id,chore_name,created_by,assigned_user,point_value,start_date_time,end_date_time,repeats,repeat_interval,completed,createdAt,updatedAt)
