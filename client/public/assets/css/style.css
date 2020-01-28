@@ -18,6 +18,11 @@ ul {white-space: nowrap;}
 
 .nav-color {background-color: #4280a4;}
 
+.nav-link {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bolder;
+}
+
 
 /* BUTTONS */
 
@@ -237,6 +242,11 @@ h1, h2, h3, h5, p {
 
 /* HOMEHUB */
 
+#home-hub-tabs {
+  font-size: 40px;
+  font-family: 'Caveat', cursive;
+}
+
 .col-lg-6 h4 {
   margin-top: 20px;
 }
@@ -311,6 +321,10 @@ h1, h2, h3, h5, p {
     color: #4281a4;
     text-decoration: none;
     cursor: pointer;
+}
+
+.deleteThisPet {
+  margin-left: 10px;
 }
 
 /* ACCOUNT */

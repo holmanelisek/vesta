@@ -670,36 +670,45 @@ class Homehub extends Component {
                     <span>{this.adminFunctionDeletePantry(this.state.home_admin, this.state.user_id)}</span>
                   </div>
                   <br />
-                  {this.state.pantryItems.length > 0 ?
-                    <div className="table-responsive">
-                      <Table striped bordered>
-                        <thead>
-                          <tr>
-                            <th>Icon</th>
-                            <th>Item</th>
-                            <th>Item Type</th>
-                            <th>Date In</th>
-                            <th><i className="fas fa-minus"></i></th>
-                            <th>Quantity</th>
-                            <th><i className="fas fa-plus"></i></th>
-                          </tr>
-                        </thead>
-                        {this.state.pantryItems.map(item => (
-                          <PantryItem
-                            key={item.id}
-                            id={item.id}
-                            home_id={this.props.state.home_id}
-                            item_name={item.item_name}
-                            item_type={item.item_type}
-                            quantity={item.quantity}
-                            date_in={item.date_in}
-                            listPantry={this.listPantry}
-                          />
-                        ))}
-                      </Table>
-                    </div> :
-                    <h5>No items</h5>
-                  }
+
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-lg-12">
+                        {this.state.pantryItems.length > 0 ?
+                          <div className="table-responsive">
+                            <Table striped bordered>
+                              <thead>
+                                <tr>
+                                  <th>Icon</th>
+                                  <th>Item</th>
+                                  <th>Item Type</th>
+                                  <th>Date In</th>
+                                  <th><i className="fas fa-minus"></i></th>
+                                  <th>Quantity</th>
+                                  <th><i className="fas fa-plus"></i></th>
+                                </tr>
+                              </thead>
+                              {this.state.pantryItems.map(item => (
+                                <PantryItem
+                                  key={item.id}
+                                  id={item.id}
+                                  home_id={this.props.state.home_id}
+                                  item_name={item.item_name}
+                                  item_type={item.item_type}
+                                  quantity={item.quantity}
+                                  date_in={item.date_in}
+                                  listPantry={this.listPantry}
+                                />
+                              ))}
+                            </Table>
+                          </div> :
+                          <h5>No items</h5>
+                        }
+                      </div>
+                    </div>
+                  </div>
+
+
                   <div>
                     <Recipe home_id={this.props.state.home_id}
                     ></Recipe>

@@ -35,7 +35,7 @@ function Information() {
                                         <img className="rounded-circle headshot" src="./assets/images/broom-color.png" alt="Chores Icon"></img>
                                     </span>
                                     <h4 className="service-heading">Chores</h4>
-                                    <p className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                                    <p className="text-muted">Add chores to the household list and assign them to members of your home. Chores receive deadlines and point values are so you can track and rewards your kids with prizes in exchange for points.</p>
                                 </div>
                                 {/* PETS */}
                                 <div className="col-md-4">
@@ -43,7 +43,7 @@ function Information() {
                                         <img className="rounded-circle headshot" src="./assets/images/paw-color.png" alt="Pet Icon"></img>
                                     </span>
                                     <h4 className="service-heading">Pets</h4>
-                                    <p className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                                    <p className="text-muted">Create a list of all your pets, including adorable photos, their age, health data, and vet information. Contact information for your veterinarian is also included so you can have quick access when Fido needs care!</p>
                                 </div>
                                 {/* PANTRY */}
                                 <div className="col-md-4">
@@ -51,7 +51,7 @@ function Information() {
                                         <img className="rounded-circle headshot" src="./assets/images/apple-color.png" alt="Pantry Icon"></img>
                                     </span>
                                     <h4 className="service-heading">Pantry</h4>
-                                    <p className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                                    <p className="text-muted">Track what’s in stock in your home pantry based on name, item type, date it was purchased, and quantity. Use this data to determine if you have the right ingredients for your favorite recipes!</p>
                                 </div>
                             </div>
                         </div>
