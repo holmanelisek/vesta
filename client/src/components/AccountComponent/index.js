@@ -1,7 +1,7 @@
 import React ,{useState} from "react";
 import Select from 'react-select';
 import { Alert, Button } from "react-bootstrap";
-import "./trashIcon.css";
+// import "./trashIcon.css";
 import {Modal} from "react-bootstrap";
 
 export function HouseMemeber(props){
