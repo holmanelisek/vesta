@@ -15,8 +15,8 @@ export class Recipe extends React.Component {
             link: "",
         }
     };
-    
-    
+
+
     componentDidMount = () => {
         //var homeID = this.props.home_id;
         console.log("Here you are!" + this.props.home_id);
@@ -31,77 +31,81 @@ export class Recipe extends React.Component {
         var that = this;
         API.getPantryItems({
             home_id: homeID
-        }).then(function(res){
+        }).then(function (res) {
             var pantry = res.data;
-            that.setState({pantry:pantry});
-            var random = Math.floor(Math.random() * Math.floor(pantry.length));
-            var randompantry = pantry[random].item_name;
-            var queryURL = "https://api.edamam.com/search?q='" + randompantry + "'&app_id=" + appID + "&app_key=" + apiKey + "&from=0&to=10";
-            API.getRecipe(queryURL).then(function(response){
-                console.log("URL: " + queryURL);
-                let recipes = response.data.hits;
-                console.log(recipes);
-                //PLACEHOLDERlet randomnum = Math.floor(Math.random()* Math.floor(recipes.length));
-                //PLACEHOLDERrecipechoice = recipes[randomnum].recipe;
-                //VARIABLES: BESTNEEDLIST,BESTHAVEPERCENT,BESTRECIPECHOICE
-                var bestneedlist = [];
-                var besthavepercent = 0;
-                var bestrecipechoice = "";
-                var besturl = "";
-                //FOR EACH RECIPE IN RECIPES
-                console.log("At zero: "+recipes[0].recipe.label);
-                console.log(recipes.length);
-                recipes.forEach(function (recipe){
-                    console.log(recipe.recipe.label);
-                    //NEEDLIST, HAVECOUNTER
-                    var needlist = [];
-                    var havecounter = 0;
-                    //CLEAN INGREDIENTS LIST, PUT INTO AN ARRAY
-                    var ingredientarray = recipe.recipe.ingredients;
-                    console.log(ingredientarray);
-                    ingredientarray.forEach(function (ingr){
-                        var ingredient = ingr.text;
-                        console.log(ingredient);
-                        var have = false;
-                        var pantry = that.state.pantry;
-                        pantry.forEach(function(item){
-                            var ingr = ingredient.toLowerCase();
-                            var name = item.item_name.toLowerCase();
-                            if(ingr.includes(name)){
-                                have = true;
-                                console.log("It's true! We've got it!");
+            if (pantry.length > 0) {
+                that.setState({ pantry: pantry });
+                var random = Math.floor(Math.random() * Math.floor(pantry.length));
+                var randompantry = pantry[random].item_name;
+                var queryURL = "https://api.edamam.com/search?q='" + randompantry + "'&app_id=" + appID + "&app_key=" + apiKey + "&from=0&to=10";
+                API.getRecipe(queryURL).then(function (response) {
+                    console.log("URL: " + queryURL);
+                    let recipes = response.data.hits;
+                    console.log(recipes);
+                    //PLACEHOLDERlet randomnum = Math.floor(Math.random()* Math.floor(recipes.length));
+                    //PLACEHOLDERrecipechoice = recipes[randomnum].recipe;
+                    //VARIABLES: BESTNEEDLIST,BESTHAVEPERCENT,BESTRECIPECHOICE
+                    var bestneedlist = [];
+                    var besthavepercent = 0;
+                    var bestrecipechoice = "";
+                    var besturl = "";
+                    //FOR EACH RECIPE IN RECIPES
+                    console.log("At zero: " + recipes[0].recipe.label);
+                    console.log(recipes.length);
+                    recipes.forEach(function (recipe) {
+                        console.log(recipe.recipe.label);
+                        //NEEDLIST, HAVECOUNTER
+                        var needlist = [];
+                        var havecounter = 0;
+                        //CLEAN INGREDIENTS LIST, PUT INTO AN ARRAY
+                        var ingredientarray = recipe.recipe.ingredients;
+                        console.log(ingredientarray);
+                        ingredientarray.forEach(function (ingr) {
+                            var ingredient = ingr.text;
+                            console.log(ingredient);
+                            var have = false;
+                            var pantry = that.state.pantry;
+                            pantry.forEach(function (item) {
+                                var ingr = ingredient.toLowerCase();
+                                var name = item.item_name.toLowerCase();
+                                if (ingr.includes(name)) {
+                                    have = true;
+                                    console.log("It's true! We've got it!");
+                                }
+                            })
+                            if (have) {
+                                havecounter++;
+                                console.log("Have update:" + havecounter);
+                            } else {
+                                needlist.push(ingredient);
+                                console.log("Need: " + needlist);
                             }
                         })
-                        if(have){
-                            havecounter++;
-                            console.log("Have update:" + havecounter);
-                        }else{
-                            needlist.push(ingredient);
-                            console.log("Need: "+ needlist);
+                        var havepercent = havecounter / ingredientarray.length;
+                        console.log("Look at us doing math:" + havepercent);
+                        console.log("Comparing" + besthavepercent);
+                        if (havepercent > besthavepercent) {
+                            console.log("Found a better choice!")
+                            besthavepercent = Math.round(havepercent * 100);
+                            bestneedlist = needlist;
+                            bestrecipechoice = recipe.recipe.label;
+                            besturl = recipe.recipe.url;
                         }
+                        that.setState({ needlist: bestneedlist, havepercent: besthavepercent, recipe: bestrecipechoice, link: besturl });
                     })
-                    var havepercent = havecounter/ingredientarray.length;
-                    console.log("Look at us doing math:"+havepercent);
-                    console.log("Comparing" + besthavepercent);
-                    if(havepercent>besthavepercent){
-                        console.log("Found a better choice!")
-                        besthavepercent = Math.round(havepercent*100);
-                        bestneedlist = needlist;
-                        bestrecipechoice = recipe.recipe.label;
-                        besturl = recipe.recipe.url;
-                    }
-                    that.setState({needlist: bestneedlist, havepercent: besthavepercent, recipe: bestrecipechoice, link:besturl});
-                })
                     //FOR EACH INGREDIENT, SEARCH PANTRY
-                        //IF HAVE, HAVECOUNTER++
-                        //ELSE, PUSH NAME TO NEEDLIST
+                    //IF HAVE, HAVECOUNTER++
+                    //ELSE, PUSH NAME TO NEEDLIST
                     //AFTER ALL INGREDIENTS HAVE BEEN EVALUATED, DIVIDE HAVECOUNTER BY NUMBER OF INGREDIENTS (=HAVEPERCENT)
                     //IF IS HIGHER THAN BESTHAVEPERCENT, BESTNEEDLIST = NEEDLIST, BESTHAVEPERCENT = HAVEPERCENT, BESTRECIPECHOICE = RECIPE
-                
-                    
-                //THAT.SETSTATE WILL EQUAL BESTRECIPE CHOICE, NEEDLIST WILL EQUAL BESTNEEDLIST, HAVEPERCENT WILL EQUAL BESTHAVEPERCENT
-                //PLACEHOLDERthat.setState({recipe:recipechoice});
-            })
+
+
+                    //THAT.SETSTATE WILL EQUAL BESTRECIPE CHOICE, NEEDLIST WILL EQUAL BESTNEEDLIST, HAVEPERCENT WILL EQUAL BESTHAVEPERCENT
+                    //PLACEHOLDERthat.setState({recipe:recipechoice});
+                })
+            } else {
+                console.log("Empty Pantry");
+            }
         })
 
     }
@@ -112,7 +116,7 @@ export class Recipe extends React.Component {
         return (
             <div class="col-12">
                 <p>Suggested for you: <a href={this.state.link}>{this.state.recipe}</a></p>
-                <p>You have {this.state.havepercent}% of the items you need!</p> 
+                <p>You have {this.state.havepercent}% of the items you need!</p>
             </div>)
     }
 }
