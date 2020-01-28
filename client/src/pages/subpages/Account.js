@@ -414,7 +414,7 @@ class Account extends Component{
             {this.props.authenticated ? 
                 <div>
                     {/* Title Div */}
-                        <div style={{ textAlign: "center", height: 200, clear: "both", paddingTop: 120 }} className="jumbotron">
+                        <div className="jumbotron" id="account-jumbo">
                             <h1>Account Settings</h1>
                         </div>
                     <div className="container-fuild m-2">
