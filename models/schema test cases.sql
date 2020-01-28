@@ -132,24 +132,3 @@ INSERT INTO pantries
     (home_id,item_name,item_type,quantity,quantity_unit,low_quantity,date_in,date_out,createdAt,updatedAt) 
 VALUES 
     (1,"apple juice","Beverages",3,"cups",0,18284,18290,'2020-1-24 19:52:39','2020-1-24 19:52:39');
-INSERT INTO pantries
-    (home_id,item_name,item_type,quantity,date_in,createdAt,updatedAt)
-VALUES
-    (1, "Nestle Hot Cocoa Mix", "Beverages", 1, "October 19,2020", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
-INSERT INTO Pantries
-    (home_id,item_name,item_type,quantity,date_in,createdAt,updatedAt)
-VALUES
-    (1, "Chinese Leftovers", "International Cuisine", 1, "October 19,2020", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
-INSERT INTO Pantries
-    (home_id,item_name,item_type,quantity,date_in,createdAt,updatedAt)
-VALUES
-    (1, "Milk", "Dairy", 1, "October 19,2020", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
-INSERT INTO Pantries
-    (home_id,item_name,item_type,quantity,date_in,createdAt,updatedAt)
-VALUES
-    (1, "Coffee", "Beverages", 1, "October 19,2020", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
-INSERT INTO Pantries
-    (home_id,item_name,item_type,quantity,date_in,createdAt,updatedAt)
-VALUES
-    (1, "Honey Nut Cheerios", "Breakfast & Cereal", 1, "October 19,2020", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
-

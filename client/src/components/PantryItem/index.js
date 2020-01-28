@@ -122,6 +122,7 @@ class PantryItem extends Component {
                 <td>Quantity: <span className="badge badge-secondary badge-pill">{this.props.quantity}</span></td>
                 <td><button type="button" className="btn btn-success" onClick={() => this.addOne(this.props.id)}><i className="fas fa-plus"></i></button></td>
             </tr>
+
         )
     }
 }

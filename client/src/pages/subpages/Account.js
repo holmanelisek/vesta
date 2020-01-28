@@ -1,8 +1,7 @@
-import React, { Component, memo } from "react";
+import React, { Component} from "react";
 import API from "../../utils/API";
 import { Redirect } from "react-router-dom";
-import { Modal, Alert } from "react-bootstrap";
-import Container from "../../components/Container"
+import { Modal} from "react-bootstrap";
 import {
     HouseMemeber,
     UpdateEmail, 
@@ -46,15 +45,20 @@ class Account extends Component{
             admin_id: undefined,
             new_admin_id: undefined,
             onSubmitErr: "",
-            updateSwitch: false
+            updateSwitch: false,
+            update_point_current: undefined,
+            update_point_member: undefined,
+            update_point_name: undefined,
+            update_point_newTotal: undefined,
         }
     }
     
     componentDidMount(){
-        if (this.props.authenticate) {
+        console.log("Component Did Mount")
+        if (this.props.authenticated) {
             this.getHomeMembers(this.props.state.home_id);
         }
-        if( this.props.state.home_admin === this.props.state.user_id){
+        if( this.props.authenticated && this.props.state.home_admin === this.props.state.user_id){
             this.getMasterKey(this.props.state.home_id, this.props.state.user_id);
         }
     }
@@ -71,6 +75,9 @@ class Account extends Component{
             new_master_key: undefined,
             home_key: undefined,
             new_admin_id: undefined,
+            update_point_current: undefined,
+            update_point_member: undefined,
+            update_point_name: undefined,
         })
     }
 
@@ -127,6 +134,23 @@ class Account extends Component{
         this.setState({ members_selection: selection})
     }
 
+    updateMemberPoint = (member, points) => {
+        console.log("[Account.js Update Member Points]")
+        console.log(member)
+        console.log(points)
+        let userData = {
+            field: "points",
+            value: points,
+            user_id: member
+        }
+        API.updateUserInfo(userData)
+        .then(response => {
+            console.log("[Account.js Update Member Points - Complete]")
+            this.props.authenticate();
+            this.getHomeMembers(this.props.state.home_id)
+        })
+    }
+
     handleAccountInfoChange = event =>{
         console.log("[Account.js handleAccountInfoChange]")
         event.preventDefault();
@@ -180,12 +204,6 @@ class Account extends Component{
         }else{
             alert("Access Denied");
         }
-    }
-
-    updateVestaPromise = () =>{
-        return new Promise((reslove, reject)=>{
-
-        })
     }
 
     generateHomeKey = event => {
@@ -396,45 +414,46 @@ class Account extends Component{
             {this.props.authenticated ? 
                 <div>
                     {/* Title Div */}
-                        <div style={{ textAlign: "center", height: 200, clear: "both", paddingTop: 120 }} className="jumbotron">
+                        <div className="jumbotron" id="account-jumbo">
                             <h1>Account Settings</h1>
                         </div>
-                    <div className="row">
+                    <div className="container-fuild m-2">
+                    <div className="row justify-content-center">
                     {/* User Account Settings */}
-                        <div className="col-md m-2">
+                        <div className="col-xl col-md-5 m-2">
                             <div><h4>Account Information</h4></div>
                             <div className="border border-rounded p-4">
                                 {/* First Name  */}
                                 <div>
-                                    <b>First Name:</b> {this.props.state.firstname}<a href="#" onClick={() => this.openModal("firstName")} ><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    <b>First Name:</b> {this.props.state.firstname}<a href="#" onClick={() => this.openModal("firstName")} ><span className="float-right"><i className="fas fa-edit fa-2x"></i></span></a>
                                 </div>
                                 <hr />
                                 {/* Last Name */}
                                 <div>
-                                    <b>Last Name:</b> {this.props.state.lastname}<a href="#" onClick={() => this.openModal("lastName")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    <b>Last Name:</b> {this.props.state.lastname}<a href="#" onClick={() => this.openModal("lastName")}><span className="float-right"><i className="fas fa-edit fa-2x"></i></span></a>
                                 </div>
                                 <hr />
                                 {/* Email */}
                                 <div>
-                                    <b>Email:</b> {this.props.state.email}<a href="#" onClick={() => this.openModal("email")} ><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    <b>Email:</b> {this.props.state.email}<a href="#" onClick={() => this.openModal("email")} ><span className="float-right"><i className="fas fa-edit fa-2x"></i></span></a>
                                 </div>
                                 <hr />
                                 {/* Password */}
                                 <div>
-                                    <b>Password:</b> •••••••••••••<a href="#" onClick={() => this.openModal("password")} ><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                    <b>Password:</b> •••••••••••••<a href="#" onClick={() => this.openModal("password")} ><span className="float-right"><i className="fas fa-edit fa-2x"></i></span></a>
                                 </div>
                             </div>
                         </div>
 
                     {/* Home Settings */}
-                        <div className="col-md m-2">
+                        <div className="col-xl col-md-5 m-2">
                             <div><h4>Home Information</h4></div>
                             <div className="border border-rounded p-4"> 
                                 {/* Home Nmae */}
                                 <div>
                                     <b>Home Name:</b> {this.props.state.home_name}
                                         {(this.props.state.home_admin === this.props.state.user_id) ? 
-                                            <a href="#" onClick={() => this.openModal("homeName")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                            <a href="#" onClick={() => this.openModal("homeName")}><span className="float-right"><i className="fas fa-edit fa-2x"></i></span></a>
                                         :
                                             null
                                         }
@@ -445,7 +464,7 @@ class Account extends Component{
                                     <div>
                                         <b>Home Address</b>
                                         {(this.props.state.home_admin === this.props.state.user_id) ? 
-                                            <a href="#" onClick={() => this.openModal("homeAddress")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                            <a href="#" onClick={() => this.openModal("homeAddress")}><span className="float-right"><i className="fas fa-edit fa-2x"></i></span></a>
                                         :null}
                                     </div>
                                     <div className="ml-3">
@@ -458,7 +477,7 @@ class Account extends Component{
                                 <div>
                                     {(this.props.state.home_admin === this.props.state.user_id) ? 
                                         <div>
-                                            <b>Master Key:</b> {this.state.master_key}<a href="#" onClick={() => this.openModal("masterKey")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                            <b>Master Key:</b> {this.state.master_key}<a href="#" onClick={() => this.openModal("masterKey")}><span className="float-right"><i className="fas fa-edit fa-2x"></i></span></a>
                                         </div>
                                     :null }
                                 </div>
@@ -467,7 +486,7 @@ class Account extends Component{
                                 <div>
                                     <b>Home Key:</b> {this.props.state.home_key}
                                     {(this.props.state.home_admin === this.props.state.user_id) ? 
-                                        <a href="#" onClick={() => this.openModal("homeKey")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                        <a href="#" onClick={() => this.openModal("homeKey")}><span className="float-right"><i className="fas fa-edit fa-2x"></i></span></a>
                                     :null}
                                 </div>
                                 <hr />
@@ -475,16 +494,16 @@ class Account extends Component{
                                 <div>
                                     <b>Administrator:</b> {this.state.admin_name}
                                     {(this.props.state.home_admin === this.props.state.user_id) ? 
-                                        <a href="#" onClick={() => this.openModal("admin")}><span className="float-right"><i className="fas fa-edit"></i></span></a>
+                                        <a href="#" onClick={() => this.openModal("admin")}><span className="float-right"><i className="fas fa-edit fa-2x"></i></span></a>
                                     :null}
                                 </div>
                             </div>
                         </div>
 
                     {/* Home Users Settings */}
-                        <div  className="col-md m-2">
+                        <div  className="col-xl col-lg-10 col-md-10 m-2">
                             <div><h4>Home Members</h4></div>
-                            <div className="border border-rounded p-2">
+                            <div className="">
                                 {this.state.home_members.map(member => (
                                     <HouseMemeber
                                         key = {member.id}
@@ -493,10 +512,14 @@ class Account extends Component{
                                         home_admin = {this.props.state.home_admin}
                                         openModal = {this.openModal}
                                         removeMember = {this.removeMember}
+                                        updateMemberPoint = {this.updateMemberPoint}
+                                        home_id = {this.props.state.home_id}
+                                        getAllHomeUsers = {this.getHomeMembers}
                                     />
                                 ))}
                             </div>
                         </div>
+                </div>
                 </div>
 
                 <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Modal } from 'react-bootstrap';
 import DeletePet from "../DeletPet";
-import { NewPetForm, NewPetTitle } from "../NewPetForm";
+import {NewPetTitle} from "../NewPetForm";
 import API from "../../utils/API"
 
 class Pets extends Component {
@@ -95,7 +95,7 @@ class Pets extends Component {
           </div>
 
           <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
-            <Modal.Header closeButton>
+            <Modal.Header>
               <Modal.Title>
                 {this.modalTitleSwitch(this.state.modalFunc)}
               </Modal.Title>

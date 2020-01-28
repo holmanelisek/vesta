@@ -166,7 +166,7 @@ export class AddChore extends Component {
                     />
                 </div>
                 <button disabled={!this.state.chore_name || !this.state.assigned_user || !this.state.point_value || !this.state.startDate || !this.state.endDate} type="button" className="btn btn-secondary" onClick={this.submitChore}>Add</button>
-            </div >
+            </div>
         );
     }
 }

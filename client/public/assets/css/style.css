@@ -5,30 +5,24 @@ body {
 }
 
 /* NAV */
-#nav-icon {
-    width: 100px
-}
+#nav-icon {width: 100px}
 
-li.no-padding {
-    padding: 0px;
-}
+li {padding: 10px;}
 
-nav li {
-    padding: 10px;
-}
-
-nav li li {
+li li {
     padding-left: 0px;
     padding-right: 0px;
 }
 
-nav ul {
-    white-space: nowrap;
+ul {white-space: nowrap;}
+
+.nav-color {background-color: #4280a4;}
+
+.nav-link {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bolder;
 }
 
-.nav-color {
-    background-color: #4280a4;
-}
 
 /* BUTTONS */
 
@@ -142,10 +136,6 @@ nav ul {
         border-radius: 3px;
 }
 
-.add-chore {
-    margin: 1rem 0rem;
-}
-
 @media only screen and (max-width: 450px) {
     .completed-btn-group {
       display: block;
@@ -184,11 +174,16 @@ element.style {
 .btn-danger {
     display: inline-block;
     padding: 0.5em 1em;
+    margin: 5px;
     text-decoration: none;
     background: #c1666b;/*Button Color*/
     color: #FFF;
     border-bottom: solid 4px #964e53;
     border-radius: 3px;
+}
+
+.fas {
+  margin:5px;
 }
 
 /* HERO */
@@ -222,15 +217,17 @@ element.style {
   
   .hero h1 {
     font-size: 60px;
-    padding-top: 200px;
+    padding-top: 225px;
     margin-top: 0;
   }
   
-  .hero h2 {
+  .hero h3 {
     font-family: 'Caveat', cursive;
+    color:white;
   }
 
 /* INFORMATION */
+
 h1, h2, h3, h5, p {
     font-family: 'Montserrat', sans-serif;
 }
@@ -244,6 +241,45 @@ h1, h2, h3, h5, p {
 }
 
 /* HOMEHUB */
+
+#home-hub-tabs {
+  font-size: 40px;
+  font-family: 'Caveat', cursive;
+}
+
+.col-lg-6 h4 {
+  margin-top: 20px;
+}
+
+.tab-pane {
+  padding-top: 20px;
+}
+
+.add-chore {
+  margin-bottom: 20px;
+}
+
+#home-hub-jumbo {
+  text-align: center;
+  clear: both;
+  background-image: url("../images/home-hub-hero.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  height: 400px;
+  color: white;
+}
+
+#home-hub-jumbo h1 {
+  font-size: 60px;
+  padding-top: 130px;
+  margin-top: 0;
+}
+
+#home-hub-jumbo h2 {
+  font-family: 'Caveat', cursive;
+}
 
 #chores-tab {
     font-family: 'Caveat', cursive;
@@ -281,6 +317,50 @@ h1, h2, h3, h5, p {
     }
   }
 
+  .trashIcon {
+    color: #4281a4;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.deleteThisPet {
+  margin-left: 10px;
+}
+
+/* ACCOUNT */
+#account-jumbo {
+  text-align: center;
+  clear: both;
+  background-image: url("../images/account-hero.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  height: 400px;
+  color: white;
+}
+
+#account-jumbo h1 {
+  font-size: 60px;
+  padding-top: 130px;
+  margin-top: 0;
+}
+
+#account-jumbo h2 {
+  font-family: 'Caveat', cursive;
+}
+
+.fa-plus-square {
+  color: #48A9A6;
+}
+
+.fa-minus-square {
+  color: #c1666b;
+}
+
+.fa-edit {
+  color: #4281a4;
+}
 
 /* FOOTER   */
 .footer {
@@ -289,5 +369,6 @@ h1, h2, h3, h5, p {
     position: relative;
     text-align: center;
     padding: 10px;
+    margin-top: 20px;
   }
   
