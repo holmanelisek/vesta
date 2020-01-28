@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Route, Link, Switch } from 'react-router-dom'
-import ScrollspyNav from "react-scrollspy-nav";
+import { Route, Switch } from 'react-router-dom'
 import Navbar from "../components/Navbar";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/Signup";

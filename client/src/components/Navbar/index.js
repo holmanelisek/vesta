@@ -19,7 +19,7 @@ function Navbar (props){
                                             <li className="nav-item">
                                                 <a className="nav-link" href="#page-top">Home</a>
                                             </li>
-                                            <li className="nav-item">
+                                            {/* <li className="nav-item">
                                                 <a className="nav-link" href="#about">About</a>
                                             </li>
                                             <li className="nav-item">
@@ -27,7 +27,7 @@ function Navbar (props){
                                             </li>
                                             <li className="nav-item">
                                                 <a className="nav-link" href="#team">Team</a>
-                                            </li>
+                                            </li> */}
                                             <li className="nav-item">
                                                 {/* Gives Home hub link if user belongs to a home, Home Setting link if user is homeless */}
                                                 {props.home_id !== null ?
@@ -91,7 +91,7 @@ function Navbar (props){
                                     <li className="nav-item">
                                         <a className="nav-link" href="#page-top">Home</a>
                                     </li>
-                                    <li className="nav-item">
+                                    {/* <li className="nav-item">
                                         <a className="nav-link" href="#about">About</a>
                                     </li>
                                     <li className="nav-item">
@@ -99,7 +99,7 @@ function Navbar (props){
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="#team">Team</a>
-                                    </li>
+                                    </li> */}
                                     <li className="nav-item">
                                         <a className="nav-link" href="#" onClick={props.clickModalSignIn}>Sign In</a>
                                     </li>

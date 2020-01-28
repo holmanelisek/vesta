@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Modal } from 'react-bootstrap';
 import DeletePet from "../DeletPet";
-import { NewPetForm, NewPetTitle } from "../NewPetForm";
+import {NewPetTitle} from "../NewPetForm";
 import API from "../../utils/API"
 
 class Pets extends Component {

@@ -2,21 +2,42 @@ import React ,{useState} from "react";
 import Select from 'react-select';
 import { Alert, Button } from "react-bootstrap";
 import "./trashIcon.css";
+import {Modal} from "react-bootstrap";
 
 export function HouseMemeber(props){
     const [show, setShow] = useState(false);
+    const [addShow, setAddShow] = useState(false);
+    const [subShow, setSubShow] = useState(false);
+    const [newPoint, setNewPoint] = useState(0)
+
+    const closeModal = () => {
+        setNewPoint(0)
+        setAddShow(false)
+        setSubShow(false)
+    }
 
     return (
-        <div className="border border rounded m-1 p-1 row">
-            <div className="col-6">
+        <div className="border border rounded p-1 row">
+            <div className="col ">
                 <div>
                    <b>Name:</b> {props.member.first_name} {props.member.last_name}
                 </div>
                 <div>
                     <b>Email:</b> {props.member.email}
                 </div>
+                <div>
+                    <b>Points</b> {props.member.points}                                         
+                    {(props.home_admin === props.user_id) ?
+                    <span>
+                        <a href="#" onClick = {() => setAddShow(true)}><span className="float-left"><i className="fas fa-plus-square fa-2x"></i></span></a>
+                        <a href="#" onClick = {() => setSubShow(true)}><span className="float-left"><i className="fas fa-minus-square fa-2x"></i></span></a>
+                    </span>
+                    :
+                        null
+                    }
+                </div>
             </div>
-            <div className="col-6">
+            <div className="col">
                 {(props.home_admin === props.user_id)?
                      <div>
                         {(props.member.id !== props.home_admin) ? 
@@ -41,16 +62,121 @@ export function HouseMemeber(props){
                     </div>
                 :null}
             </div>
-        </div>
-    )
-}
+            <Modal
+                size="sm"
+                show={addShow}
+                onHide={() => setAddShow(false)}
+                aria-labelledby="example-modal-sizes-title-sm"
+                backdrop='static'
+            >
+                <Modal.Header >
+                <Modal.Title id="example-modal-sizes-title-sm">
+                    {props.member.first_name}'s Points
+                </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="container">
+                        <div className="row ">
+                        <div className="col align-self-center">
+                                <span className="float-right">Current Points:</span>
+                            </div>
+                            <div className="col-5">
+                                <span className="">{props.member.points}</span>
+                            </div>
+                        </div>
+                        <br />
+                        <div className="row ">
+                            <div className="col align-self-center">
+                                <span className="float-right">Add Points:</span>
+                            </div>
+                            <div className="col-5">
+                                <input
+                                    value = {newPoint}
+                                    type="number"
+                                    onChange = {event => setNewPoint(Math.abs(event.target.value))}
+                                    className="form-control validate"
+                                />
+                            </div>
+                        </div>
+                        <hr />
+                        <div className="row ">
+                            <div className="col align-self-center">
+                                <span className="float-right"><b>Total Points:</b></span>
+                            </div>
+                            <div className="col-5">
+                                <span className="">{parseInt(props.member.points) + Math.abs(parseInt(newPoint))}</span>
+                            </div>
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div>
+                        <button className="btn btn-warning" onClick={() => {props.updateMemberPoint(props.member.id, parseInt(props.member.points) + Math.abs(parseInt(newPoint))); closeModal();}}>Update</button><span>  </span>
+                        <button className="btn btn-info" onClick={() => closeModal()}>Cancel</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
 
-export function RemoveHouseMember(props){
-    return (
-        <div>
-            <div>
-
-            </div>
+            <Modal
+                size="sm"
+                show={subShow}
+                onHide={() => setSubShow(false)}
+                aria-labelledby="example-modal-sizes-title-sm"
+                backdrop='static'
+            >
+                <Modal.Header >
+                <Modal.Title id="example-modal-sizes-title-sm">
+                    {props.member.first_name}'s Points
+                </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <div className="container">
+                        <div className="row ">
+                        <div className="col align-self-center">
+                                <span className="float-right">Current Points:</span>
+                            </div>
+                            <div className="col-5">
+                                <span className="">{props.member.points}</span>
+                            </div>
+                        </div>
+                        <br />
+                        <div className="row ">
+                            <div className="col align-self-center">
+                                <span className="float-right">Subtract Points:</span>
+                            </div>
+                            <div className="col-5">
+                                <input
+                                    value = {newPoint}
+                                    type="number"
+                                    onChange = {event => setNewPoint(Math.abs(event.target.value))}
+                                    className="form-control validate"
+                                />
+                            </div>
+                        </div>
+                        <hr />
+                        <div className="row ">
+                            <div className="col align-self-center">
+                                <span className="float-right"><b>Total Points:</b></span>
+                            </div>
+                            <div className="col-5">
+                                <span className="">{parseInt(props.member.points) - Math.abs(parseInt(newPoint))}</span>
+                            </div>
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div>
+                        <button 
+                            className="btn btn-warning" 
+                            onClick={() => {
+                                props.updateMemberPoint(props.member.id, parseInt(props.member.points) - Math.abs(parseInt(newPoint)));
+                                closeModal();
+                            }}>Update</button>
+                        <span>  </span>
+                        <button className="btn btn-info" onClick={() => closeModal()}>Cancel</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }
