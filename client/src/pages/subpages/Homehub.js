@@ -47,6 +47,7 @@ class Homehub extends Component {
       home_admin: undefined,
       selectedOption: '',
       users: [],
+      points: [],
       chore_name: '',
       created_by: '',
       point_value: '',
@@ -80,7 +81,7 @@ class Homehub extends Component {
       this.getPetData(this.props.state.home_id);
       this.handleFindHome(this.props.state.home_id);
       this.listPantry(this.props.state.home_id);
-
+      this.getPoints(this.props.state.home_id);
 //      this.recipeInfo(this.props.state.home_id);
     }
 
@@ -172,7 +173,7 @@ class Homehub extends Component {
       return (
         <div>
           <hr />
-          <h3>Completed chores</h3>
+          <h2>Completed chores</h2>
           <hr className="chore-head-line" />
         </div>
       )
@@ -207,8 +208,20 @@ class Homehub extends Component {
     return array.username;
   }
 
+  getPoints = userHome => {
+    API.getAllHomeUsers({
+      home_id: userHome
+    }).then(res => {
+      let pointsArray = res.data.map(user => {
+        return user.points
+      })
+      this.setState({ points: pointsArray })
+    })
+  }
+
   grabUsers = userHome => {
     console.log("[Homehub.js grabUsers]")
+    console.log(userHome)
     API.getAllHomeUsers({
       home_id: userHome
     })
@@ -263,23 +276,11 @@ class Homehub extends Component {
       home_id: homeid
     })
       .then(res => {
-        //console.log(res.data)
         let completedChoresArray = res.data.filter(this.findCompletedChores)
         let uncompletedChoresArray = res.data.filter(this.findUncompletedChores)
         this.setState({ uncompletedChores: uncompletedChoresArray });
         this.setState({ completedChores: completedChoresArray });
-        console.log(this.state.uncompletedChores);
-        console.log(this.state.completedChores);
       })
-  };
-
-  deleteChore = (choreId) => {
-    // API.deleteChore({
-    //   chore_id: choreId
-    // })
-    //   .then(res => {
-    //     console.log(res);
-    //   });
   };
 
   openModal = (modalFunc) => {
@@ -440,30 +441,21 @@ class Homehub extends Component {
   };
 
   modalBodySwitch(modalFunc) {
-    // const choreOptions = this.state.chores.map(chore => (
-    //   { value: chore.id, label: chore.chore_name }
-    // ))
-    // const { selectedDeleteOption } = this.state;
-
-    // const userOptions = this.state.users.map(user => (
-    //   { value: user, label: user }
-    // ))
-    // const { selectedAddOption } = this.state;
 
     switch (modalFunc) {
-      case "pet":
-        return (
-          <div>
-            <p>Pet Name: {this.props.pet.pet_name}</p>
-            <p>Pet Aage: {this.props.pet.age}</p>
-            <hr />
-            <p>Primary Vet: {this.props.pet.primary_vet_info.practice_name}</p>
-            <p>Phone Number: {this.props.pet.primary_vet_info.phone_number}</p>
-            <p>Address: {this.props.pet.primary_vet_info.street}, {this.props.pet.primary_vet_info.city}, {this.props.pet.primary_vet_info.state} {this.props.pet.primary_vet_info.zip}</p>
-            <hr />
-            <p className="card-text">Pets description</p>
-          </div>
-        );
+      // case "pet":
+      //   return (
+      //     <div>
+      //       <p>Pet Name: {this.props.pet.pet_name}</p>
+      //       <p>Pet Aage: {this.props.pet.age}</p>
+      //       <hr />
+      //       <p>Primary Vet: {this.props.pet.primary_vet_info.practice_name}</p>
+      //       <p>Phone Number: {this.props.pet.primary_vet_info.phone_number}</p>
+      //       <p>Address: {this.props.pet.primary_vet_info.street}, {this.props.pet.primary_vet_info.city}, {this.props.pet.primary_vet_info.state} {this.props.pet.primary_vet_info.zip}</p>
+      //       <hr />
+      //       <p className="card-text">Pets description</p>
+      //     </div>
+      //   );
       case "newPet":
         return (
           <NewPetForm
@@ -565,11 +557,8 @@ class Homehub extends Component {
 
                     {/* chores content goes here */}
                     <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
-                      {/* <AddChore user_id={this.state.user_id} handleClick={this.handleClick} getChores={this.getChores} /> */}
                       <div>
                         <span>{this.adminFunctionAddChore(this.state.home_admin, this.state.user_id)}</span>
-                        {/* <span> </span> */}
-                        {/* <span>{this.adminFunctionDeleteChore(this.state.home_admin, this.state.user_id)}</span> */}
                       </div>
                       <span>{this.adminChoreHeader(this.state.home_admin, this.state.user_id)}</span>
                       {this.state.home_admin === this.state.user_id ?
@@ -579,6 +568,10 @@ class Homehub extends Component {
                               key={chore.id}
                               id={chore.id}
                               home_id={this.state.home_id}
+                              completedBy={chore.completed_by}
+                              completedById={chore.completed_by_id}
+                              completedByPoints={chore.completed_by_points}
+                              points={this.state.points}
                               choreName={chore.chore_name}
                               createdBy={chore.created_by}
                               assignedUser={chore.assigned_user}
@@ -587,30 +580,12 @@ class Homehub extends Component {
                               endDateTime={chore.end_date_time}
                               repeatInterval={chore.repeat_interval}
                               getChores={this.getChores}
+                              getPoints={this.getPoints}
                             />
                           ))
                           :
-                          <h2>No completed chores</h2>
+                          <h5>No completed chores</h5>
                         )] : <span></span>}
-                      {/* {this.state.home_admin === this.state.user_id ?
-                        this.state.completedChores.map(chore => (
-                          < AdminChoreDisplay
-                            key={chore.id}
-                            id={chore.id}
-                            home_id={this.state.home_id}
-                            choreName={chore.chore_name}
-                            createdBy={chore.created_by}
-                            assignedUser={chore.assigned_user}
-                            pointValue={chore.point_value}
-                            startDateTime={chore.start_date_time}
-                            endDateTime={chore.end_date_time}
-                            repeatInterval={chore.repeat_interval}
-                            getChores={this.getChores}
-                          />
-                        ))
-                        :
-                        <span></span>
-                      } */}
                       <hr />
                       <h3>Uncompleted chores</h3>
                       <hr className="chore-head-line" />
@@ -620,6 +595,9 @@ class Homehub extends Component {
                             key={chore.id}
                             id={chore.id}
                             home_id={this.state.home_id}
+                            user_id={this.props.state.user_id}
+                            first_name={this.props.state.firstname}
+                            completedByPoints={this.props.state.points}
                             choreName={chore.chore_name}
                             createdBy={chore.created_by}
                             assignedUser={chore.assigned_user}
@@ -631,7 +609,7 @@ class Homehub extends Component {
                           />
                         ))
                         :
-                        <h2>No uncompleted chores</h2>
+                        <h5>No uncompleted chores</h5>
                       }
                     </div>
 
@@ -658,7 +636,7 @@ class Homehub extends Component {
                                 ))
                                 :
                                 // TODO not centered
-                                <h2>No Pets</h2>
+                                <h5>No Pets</h5>
                               }
                             </div>
                           </div>
@@ -703,7 +681,7 @@ class Homehub extends Component {
                             ))}
                           </Table>
                         </div> :
-                        <h2>No items</h2>
+                        <h5>No items</h5>
                       }
                       <div>
                           <Recipe home_id = {this.props.state.home_id}

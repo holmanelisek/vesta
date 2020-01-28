@@ -40,9 +40,12 @@ class Chores extends React.Component {
             })
     }
 
-    markCompleted = id => {
+    markCompleted = (id, completed_by, completed_by_id, completed_by_points) => {
         API.markChoreComplete({
-            choreData: id
+            id: id,
+            completed_by: completed_by,
+            completed_by_id: completed_by_id,
+            completed_by_points: completed_by_points
         })
             .then(res => {
                 console.log(res)
@@ -56,6 +59,7 @@ class Chores extends React.Component {
 
     componentDidMount = () => {
         this.grabUsers(this.props.home_id);
+        console.log(this.props.completedByPoints)
     }
 
     render() {
@@ -64,7 +68,7 @@ class Chores extends React.Component {
                 <ul className="list-group list-group-flush">
                     <li className="list-group-item list-group-item-success">{this.props.choreName}<br />
                         <button type="button" className="btn btn-secondary" style={{ margin: 5 }} onClick={this.openModal}>More Info...</button>
-                        <button type="button" className="btn btn-success" onClick={() => this.markCompleted(this.props.id)} style={{ margin: 5 }}>Completed!</button>
+                        <button type="button" className="btn btn-success" onClick={() => this.markCompleted(this.props.id, this.props.first_name, this.props.user_id, this.props.completedByPoints)} style={{ margin: 5 }}>Completed!</button>
                     </li>
                 </ul>
                 <Modal

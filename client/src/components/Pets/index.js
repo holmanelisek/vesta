@@ -80,12 +80,7 @@ class Pets extends Component {
             <p className="card-text">Pets description</p>
           </div>
         );
-      case "newPet":
-        return (
-          <NewPetForm
-            handleInputChange={this.handleInputChange}
-          />
-        );
+      default:
     }
   }
 

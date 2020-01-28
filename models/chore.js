@@ -52,6 +52,12 @@ module.exports = function (sequelize, DataTypes) {
     },
     completed_by: {
       type: DataTypes.STRING
+    },
+    completed_by_id: {
+      type: DataTypes.INTEGER
+    },
+    completed_by_points: {
+      type: DataTypes.INTEGER
     }
   });
   return Chore;

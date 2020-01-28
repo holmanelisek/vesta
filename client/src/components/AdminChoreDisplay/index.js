@@ -9,7 +9,8 @@ class AdminChoreDisplay extends React.Component {
         super();
 
         this.state = {
-            // users: [],
+            users: [],
+            points: [],
             modalShow: false
         };
 
@@ -25,23 +26,9 @@ class AdminChoreDisplay extends React.Component {
         this.setState({ modalShow: false });
     }
 
-    // storeUsernames = array => {
-    //     return array.username;
-    // }
-
-    // grabUsers = userHome => {
-    //     API.getAllHomeUsers({
-    //         home_id: userHome
-    //     })
-    //         .then(res => {
-    //             let usersArray = res.data.map(this.storeUsernames)
-    //             this.setState({ users: usersArray });
-    //         })
-    // }
-
     markUncompleted = id => {
         API.markChoreUncomplete({
-            choreData: id
+            id: id
         })
             .then(res => {
                 console.log(res)
@@ -62,12 +49,26 @@ class AdminChoreDisplay extends React.Component {
             })
     }
 
-    handleClose = () => {
-        this.setState({ modalShow: false })
+    addPoints = (id, pointValue) => {
+        const newPointTotal = pointValue + this.props.points[this.props.completedById - 1]
+
+        API.addUserPoints({
+            id: id,
+            points: newPointTotal
+        })
+            .then(res => {
+                console.log(res)
+                this.props.getPoints(this.props.home_id)
+                this.deleteChore(this.props.id)
+                this.props.getChores(this.props.home_id)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
-    componentDidMount = () => {
-        // this.grabUsers(this.props.home_id);
+    handleClose = () => {
+        this.setState({ modalShow: false })
     }
 
     render() {
@@ -77,7 +78,7 @@ class AdminChoreDisplay extends React.Component {
                     <li className="list-group-item list-group-item-warning">{this.props.choreName}<br />
                         <button type="button" className="btn btn-secondary completed-btn-group" style={{ margin: 10 }} onClick={this.openModal}>More Info...</button>
                         <button type="button" className="btn btn_yellow completed-btn-group" onClick={() => this.markUncompleted(this.props.id)} >This isn't done</button>
-                        <button type="button" className="btn btn-danger completed-btn-group" style={{ margin: 10 }} onClick={() => this.deleteChore(this.props.id)} >Delete</button>
+                        <button type="button" className="btn btn-danger completed-btn-group" style={{ margin: 10 }} onClick={() => this.addPoints(this.props.completedById, this.props.pointValue)} >Delete</button>
                     </li>
                 </ul>
                 <Modal
@@ -90,6 +91,8 @@ class AdminChoreDisplay extends React.Component {
                         <hr />
                     </Modal.Header>
                     <Modal.Body>
+                        <h3>Completed by: {this.props.completedBy}</h3>
+                        <hr />
                         <p>Created by: {this.props.createdBy}</p>
                         <p>Assigned to: {this.props.assignedUser}</p>
                         <p>Point value: {this.props.pointValue ? this.props.pointValue : "None"}</p>
