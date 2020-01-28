@@ -37,6 +37,7 @@ class Chores extends React.Component {
             .then(res => {
                 let usersArray = res.data.map(this.storeUsernames)
                 this.setState({ users: usersArray });
+                return usersArray;
             })
     }
 
@@ -59,7 +60,7 @@ class Chores extends React.Component {
 
     componentDidMount = () => {
         this.grabUsers(this.props.home_id);
-        console.log(this.props.completedByPoints)
+        console.log(this.props.completedByPoints);
     }
 
     render() {

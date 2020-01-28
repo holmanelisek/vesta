@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import API from '../../utils/API'
 var appID = "996e3c2c";
 var apiKey = "09f281b44cbf4d7b7fcfcae22f05c79d";
@@ -11,7 +10,7 @@ export class Recipe extends React.Component {
             pantry: [],
             needlist: [],
             havepercent: 0,
-            recipe: "",
+            recipe: "Fill out your pantry so that we can suggest recipes!",
             link: "",
         }
     };
@@ -27,12 +26,12 @@ export class Recipe extends React.Component {
 
 
     pickRecipe = homeID => {
-        var recipechoice = "Test option";
         var that = this;
         API.getPantryItems({
             home_id: homeID
         }).then(function(res){
             var pantry = res.data;
+            if(pantry.length>0){
             that.setState({pantry:pantry});
             var random = Math.floor(Math.random() * Math.floor(pantry.length));
             var randompantry = pantry[random].item_name;
@@ -40,7 +39,6 @@ export class Recipe extends React.Component {
             API.getRecipe(queryURL).then(function(response){
                 console.log("URL: " + queryURL);
                 let recipes = response.data.hits;
-                console.log(recipes);
                 //PLACEHOLDERlet randomnum = Math.floor(Math.random()* Math.floor(recipes.length));
                 //PLACEHOLDERrecipechoice = recipes[randomnum].recipe;
                 //VARIABLES: BESTNEEDLIST,BESTHAVEPERCENT,BESTRECIPECHOICE
@@ -50,16 +48,13 @@ export class Recipe extends React.Component {
                 var besturl = "";
                 //FOR EACH RECIPE IN RECIPES
                 recipes.forEach(function (recipe){
-                    console.log(recipe.recipe.label);
                     //NEEDLIST, HAVECOUNTER
                     var needlist = [];
                     var havecounter = 0;
                     //CLEAN INGREDIENTS LIST, PUT INTO AN ARRAY
                     var ingredientarray = recipe.recipe.ingredients;
-                    console.log(ingredientarray);
                     ingredientarray.forEach(function (ingr){
                         var ingredient = ingr.text;
-                        console.log(ingredient);
                         var have = false;
                         var pantry = that.state.pantry;
                         pantry.forEach(function(item){
@@ -93,7 +88,10 @@ export class Recipe extends React.Component {
                     
                 //THAT.SETSTATE WILL EQUAL BESTRECIPE CHOICE, NEEDLIST WILL EQUAL BESTNEEDLIST, HAVEPERCENT WILL EQUAL BESTHAVEPERCENT
                 //PLACEHOLDERthat.setState({recipe:recipechoice});
-            })
+            })}
+            else{
+                console.log("Empty pantries are no fun");
+            }
         })
 
     }
