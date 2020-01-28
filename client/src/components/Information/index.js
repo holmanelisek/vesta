@@ -78,12 +78,12 @@ function Information (){
                         <p className="text-muted">Team Lead / Developer</p>
                         <ul className="list-inline social-buttons">
                             <li className="list-inline-item">
-                            <a href="#">
+                            <a href="https://www.linkedin.com/in/maoxlin/" target="_blank">
                                 <i className="fab fa-linkedin-in"></i>
                             </a>
                             </li>
                             <li className="list-inline-item">
-                            <a href="#">
+                            <a href="mailto:lin.maoxian0991@gmail.com">
                                 <i className="fas fa-envelope"></i>
                             </a>
                             </li>
@@ -95,15 +95,15 @@ function Information (){
                         <div className="team-member">
                         <img className="rounded-circle headshot" src="./assets/images/elise.jpg" alt="Elise Holman"></img>
                         <h4>Elise Holman</h4>
-                        <p className="text-muted">Back-End Developer</p>
+                        <p className="text-muted">Developer</p>
                         <ul className="list-inline social-buttons">
                             <li className="list-inline-item">
-                            <a href="#">
+                            <a href="https://www.linkedin.com/in/elise-holman-24a55518b/" target="_blank">
                                 <i className="fab fa-linkedin-in"></i>
                             </a>
                             </li>
                             <li className="list-inline-item">
-                            <a href="#">
+                            <a href="mailto:holmanelisek@gmail.com">
                                 <i className="fas fa-envelope"></i>
                             </a>
                             </li>
@@ -115,15 +115,15 @@ function Information (){
                         <div className="team-member">
                         <img className="rounded-circle headshot" src="./assets/images/dalton.jpg" alt="Dalton Maurer"></img>
                         <h4>Dalton Maurer</h4>
-                        <p className="text-muted">Back-End Developer</p>
+                        <p className="text-muted">Developer</p>
                         <ul className="list-inline social-buttons">
                             <li className="list-inline-item">
-                            <a href="#">
+                            <a href="https://www.linkedin.com/in/dalton-m-maurer/" target="_blank">
                                 <i className="fab fa-linkedin-in"></i>
                             </a>
                             </li>
                             <li className="list-inline-item">
-                            <a href="#">
+                            <a href="mailto:dalton.m.maurer@gmail.com">
                                 <i className="fas fa-envelope"></i>
                             </a>
                             </li>
@@ -135,15 +135,15 @@ function Information (){
                     <div className="team-member">
                     <img className="rounded-circle headshot" src="./assets/images/stephanie.jpg" alt="Stephanie Rose"></img>
                     <h4>Stephanie Rose</h4>
-                    <p className="text-muted">Front-End Developer</p>
+                    <p className="text-muted">Developer</p>
                     <ul className="list-inline social-buttons">
                         <li className="list-inline-item">
-                        <a href="#">
+                        <a href="https://www.linkedin.com/in/stephaniehlrose/" target="_blank">
                             <i className="fab fa-linkedin-in"></i>
                         </a>
                         </li>
                         <li className="list-inline-item">
-                        <a href="#">
+                        <a href="mailto:stephlarkinrose@gmail.com">
                             <i className="fas fa-envelope"></i>
                         </a>
                         </li>
