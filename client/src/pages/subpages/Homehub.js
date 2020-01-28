@@ -705,11 +705,13 @@ class Homehub extends Component {
                         </div> :
                         <h2>No items</h2>
                       }
-                    </div>
-                    <div>
+                      <div>
                           <Recipe home_id = {this.props.state.home_id}
                           ></Recipe>
                       </div>
+
+                    </div>
+                    
                     {/* <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
                       <div className="container">
                         <div className="row">
