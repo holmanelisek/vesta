@@ -49,8 +49,6 @@ export class Recipe extends React.Component {
                 var bestrecipechoice = "";
                 var besturl = "";
                 //FOR EACH RECIPE IN RECIPES
-                console.log("At zero: "+recipes[0].recipe.label);
-                console.log(recipes.length);
                 recipes.forEach(function (recipe){
                     console.log(recipe.recipe.label);
                     //NEEDLIST, HAVECOUNTER
@@ -69,22 +67,16 @@ export class Recipe extends React.Component {
                             var name = item.item_name.toLowerCase();
                             if(ingr.includes(name)){
                                 have = true;
-                                console.log("It's true! We've got it!");
                             }
                         })
                         if(have){
                             havecounter++;
-                            console.log("Have update:" + havecounter);
                         }else{
                             needlist.push(ingredient);
-                            console.log("Need: "+ needlist);
                         }
                     })
                     var havepercent = havecounter/ingredientarray.length;
-                    console.log("Look at us doing math:"+havepercent);
-                    console.log("Comparing" + besthavepercent);
                     if(havepercent>besthavepercent){
-                        console.log("Found a better choice!")
                         besthavepercent = Math.round(havepercent*100);
                         bestneedlist = needlist;
                         bestrecipechoice = recipe.recipe.label;

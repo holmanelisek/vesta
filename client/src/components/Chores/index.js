@@ -10,12 +10,13 @@ class Chores extends React.Component {
 
         this.state = {
             users: [],
-            modalShow: false
+            modalShow: false,
         };
 
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
+
 
     openModal() {
         this.setState({ modalShow: true });
