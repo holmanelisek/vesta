@@ -166,6 +166,18 @@ class Homehub extends Component {
     }
   }
 
+  adminChoreHeader = (admin, user) => {
+    if (admin === user) {
+      return (
+        <div>
+          <hr />
+          <h3>Completed chores</h3>
+          <hr className="chore-head-line" />
+        </div>
+      )
+    }
+  }
+
   handleFindHome = (homeid) => {
     console.log("[Homehub.js handleFindHome]")
     API.findHomeById(homeid)
@@ -570,7 +582,7 @@ class Homehub extends Component {
                         {/* <span> </span> */}
                         {/* <span>{this.adminFunctionDeleteChore(this.state.home_admin, this.state.user_id)}</span> */}
                       </div>
-                      <hr />
+                      <span>{this.adminChoreHeader(this.state.home_admin, this.state.user_id)}</span>
                       {this.state.home_admin === this.state.user_id ?
                         [(this.state.completedChores.length > 0 ?
                           this.state.completedChores.map(chore => (
@@ -611,6 +623,8 @@ class Homehub extends Component {
                         <span></span>
                       } */}
                       <hr />
+                      <h3>Uncompleted chores</h3>
+                      <hr className="chore-head-line" />
                       {this.state.uncompletedChores.length > 0 ?
                         this.state.uncompletedChores.map(chore => (
                           < Chores
