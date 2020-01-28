@@ -12,7 +12,7 @@ import { DeleteChore, DeleteChoreTitle } from '../../components/DeleteChore/inde
 import PantryItem from '../../components/PantryItem/index'
 import { AddPantryItem, AddPantryItemTitle } from '../../components/AddPantryItem/index'
 import { DeletePantryItem, DeletePantryItemTitle } from '../../components/DeletePantryItem/index'
-import {Recipe } from '../../components/Recipe'
+import { Recipe } from '../../components/Recipe'
 import Table from 'react-bootstrap/Table'
 import Scanner from '../../components/Scanner/BarcodeScanner'
 
@@ -82,7 +82,7 @@ class Homehub extends Component {
       this.handleFindHome(this.props.state.home_id);
       this.listPantry(this.props.state.home_id);
       this.getPoints(this.props.state.home_id);
-//      this.recipeInfo(this.props.state.home_id);
+      //      this.recipeInfo(this.props.state.home_id);
     }
 
     console.log(this.props)
@@ -172,8 +172,7 @@ class Homehub extends Component {
     if (admin === user) {
       return (
         <div>
-          <hr />
-          <h2>Completed chores</h2>
+          <h4>Completed chores</h4>
           <hr className="chore-head-line" />
         </div>
       )
@@ -210,8 +209,8 @@ class Homehub extends Component {
   }
 
   getPoints = userHome => {
-    console.log ("[Homehub.js getPoints]")
-    console.log ("Home ID" + userHome)
+    console.log("[Homehub.js getPoints]")
+    console.log("Home ID" + userHome)
     API.getAllHomeUsers({
       home_id: userHome
     }).then(res => {
@@ -276,7 +275,7 @@ class Homehub extends Component {
   //Function to get all chroes by home id
   getChores = homeid => {
     console.log("[Homehub.js get Chores]")
-    console.log("Home id"+ homeid)
+    console.log("Home id" + homeid)
     API.getAllChores({
       home_id: homeid
     })
@@ -305,7 +304,7 @@ class Homehub extends Component {
   //Function to get pet data by home id and vets data for pets
   getPetData = (homeid) => {
     console.log("[Homehub.js getPetData]")
-    console.log("Home id"+ homeid)
+    console.log("Home id" + homeid)
     //Api call for getting all bets beloning to home
     API.getAllPets({ home_id: homeid })
       .then(res => {
@@ -334,7 +333,7 @@ class Homehub extends Component {
   //pull pantry info to state
   listPantry = homeID => {
     console.log("[Homehub.js listPantry]")
-    console.log("Home id"+ homeID)
+    console.log("Home id" + homeID)
     API.getPantryItems({
       home_id: homeID
     })
@@ -346,29 +345,30 @@ class Homehub extends Component {
       })
   }
 
-//needPantry = homeID => {
- //API.getPantryItems({
-//    home_id: homeID
-//  })
-//      .then(res =>{          
-//          var needed = [];
-//          var index = 0;
-//          for(const item of res.data){
-//            if(item.data_out>0){
-//              var currently = Date.now();
-//              var timeLeft = item.date_out - (((((currently)/1000)/60)/60)/24);
-//              if (timeLeft<3){
-//                needed[index] = item;
-//                index++;
-//              }
-//            }else if(item.quantity<=item.low_quantity){
-//              needed[index] = item;
-//                index++;
-//            }
-//          }
-//          this.setState({itemsneeded: needed})
-//      })
-//  }
+  //needPantry = homeID => {
+  //API.getPantryItems({
+  //    home_id: homeID
+  //  })
+  //      .then(res =>{          
+  //          var needed = [];
+  //          var index = 0;
+  //          for(const item of res.data){
+  //            if(item.data_out>0){
+  //              var currently = Date.now();
+  //              var timeLeft = item.date_out - (((((currently)/1000)/60)/60)/24);
+  //              if (timeLeft<3){
+  //                needed[index] = item;
+  //                index++;
+  //              }
+  //            }else if(item.quantity<=item.low_quantity){
+  //              needed[index] = item;
+  //                index++;
+  //            }
+  //          }
+  //          this.setState({itemsneeded: needed})
+  //      })
+  //  }
+
   orderPantryItems = (a, b) => {
     const itemA = a.item_name.toUpperCase();
     const itemB = b.item_name.toUpperCase();
@@ -382,15 +382,15 @@ class Homehub extends Component {
     return comparison
   }
 
-//   recipeInfo = homeID => {
-//     API.getPantryItems({
-//       home_id: homeID
-//     })
-//       .then(res => {
-//         var chosen = recipeeval.pickRecipe(res)
-//         this.setState({ recipesuggested: chosen })
-//       })
-//   }
+  //   recipeInfo = homeID => {
+  //     API.getPantryItems({
+  //       home_id: homeID
+  //     })
+  //       .then(res => {
+  //         var chosen = recipeeval.pickRecipe(res)
+  //         this.setState({ recipesuggested: chosen })
+  //       })
+  //   }
 
 
   //Function to change the state values on input change
@@ -534,34 +534,42 @@ class Homehub extends Component {
       <div>
         {this.props.authenticated ?
           <div>
-            <div style={{ textAlign: "center", height: 200, clear: "both", paddingTop: 120 }} className="jumbotron">
+
+            {/* JUMBOTRON */}
+            <div className="jumbotron" id="home-hub-jumbo">
               <h1>Home Hub</h1>
-              <h4>{this.state.homeName}</h4>
+              <h2>{this.state.homeName}</h2>
             </div>
-            {/*contents go here */}
-            <div style={{ clear: "both" }}>
-              <div className="card">
-                <div className="card-body" style={{ textAlign: "center" }}>
-                  <ul className="nav nav-tabs" id="home-hub-tabs" role="tablist" style={{ display: "inline-block", fontSize: 20, fontWeight: "bold" }}>
-                    <li className="nav-item no-padding" style={{ display: "inline" }}>
-                      <a className="nav-link active" id="chores-tab" data-toggle="tab" href="#chores" role="tab" aria-controls="chores" aria-selected="true" style={{ float: "left" }}>Chores</a>
-                    </li>
-                    <li className="nav-item no-padding" style={{ display: "inline" }}>
-                      <a className="nav-link" id="pets-tab" data-toggle="tab" href="#pets" role="tab" aria-controls="pets" aria-selected="false" style={{ float: "left" }}>Pets</a>
-                    </li>
-                    <li className="nav-item no-padding" style={{ display: "inline" }}>
-                      <a className="nav-link" id="pantry-tab" data-toggle="tab" href="#pantry" role="tab" aria-controls="pantry" aria-selected="false" style={{ float: "left" }}>Pantry</a>
-                    </li>
-                  </ul>
 
-                  {/* all the content for the tabs goes below */}
-                  <div className="tab-content" id="myTabContent">
+            {/*ALL CONTENT */}
+            <div style={{ clear: "both", textAlign: "center" }}>
+              <ul className="nav nav-tabs" id="home-hub-tabs" role="tablist" style={{ display: "inline-block", fontSize: 20, fontWeight: "bold" }}>
+                <li className="nav-item no-padding" style={{ display: "inline" }}>
+                  <a className="nav-link active" id="chores-tab" data-toggle="tab" href="#chores" role="tab" aria-controls="chores" aria-selected="true" style={{ float: "left" }}>Chores</a>
+                </li>
+                <li className="nav-item no-padding" style={{ display: "inline" }}>
+                  <a className="nav-link" id="pets-tab" data-toggle="tab" href="#pets" role="tab" aria-controls="pets" aria-selected="false" style={{ float: "left" }}>Pets</a>
+                </li>
+                <li className="nav-item no-padding" style={{ display: "inline" }}>
+                  <a className="nav-link" id="pantry-tab" data-toggle="tab" href="#pantry" role="tab" aria-controls="pantry" aria-selected="false" style={{ float: "left" }}>Pantry</a>
+                </li>
+              </ul>
 
-                    {/* chores content goes here */}
-                    <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
-                      <div>
-                        <span>{this.adminFunctionAddChore(this.state.home_admin, this.state.user_id)}</span>
-                      </div>
+              <div className="tab-content" id="myTabContent">
+
+                {/* CHORES CONTENT */}
+                <div className="tab-pane fade show active" id="chores" role="tabpanel" aria-labelledby="chores-tab" style={{ textAlign: "center" }}>
+
+                  {/* IF ADMIN, BUTTON TO ADD CHORE GOES HERE */}
+                  <div>
+                    <span>{this.adminFunctionAddChore(this.state.home_admin, this.state.user_id)}</span>
+                  </div>
+
+                  <div className="container">
+                    <div className="row">
+                    
+                    {/* COMPLETED CHORES */}
+                    <div className="col-lg-6">
                       <span>{this.adminChoreHeader(this.state.home_admin, this.state.user_id)}</span>
                       {this.state.home_admin === this.state.user_id ?
                         [(this.state.completedChores.length > 0 ?
@@ -588,8 +596,11 @@ class Homehub extends Component {
                           :
                           <h5>No completed chores</h5>
                         )] : <span></span>}
-                      <hr />
-                      <h3>Uncompleted chores</h3>
+                    </div>
+
+                      {/* UNCOMPLETED CHORES */}
+                      <div className="col-lg-6">
+                      <h4>Uncompleted chores</h4>
                       <hr className="chore-head-line" />
                       {this.state.uncompletedChores.length > 0 ?
                         this.state.uncompletedChores.map(chore => (
@@ -613,84 +624,88 @@ class Homehub extends Component {
                         :
                         <h5>No uncompleted chores</h5>
                       }
+                      </div>
                     </div>
+                  </div>
+                </div>
 
-                    {/* pet data goes here */}
-                    <div className="tab-pane fade" id="pets" role="tabpanel" aria-labelledby="pets-tab">
-                      <div className="container" style={{ textAlign: "center" }}>
-                        <div>{this.adminFunctionAddpet(this.state.home_admin, this.state.user_id)}</div>
-                        <hr />
-                        <div className="row">
-                          <div className="col">
-                            <div className="card-deck">
-                              {this.state.petData.length > 0 ?
-                                this.state.petData.map(pet => (
-                                  <Pets
-                                    key={pet.id}
-                                    pet={pet}
-                                    user={this.state.user_id}
-                                    firstname={this.state.firstname}
-                                    home_id={this.props.state.home_id}
-                                    primary_vets={this.state.primary_vets}
-                                    home_admin={this.state.home_admin}
-                                    getPetData={this.getPetData}
-                                  />
-                                ))
-                                :
-                                // TODO not centered
-                                <h5>No Pets</h5>
-                              }
-                            </div>
-                          </div>
+                {/* PET CONTENT */}
+                <div className="tab-pane fade" id="pets" role="tabpanel" aria-labelledby="pets-tab">
+                  <div className="container" style={{ textAlign: "center" }}>
+                    <div>{this.adminFunctionAddpet(this.state.home_admin, this.state.user_id)}</div>
+                    <hr />
+                    <div className="row">
+                      <div className="col">
+                        <div className="card-deck">
+                          {this.state.petData.length > 0 ?
+                            this.state.petData.map(pet => (
+                              <Pets
+                                key={pet.id}
+                                pet={pet}
+                                user={this.state.user_id}
+                                firstname={this.state.firstname}
+                                home_id={this.props.state.home_id}
+                                primary_vets={this.state.primary_vets}
+                                home_admin={this.state.home_admin}
+                                getPetData={this.getPetData}
+                              />
+                            ))
+                            :
+                            // TODO not centered
+                            <h5>No Pets</h5>
+                          }
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
 
-                    <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
-                      <div>
-                        <span>{this.adminFunctionAddPantry(this.state.home_admin, this.state.user_id)}</span>
-                        <span> </span>
-                        <span>{this.adminFunctionDeletePantry(this.state.home_admin, this.state.user_id)}</span>
-                      </div>
-                      <br />
-                      {this.state.pantryItems.length > 0 ?
-                        <div className="table-responsive">
-                          <Table striped bordered>
-                            <thead>
-                              <tr>
-                                <th>Icon</th>
-                                <th>Item</th>
-                                <th>Item Type</th>
-                                <th>Date In</th>
-                                <th><i className="fas fa-minus"></i></th>
-                                <th>Quantity</th>
-                                <th><i className="fas fa-plus"></i></th>
-                              </tr>
-                            </thead>
-                            {this.state.pantryItems.map(item => (
-                              <PantryItem
-                                key={item.id}
-                                id={item.id}
-                                home_id={this.props.state.home_id}
-                                item_name={item.item_name}
-                                item_type={item.item_type}
-                                quantity={item.quantity}
-                                date_in={item.date_in}
-                                listPantry={this.listPantry}
-                              />
-                            ))}
-                          </Table>
-                        </div> :
-                        <h5>No items</h5>
-                      }
-                      <div>
-                          <Recipe home_id = {this.props.state.home_id}
-                          ></Recipe>
-                      </div>
+                {/* PANTRY CONTENT */}
+                <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
+                  <div>
+                    <span>{this.adminFunctionAddPantry(this.state.home_admin, this.state.user_id)}</span>
+                    <span> </span>
+                    <span>{this.adminFunctionDeletePantry(this.state.home_admin, this.state.user_id)}</span>
+                  </div>
+                  <br />
+                  {this.state.pantryItems.length > 0 ?
+                    <div className="table-responsive">
+                      <Table striped bordered>
+                        <thead>
+                          <tr>
+                            <th>Icon</th>
+                            <th>Item</th>
+                            <th>Item Type</th>
+                            <th>Date In</th>
+                            <th><i className="fas fa-minus"></i></th>
+                            <th>Quantity</th>
+                            <th><i className="fas fa-plus"></i></th>
+                          </tr>
+                        </thead>
+                        {this.state.pantryItems.map(item => (
+                          <PantryItem
+                            key={item.id}
+                            id={item.id}
+                            home_id={this.props.state.home_id}
+                            item_name={item.item_name}
+                            item_type={item.item_type}
+                            quantity={item.quantity}
+                            date_in={item.date_in}
+                            listPantry={this.listPantry}
+                          />
+                        ))}
+                      </Table>
+                    </div> :
+                    <h5>No items</h5>
+                  }
+                  <div>
+                    <Recipe home_id={this.props.state.home_id}
+                    ></Recipe>
+                  </div>
 
-                    </div>
-                    
-                    {/* <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
+                </div>
+
+                {/* <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
                       <div className="container">
                         <div className="row">
                           <div className="col-6">
@@ -712,10 +727,10 @@ class Homehub extends Component {
                         {/*{this.state.recipesuggested.map(recipe => (<Recipe recipe={recipe} />))} }
                       </div>
                     </div> */}
-                  </div>
-                </div>
               </div>
             </div>
+
+            {/* MODAL */}
             <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
               <Modal.Header closeButton>
                 <Modal.Title>
@@ -731,6 +746,7 @@ class Homehub extends Component {
                 </div>
               </Modal.Footer>
             </Modal>
+
           </div>
           :
           <Redirect to="/" />
