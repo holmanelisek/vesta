@@ -8,7 +8,7 @@ module.exports = {
     },
     "test": {
       "username": "root",
-      "password": null,
+      "password": "kitten123",
       "database": "ufo",
       "host": "127.0.0.1",
       "dialect": "mysql",

@@ -10,12 +10,13 @@ class Chores extends React.Component {
 
         this.state = {
             users: [],
-            modalShow: false
+            modalShow: false,
         };
 
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
+
 
     openModal() {
         this.setState({ modalShow: true });
@@ -36,6 +37,7 @@ class Chores extends React.Component {
             .then(res => {
                 let usersArray = res.data.map(this.storeUsernames)
                 this.setState({ users: usersArray });
+                return usersArray;
             })
     }
 
@@ -58,7 +60,7 @@ class Chores extends React.Component {
 
     componentDidMount = () => {
         this.grabUsers(this.props.home_id);
-        console.log(this.props.completedByPoints)
+        console.log(this.props.completedByPoints);
     }
 
     render() {
