@@ -72,12 +72,12 @@ class AdminChoreDisplay extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{ textAlign: "center" }}>
                 <ul className="list-group list-group-flush">
                     <li className="list-group-item list-group-item-warning">{this.props.choreName}<br />
-                        <button type="button" className="btn btn-secondary" style={{ margin: 5 }} onClick={this.openModal}>More Info...</button>
-                        <button type="button" className="btn btn-warning" onClick={() => this.markUncompleted(this.props.id)} style={{ margin: 5 }}>This isn't done</button>
-                        <button type="button" className="btn btn-danger" onClick={() => this.deleteChore(this.props.id)} >Delete</button>
+                        <button type="button" className="btn btn-secondary completed-btn-group" style={{ margin: 10 }} onClick={this.openModal}>More Info...</button>
+                        <button type="button" className="btn btn_yellow completed-btn-group" onClick={() => this.markUncompleted(this.props.id)} >This isn't done</button>
+                        <button type="button" className="btn btn-danger completed-btn-group" style={{ margin: 10 }} onClick={() => this.deleteChore(this.props.id)} >Delete</button>
                     </li>
                 </ul>
                 <Modal

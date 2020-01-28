@@ -146,6 +146,17 @@ nav ul {
     margin: 1rem 0rem;
 }
 
+@media only screen and (max-width: 450px) {
+    .completed-btn-group {
+      display: block;
+      margin: auto;
+    }
+  }
+
+.chore-head-line {
+    width: 13rem;
+}
+
 element.style {
     padding: 0px;
 }
