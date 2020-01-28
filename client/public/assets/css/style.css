@@ -132,7 +132,7 @@ ul {white-space: nowrap;}
 }
 
 .add-chore {
-    margin: 1rem 0rem;
+    /* margin: 1rem 0rem; */
     width: 20%
 }
 
@@ -183,7 +183,7 @@ element.style {
 
 /* HERO */
 .hero {
-    height: 500px;
+    height: 400px;
     background-size: cover;
     background-position: center;
     position: relative;
@@ -236,13 +236,17 @@ h1, h2, h3, h5, p {
 
 /* HOMEHUB */
 
+.tab-pane {
+  padding-top: 20px;
+}
+
 #home-hub-jumbo {
   text-align: center;
   clear: both;
   background-image: url("../images/home-hub-hero.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center center;
+  background-position: center;
   position: relative;
   height: 400px;
   color: white;
@@ -250,7 +254,7 @@ h1, h2, h3, h5, p {
 
 #home-hub-jumbo h1 {
   font-size: 60px;
-  padding-top: 125px;
+  padding-top: 130px;
   margin-top: 0;
 }
 
@@ -307,5 +311,6 @@ h1, h2, h3, h5, p {
     position: relative;
     text-align: center;
     padding: 10px;
+    margin-top: 20px;
   }
   
