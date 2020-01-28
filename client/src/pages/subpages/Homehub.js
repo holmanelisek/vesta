@@ -648,8 +648,6 @@ class Homehub extends Component {
                       <div>
                         <span>{this.adminFunctionAddPantry(this.state.home_admin, this.state.user_id)}</span>
                         <span> </span>
-                        <span>{this.adminFunctionPantryScanner(this.state.home_admin, this.state.user_id)}</span>
-                        <span> </span>
                         <span>{this.adminFunctionDeletePantry(this.state.home_admin, this.state.user_id)}</span>
                       </div>
                       <br />
