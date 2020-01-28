@@ -7,7 +7,7 @@ function Home(){
         <div>
             <Hero backgroundImage="/assets/images/family.jpg">
                 <h1>Vesta</h1>
-                <h2>A home management hub, for families on-the-go!</h2>
+                <h3>A home management hub, for families on-the-go!</h3>
             </Hero>
             <Information />
         </div>

@@ -131,11 +131,6 @@ ul {white-space: nowrap;}
         border-radius: 3px;
 }
 
-.add-chore {
-    /* margin: 1rem 0rem; */
-    width: 20%
-}
-
 @media only screen and (max-width: 450px) {
     .completed-btn-group {
       display: block;
@@ -174,11 +169,16 @@ element.style {
 .btn-danger {
     display: inline-block;
     padding: 0.5em 1em;
+    margin: 5px;
     text-decoration: none;
     background: #c1666b;/*Button Color*/
     color: #FFF;
     border-bottom: solid 4px #964e53;
     border-radius: 3px;
+}
+
+.fas {
+  margin:5px;
 }
 
 /* HERO */
@@ -216,8 +216,9 @@ element.style {
     margin-top: 0;
   }
   
-  .hero h2 {
+  .hero h3 {
     font-family: 'Caveat', cursive;
+    color:white;
   }
 
 /* INFORMATION */
@@ -235,6 +236,10 @@ h1, h2, h3, h5, p {
 }
 
 /* HOMEHUB */
+
+.col-lg-6 h4 {
+  margin-top: 20px;
+}
 
 .tab-pane {
   padding-top: 20px;
@@ -302,6 +307,41 @@ h1, h2, h3, h5, p {
     color: #4281a4;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* ACCOUNT */
+#account-jumbo {
+  text-align: center;
+  clear: both;
+  background-image: url("../images/account-hero.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  height: 400px;
+  color: white;
+}
+
+#account-jumbo h1 {
+  font-size: 60px;
+  padding-top: 130px;
+  margin-top: 0;
+}
+
+#account-jumbo h2 {
+  font-family: 'Caveat', cursive;
+}
+
+.fa-plus-square {
+  color: #48A9A6;
+}
+
+.fa-minus-square {
+  color: #c1666b;
+}
+
+.fa-edit {
+  color: #4281a4;
 }
 
 /* FOOTER   */
