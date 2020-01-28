@@ -173,7 +173,6 @@ class Homehub extends Component {
       return (
         <div>
           <h4>Completed chores</h4>
-          <hr className="chore-head-line" />
         </div>
       )
     }
@@ -570,18 +569,49 @@ class Homehub extends Component {
 
                       {/* COMPLETED CHORES */}
                       <div className="col-lg-6">
-                        <span>{this.adminChoreHeader(this.state.home_admin, this.state.user_id)}</span>
-                        {this.state.home_admin === this.state.user_id ?
-                          [(this.state.completedChores.length > 0 ?
-                            this.state.completedChores.map(chore => (
-                              < AdminChoreDisplay
+                        <div className="card">
+                          <span>{this.adminChoreHeader(this.state.home_admin, this.state.user_id)}</span>
+                          {this.state.home_admin === this.state.user_id ?
+                            [(this.state.completedChores.length > 0 ?
+                              this.state.completedChores.map(chore => (
+                                < AdminChoreDisplay
+                                  key={chore.id}
+                                  id={chore.id}
+                                  home_id={this.props.state.home_id}
+                                  completedBy={chore.completed_by}
+                                  completedById={chore.completed_by_id}
+                                  completedByPoints={chore.completed_by_points}
+                                  points={this.state.points}
+                                  choreName={chore.chore_name}
+                                  createdBy={chore.created_by}
+                                  assignedUser={chore.assigned_user}
+                                  pointValue={chore.point_value}
+                                  startDateTime={chore.start_date_time}
+                                  endDateTime={chore.end_date_time}
+                                  repeatInterval={chore.repeat_interval}
+                                  getChores={this.getChores}
+                                  getPoints={this.getPoints}
+                                />
+                              ))
+                              :
+                              <h5>No completed chores</h5>
+                            )] : <span></span>}
+                        </div>
+                      </div>
+
+                      {/* UNCOMPLETED CHORES */}
+                      <div className="col-lg-6">
+                        <div className="card">
+                          <h4>Uncompleted chores</h4>
+                          {this.state.uncompletedChores.length > 0 ?
+                            this.state.uncompletedChores.map(chore => (
+                              < Chores
                                 key={chore.id}
                                 id={chore.id}
                                 home_id={this.props.state.home_id}
-                                completedBy={chore.completed_by}
-                                completedById={chore.completed_by_id}
-                                completedByPoints={chore.completed_by_points}
-                                points={this.state.points}
+                                user_id={this.props.state.user_id}
+                                first_name={this.props.state.firstname}
+                                completedByPoints={this.props.state.points}
                                 choreName={chore.chore_name}
                                 createdBy={chore.created_by}
                                 assignedUser={chore.assigned_user}
@@ -590,40 +620,12 @@ class Homehub extends Component {
                                 endDateTime={chore.end_date_time}
                                 repeatInterval={chore.repeat_interval}
                                 getChores={this.getChores}
-                                getPoints={this.getPoints}
                               />
                             ))
                             :
-                            <h5>No completed chores</h5>
-                          )] : <span></span>}
-                      </div>
-
-                      {/* UNCOMPLETED CHORES */}
-                      <div className="col-lg-6">
-                        <h4>Uncompleted chores</h4>
-                        <hr className="chore-head-line" />
-                        {this.state.uncompletedChores.length > 0 ?
-                          this.state.uncompletedChores.map(chore => (
-                            < Chores
-                              key={chore.id}
-                              id={chore.id}
-                              home_id={this.props.state.home_id}
-                              user_id={this.props.state.user_id}
-                              first_name={this.props.state.firstname}
-                              completedByPoints={this.props.state.points}
-                              choreName={chore.chore_name}
-                              createdBy={chore.created_by}
-                              assignedUser={chore.assigned_user}
-                              pointValue={chore.point_value}
-                              startDateTime={chore.start_date_time}
-                              endDateTime={chore.end_date_time}
-                              repeatInterval={chore.repeat_interval}
-                              getChores={this.getChores}
-                            />
-                          ))
-                          :
-                          <h5>No uncompleted chores</h5>
-                        }
+                            <h5>No uncompleted chores</h5>
+                          }
+                        </div>
                       </div>
                     </div>
                   </div>
