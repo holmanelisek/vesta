@@ -95,7 +95,7 @@ class Pets extends Component {
           </div>
 
           <Modal show={this.state.modalShow} onHide={this.closeModal} backdrop='static'>
-            <Modal.Header closeButton>
+            <Modal.Header>
               <Modal.Title>
                 {this.modalTitleSwitch(this.state.modalFunc)}
               </Modal.Title>

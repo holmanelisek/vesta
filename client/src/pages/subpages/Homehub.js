@@ -94,7 +94,7 @@ class Homehub extends Component {
       API.addPet(newPetData)
         .then(response => {
           console.log(response.data)
-          this.props.getPetData(this.props.home_id)
+          this.props.getPetData(this.props.state.home_id)
         })
     }
   }
@@ -182,6 +182,7 @@ class Homehub extends Component {
 
   handleFindHome = (homeid) => {
     console.log("[Homehub.js handleFindHome]")
+    console.log("Home ID" + homeid)
     API.findHomeById(homeid)
       .then(response => {
         console.log("[Homehub.js handleFindHome - Complete]")
@@ -194,7 +195,7 @@ class Homehub extends Component {
           homeName: response.data.home_name,
           homeCity: response.data.city,
           homeState: response.data.state,
-          home_id: response.data.id,
+          home_id: this.props.state.home_id,
           home_admin: response.data.home_admin
         })
         //this.updateStateValues(this.props.state)
@@ -209,6 +210,8 @@ class Homehub extends Component {
   }
 
   getPoints = userHome => {
+    console.log ("[Homehub.js getPoints]")
+    console.log ("Home ID" + userHome)
     API.getAllHomeUsers({
       home_id: userHome
     }).then(res => {
@@ -221,7 +224,7 @@ class Homehub extends Component {
 
   grabUsers = userHome => {
     console.log("[Homehub.js grabUsers]")
-    console.log(userHome)
+    console.log("Home ID" + userHome)
     API.getAllHomeUsers({
       home_id: userHome
     })
@@ -272,6 +275,8 @@ class Homehub extends Component {
 
   //Function to get all chroes by home id
   getChores = homeid => {
+    console.log("[Homehub.js get Chores]")
+    console.log("Home id"+ homeid)
     API.getAllChores({
       home_id: homeid
     })
@@ -299,6 +304,8 @@ class Homehub extends Component {
 
   //Function to get pet data by home id and vets data for pets
   getPetData = (homeid) => {
+    console.log("[Homehub.js getPetData]")
+    console.log("Home id"+ homeid)
     //Api call for getting all bets beloning to home
     API.getAllPets({ home_id: homeid })
       .then(res => {
@@ -327,6 +334,7 @@ class Homehub extends Component {
   //pull pantry info to state
   listPantry = homeID => {
     console.log("[Homehub.js listPantry]")
+    console.log("Home id"+ homeID)
     API.getPantryItems({
       home_id: homeID
     })
@@ -407,12 +415,6 @@ class Homehub extends Component {
 
   modalTitleSwitch(modalFunc) {
     switch (modalFunc) {
-      case "pet":
-        return (
-          <div className="">
-            <h2>{this.props.pet.pet_name}<span className="float-right">{this.adminFunctionDeletePet(this.props.home_admin, this.props.user)}</span></h2>
-          </div>
-        );
       case "newPet":
         return (
           <NewPetTitle />
@@ -462,7 +464,7 @@ class Homehub extends Component {
             ref="displayAllVetsReference"
             all_vets={this.state.all_vets}
             primary_vets={this.state.primary_vets}
-            home_id={this.state.home_id}
+            home_id={this.props.state.home_id}
             getPetData={this.getPetData}
             closeModal={this.closeModal}
             getAllVets={this.getAllVets}
@@ -471,7 +473,7 @@ class Homehub extends Component {
       case "newVet":
         return (
           <NewVetForm
-            home_id={this.state.home_id}
+            home_id={this.props.state.home_id}
             getPetData={this.getPetData}
             closeModal={this.closeModal}
           />
@@ -479,7 +481,7 @@ class Homehub extends Component {
       case "addChore":
         return (
           <AddChore
-            home_id={this.state.home_id}
+            home_id={this.props.state.home_id}
             getChores={this.getChores}
             closeModal={this.closeModal}
             created_by={this.props.state.firstname}
@@ -488,7 +490,7 @@ class Homehub extends Component {
       case "deleteChore":
         return (
           <DeleteChore
-            home_id={this.state.home_id}
+            home_id={this.props.state.home_id}
             getChores={this.getChores}
             closeModal={this.closeModal}
             chores={this.state.chores}
@@ -497,7 +499,7 @@ class Homehub extends Component {
       case "addItem":
         return (
           <AddPantryItem
-            home_id={this.state.home_id}
+            home_id={this.props.state.home_id}
             listPantry={this.listPantry}
             closeModal={this.closeModal}
             created_by={this.props.state.firstname}
@@ -515,7 +517,7 @@ class Homehub extends Component {
       case "deleteItem":
         return (
           <DeletePantryItem
-            home_id={this.state.home_id}
+            home_id={this.props.state.home_id}
             listPantry={this.listPantry}
             closeModal={this.closeModal}
             pantry={this.state.pantryItems}
@@ -567,7 +569,7 @@ class Homehub extends Component {
                             < AdminChoreDisplay
                               key={chore.id}
                               id={chore.id}
-                              home_id={this.state.home_id}
+                              home_id={this.props.state.home_id}
                               completedBy={chore.completed_by}
                               completedById={chore.completed_by_id}
                               completedByPoints={chore.completed_by_points}
@@ -594,7 +596,7 @@ class Homehub extends Component {
                           < Chores
                             key={chore.id}
                             id={chore.id}
-                            home_id={this.state.home_id}
+                            home_id={this.props.state.home_id}
                             user_id={this.props.state.user_id}
                             first_name={this.props.state.firstname}
                             completedByPoints={this.props.state.points}
@@ -628,7 +630,7 @@ class Homehub extends Component {
                                     pet={pet}
                                     user={this.state.user_id}
                                     firstname={this.state.firstname}
-                                    home_id={this.state.home_id}
+                                    home_id={this.props.state.home_id}
                                     primary_vets={this.state.primary_vets}
                                     home_admin={this.state.home_admin}
                                     getPetData={this.getPetData}
@@ -669,7 +671,7 @@ class Homehub extends Component {
                               <PantryItem
                                 key={item.id}
                                 id={item.id}
-                                home_id={this.state.home_id}
+                                home_id={this.props.state.home_id}
                                 item_name={item.item_name}
                                 item_type={item.item_type}
                                 quantity={item.quantity}
