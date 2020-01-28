@@ -15,22 +15,22 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    // quantity_unit: {
-    //   type: DataTypes.STRING,
-    //   defaultValue: "unit",
-    // },
-    // low_quantity: {
-    //   type: DataTypes.INTEGER,
-    //   defaultValue: 0,
-    // },
+    quantity_unit: {
+      type: DataTypes.STRING,
+      defaultValue: "unit",
+      },
+      low_quantity: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
     date_in: {
       type: DataTypes.STRING,
       allowNull: false
-    }
-    // date_out: {
-    //   type: DataTypes.INTEGER,
-    //   defaultValue: 0,
-    // }
+    },
+      date_out: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      }
   });
 
   return Pantry;

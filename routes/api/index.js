@@ -57,6 +57,9 @@ router.get('/sign-s3', function (req, res) {
 // If the user has valid login credentials, send them to the members page.
 // Otherwise the user will be sent an error
 router.post("/login", passport.authenticate("local"), function (req, res) {
+  console.log("===================================")
+  console.log("[User Log In - 61]")
+  console.log("===================================")
   res.json(req.user);
 });
 
@@ -64,6 +67,9 @@ router.post("/login", passport.authenticate("local"), function (req, res) {
 // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
 // otherwise send back an error
 router.post("/signup", function (req, res) {
+  console.log("===================================")
+  console.log("[Sign Up - 71]")
+  console.log("===================================")
   db.User.create({
     email: req.body.email,
     password: req.body.password,
@@ -88,6 +94,9 @@ router.post("/signup", function (req, res) {
 
 //Remove user from home
 router.post("/users/remove_from_home", (req, res) => {
+  console.log("===================================")
+  console.log("[Remove User From home - 98]")
+  console.log("===================================")
   db.User.update({
     home_id: null
   },
@@ -106,6 +115,9 @@ router.post("/users/remove_from_home", (req, res) => {
 
 // Route for joining a home
 router.post("/users/join_home", (req, res) => {
+  console.log("===================================")
+  console.log("[Users Join Home - 119]")
+  console.log("===================================")
   db.User.update({
     home_id: req.body.home_id
   },
@@ -126,12 +138,18 @@ router.post("/users/join_home", (req, res) => {
 
 // Route for logging user out
 router.get("/logout", function (req, res) {
+  console.log("===================================")
+  console.log("[Log Out - 142]")
+  console.log("===================================")
   req.logout();
   res.json({ message: "Logging out" });
 });
 
 // Route for getting some data about our user to be used client side
 router.get("/user_data", function (req, res) {
+  console.log("===================================")
+  console.log("[Get User Data - 151]")
+  console.log("===================================")
   if (!req.user) {
     // The user is not logged in, send back an empty object
     res.json({ response: "User Not Logged In" });
@@ -157,6 +175,9 @@ router.get("/user_data", function (req, res) {
 
 //Get all users by home id
 router.post("/get/users", function (req, res) {
+  console.log("===================================")
+  console.log("[Get all users in Home - 178]")
+  console.log("===================================")
   db.User.findAll({
     where: {
       home_id: req.body.home_id
@@ -169,6 +190,9 @@ router.post("/get/users", function (req, res) {
 //Update user account info
 // Post for changing the 'completed' to true
 router.post("/users/account_update", (req, res) => {
+  console.log("===================================")
+  console.log("[Account Information Update - 193]")
+  console.log("===================================")
   db.User.update(
     {
       [req.body.field]: req.body.value
@@ -189,6 +213,9 @@ router.post("/users/account_update", (req, res) => {
 
 //Updating user password
 router.post("/users/password_update", (req, res) => {
+  console.log("===================================")
+  console.log("[Account Password Update - 216]")
+  console.log("===================================")
   //Find users old password in database
   db.User.findOne({
     where: {
@@ -250,6 +277,9 @@ router.post("/users/add_points", (req, res) => {
 //------------------------------//
 // Route to create home
 router.post("/home/create", (req, res) => {
+  console.log("===================================")
+  console.log("[Create Home -264]")
+  console.log("===================================")
   db.Homes.create({
     home_name: req.body.home_name,
     home_admin: req.body.home_admin,
@@ -268,6 +298,9 @@ router.post("/home/create", (req, res) => {
 
 //Route to update home address
 router.post("/home/update_address", (req, res) => {
+  console.log("===================================")
+  console.log("[Update Home Address - 285]")
+  console.log("===================================")
   db.Homes.update({
     home_name: req.body.home_name,
     street: req.body.home_street,
@@ -291,6 +324,9 @@ router.post("/home/update_address", (req, res) => {
 
 // Route for finding home by invitation key
 router.get("/home/find_by_key/:id", (req, res) => {
+  console.log("===================================")
+  console.log("[Find Home by Home Key - 311]")
+  console.log("===================================")
   db.Homes.findOne({
     where: {
       invitation_key: req.params.id
@@ -310,6 +346,9 @@ router.get("/home/find_by_key/:id", (req, res) => {
 
 // Route for finding home by home id
 router.get("/home/find_by_id/:id", (req, res) => {
+  console.log("===================================")
+  console.log("[Find home by Home Id - 333]")
+  console.log("===================================")
   db.Homes.findOne({
     where: {
       id: req.params.id
@@ -333,6 +372,9 @@ router.get("/home/find_by_id/:id", (req, res) => {
 
 //Route for getting master key from home
 router.post("/home/master_key/retrieve", (req, res) => {
+  console.log("===================================")
+  console.log("[Get master key - 359]")
+  console.log("===================================")
   db.Homes.findOne({
     where: {
       id: req.body.home_id
@@ -357,6 +399,9 @@ router.post("/home/master_key/retrieve", (req, res) => {
 //------------------------------//
 // Grabbing all chores by the user's home_id
 router.post("/get/chores", function (req, res) {
+  console.log("===================================")
+  console.log("[Get all chores by home - 386]")
+  console.log("===================================")
   db.Chore.findAll({
     where: {
       home_id: req.body.home_id
@@ -367,6 +412,9 @@ router.post("/get/chores", function (req, res) {
 });
 
 router.post("/add/chores", function (req, res) {
+  console.log("===================================")
+  console.log("[Add chore - 399]")
+  console.log("===================================")
   db.Chore.create({
     home_id: req.body.home_id,
     chore_name: req.body.chore_name,
@@ -389,6 +437,9 @@ router.post("/add/chores", function (req, res) {
 });
 
 router.post("/delete/chores", function (req, res) {
+  console.log("===================================")
+  console.log("[Delete Chores - 424]")
+  console.log("===================================")
   db.Chore.destroy({
     where: {
       id: req.body.chore_id
@@ -402,6 +453,9 @@ router.post("/delete/chores", function (req, res) {
 
 // Post for changing the 'completed' to true
 router.post("/edit/complete-chore", function (req, res) {
+  console.log("===================================")
+  console.log("[Complete Chore - 440]")
+  console.log("===================================")
   db.Chore.update({
     completed: 1,
     completed_by: req.body.completed_by,
@@ -422,6 +476,9 @@ router.post("/edit/complete-chore", function (req, res) {
 
 // Post for changing the 'completed' to false
 router.post("/edit/uncomplete-chore", function (req, res) {
+  console.log("===================================")
+  console.log("[Uncomplete Chore - 460]")
+  console.log("===================================")
   db.Chore.update({
     completed: 0,
     completed_by: null,
@@ -445,6 +502,9 @@ router.post("/edit/uncomplete-chore", function (req, res) {
 //----------Pet Routes----------//
 //------------------------------//
 // Grabbing all pets by the user's home_id
+console.log("===================================")
+console.log("[Get all pets by home ID - 483]")
+console.log("===================================")
 router.post("/get/pets", function (req, res) {
   db.Pets.findAll({
     where: {
@@ -457,6 +517,9 @@ router.post("/get/pets", function (req, res) {
 
 // Add pet
 router.post("/add/pet", function (req, res) {
+  console.log("===================================")
+  console.log("[Add pet - 498]")
+  console.log("===================================")
   db.Pets.create({
     home_id: req.body.home_id,
     pet_name: req.body.pet_name,
@@ -476,6 +539,9 @@ router.post("/add/pet", function (req, res) {
 
 //Remove pet
 router.post("/remove/pet/:id", function (req, res) {
+  console.log("===================================")
+  console.log("[Remove pet - 520]")
+  console.log("===================================")
   db.Pets.destroy({
     where: {
       id: req.params.id
@@ -494,6 +560,9 @@ router.post("/remove/pet/:id", function (req, res) {
 //------------------------------//
 //Route to get all vets from array
 router.post("/get/vets", function (req, res) {
+  console.log("===================================")
+  console.log("[Get all vets by array of ids - 541]")
+  console.log("===================================")
   db.Vets.findAll({
     where: {
       id: {
@@ -509,6 +578,9 @@ router.post("/get/vets", function (req, res) {
 
 //Route to get all vets
 router.get("/get/all_vets", (req, res) => {
+  console.log("===================================")
+  console.log("[Get all pets - 559]")
+  console.log("===================================")
   db.Vets.findAll({
   }).then(response => {
     res.json(response)
@@ -517,6 +589,9 @@ router.get("/get/all_vets", (req, res) => {
 
 //Route to add a vet
 router.post("/add/vet", (req, res) => {
+  console.log("===================================")
+  console.log("[Add a vet - 570]")
+  console.log("===================================")
   db.Vets.create({
     practice_name: req.body.practice_name,
     phone_number: req.body.phone_number,
@@ -541,6 +616,9 @@ router.post("/add/vet", (req, res) => {
 //-----------------------------//
 // Grabbing all pantry items by the user's home_id
 router.post("/get/pantry", function (req, res) {
+  console.log("===================================")
+  console.log("[Get all pantry by home id - 597]")
+  console.log("===================================")
   db.Pantry.findAll({
     where: {
       home_id: req.body.home_id
@@ -551,6 +629,9 @@ router.post("/get/pantry", function (req, res) {
 });
 
 router.post("/get/pantryitem", function (req, res) {
+  console.log("===================================")
+  console.log("[Get pantry item by name and home id - 610]")
+  console.log("===================================")
   db.Pantry.findAll({
     where: {
       home_id: req.body.home_id,
@@ -566,6 +647,9 @@ router.post("/get/pantryitem", function (req, res) {
 
 
 router.post("/add/pantry", function (req, res) {
+  console.log("===================================")
+  console.log("[Add pantry item - 628]")
+  console.log("===================================")
   db.Pantry.create({
     home_id: req.body.home_id,
     item_name: req.body.item_name,
@@ -583,6 +667,9 @@ router.post("/add/pantry", function (req, res) {
 });
 
 router.post("/update/quantity", function (req, res) {
+  console.log("===================================")
+  console.log("[Update pantry item qt - 648]")
+  console.log("===================================")
   db.Pantry.update({
     quantity: req.body.quantity
   }, {
@@ -599,6 +686,9 @@ router.post("/update/quantity", function (req, res) {
 })
 
 router.post("/delete/pantry", function (req, res) {
+  console.log("===================================")
+  console.log("[Delete pantry item - 667]")
+  console.log("===================================")
   db.Pantry.destroy({
     where: {
       id: req.body.item_id

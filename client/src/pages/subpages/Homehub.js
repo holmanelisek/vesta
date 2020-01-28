@@ -12,11 +12,10 @@ import { DeleteChore, DeleteChoreTitle } from '../../components/DeleteChore/inde
 import PantryItem from '../../components/PantryItem/index'
 import { AddPantryItem, AddPantryItemTitle } from '../../components/AddPantryItem/index'
 import { DeletePantryItem, DeletePantryItemTitle } from '../../components/DeletePantryItem/index'
+import {Recipe } from '../../components/Recipe'
 import Table from 'react-bootstrap/Table'
 import Scanner from '../../components/Scanner/BarcodeScanner'
 
-// import { Pantry, Recipe } from '../../components/Pantry'
-// import recipeeval from "../../../public/assets/javascript/recipes"
 
 
 class Homehub extends Component {
@@ -34,8 +33,6 @@ class Homehub extends Component {
       // users: []
       pantryItems: [],
       orderedPantryItems: [],
-      itemsneeded: [],
-      recipesuggested: [],
       user_id: undefined,
       username: undefined,
       firstname: undefined,
@@ -85,7 +82,10 @@ class Homehub extends Component {
       this.handleFindHome(this.props.state.home_id);
       this.listPantry(this.props.state.home_id);
       this.getPoints(this.props.state.home_id);
+//      this.recipeInfo(this.props.state.home_id);
     }
+
+    console.log(this.props)
   }
 
   submitPet = (newPetData, admin, user) => {
@@ -221,6 +221,7 @@ class Homehub extends Component {
 
   grabUsers = userHome => {
     console.log("[Homehub.js grabUsers]")
+    console.log(userHome)
     API.getAllHomeUsers({
       home_id: userHome
     })
@@ -337,6 +338,29 @@ class Homehub extends Component {
       })
   }
 
+//needPantry = homeID => {
+ //API.getPantryItems({
+//    home_id: homeID
+//  })
+//      .then(res =>{          
+//          var needed = [];
+//          var index = 0;
+//          for(const item of res.data){
+//            if(item.data_out>0){
+//              var currently = Date.now();
+//              var timeLeft = item.date_out - (((((currently)/1000)/60)/60)/24);
+//              if (timeLeft<3){
+//                needed[index] = item;
+//                index++;
+//              }
+//            }else if(item.quantity<=item.low_quantity){
+//              needed[index] = item;
+//                index++;
+//            }
+//          }
+//          this.setState({itemsneeded: needed})
+//      })
+//  }
   orderPantryItems = (a, b) => {
     const itemA = a.item_name.toUpperCase();
     const itemB = b.item_name.toUpperCase();
@@ -350,51 +374,16 @@ class Homehub extends Component {
     return comparison
   }
 
-  // convertToDays = milliseconds => {
-  //   var seconds = (milliseconds / 1000);
-  //   var minutes = seconds / 60;
-  //   var hours = minutes / 60;
-  //   var days = hours / 24;
-  //   return days
-  // }
+//   recipeInfo = homeID => {
+//     API.getPantryItems({
+//       home_id: homeID
+//     })
+//       .then(res => {
+//         var chosen = recipeeval.pickRecipe(res)
+//         this.setState({ recipesuggested: chosen })
+//       })
+//   }
 
-  // needItems = pantry => {
-  //   var need = []
-  //   for (var i = 0; i++; i < pantry.length) {
-  //     if (pantry[i].date_out > 0) {
-  //       var timeLeft = pantry[i].date_out - Date.now();
-  //       var dayOut = convertToDays(timeLeft);
-  //       if (dayOut < 3) {
-  //         need.append(pantry[i]);
-  //       }
-  //     } else if (pantry[i].quantity <= pantry[i].low_quantity) {
-  //       need.append(pantry[i]);
-  //     }
-  //   }
-  //   return need;
-  // }
-
-
-  // needPantry = homeID => {
-  //   API.getPantryItems({
-  //     home_id: homeID
-  //   })
-  //     .then(res => {
-  //       var needed = needItems(res);
-  //       this.setState({ itemsneeded: needed })
-  //     })
-  // }
-
-
-  // recipeInfo = homeID => {
-  //   API.getPantryItems({
-  //     home_id: homeID
-  //   })
-  //     .then(res => {
-  //       var chosen = recipeeval.pickRecipe(res)
-  //       this.setState({ recipesuggested: chosen })
-  //     })
-  // }
 
   //Function to change the state values on input change
   handleInputChange = event => { }
@@ -454,19 +443,19 @@ class Homehub extends Component {
   modalBodySwitch(modalFunc) {
 
     switch (modalFunc) {
-      case "pet":
-        return (
-          <div>
-            <p>Pet Name: {this.props.pet.pet_name}</p>
-            <p>Pet Aage: {this.props.pet.age}</p>
-            <hr />
-            <p>Primary Vet: {this.props.pet.primary_vet_info.practice_name}</p>
-            <p>Phone Number: {this.props.pet.primary_vet_info.phone_number}</p>
-            <p>Address: {this.props.pet.primary_vet_info.street}, {this.props.pet.primary_vet_info.city}, {this.props.pet.primary_vet_info.state} {this.props.pet.primary_vet_info.zip}</p>
-            <hr />
-            <p className="card-text">Pets description</p>
-          </div>
-        );
+      // case "pet":
+      //   return (
+      //     <div>
+      //       <p>Pet Name: {this.props.pet.pet_name}</p>
+      //       <p>Pet Aage: {this.props.pet.age}</p>
+      //       <hr />
+      //       <p>Primary Vet: {this.props.pet.primary_vet_info.practice_name}</p>
+      //       <p>Phone Number: {this.props.pet.primary_vet_info.phone_number}</p>
+      //       <p>Address: {this.props.pet.primary_vet_info.street}, {this.props.pet.primary_vet_info.city}, {this.props.pet.primary_vet_info.state} {this.props.pet.primary_vet_info.zip}</p>
+      //       <hr />
+      //       <p className="card-text">Pets description</p>
+      //     </div>
+      //   );
       case "newPet":
         return (
           <NewPetForm
@@ -695,30 +684,30 @@ class Homehub extends Component {
                         <h5>No items</h5>
                       }
                     </div>
+                    <div>
+                          <Recipe home_id = {this.props.state.home_id}
+                          ></Recipe>
+                      </div>
                     {/* <div className="tab-pane fade" id="pantry" role="tabpanel" aria-labelledby="pantry-tab">
                       <div className="container">
                         <div className="row">
                           <div className="col-6">
                             <h4>Items in pantry:</h4>
                             <ul className="list-group list-group-flush">
-                              <li className="list-group-item list-group-item-success">
-                                {this.state.pantryitems.map(item => (<Pantry item={item} />))}
-                              </li>
+                                {this.state.pantryItems.map(item => (<HavePantry item={item} />))}
                             </ul>
                           </div>
                           <div className="col-6">
                             <h4>Items needed:</h4>
                             <ul className="list-group list-group-flush">
-                              <li className="list-group-item list-group-item-danger"><h4>Milk</h4>
-                                {this.state.itemsneeded.map(item => (<Pantry item={item} />))}
-                              </li>
+                                {this.state.itemsneeded.map(item => (<NeedPantry item={item} />))}
                             </ul>
                           </div>
                         </div>
                       </div>
                       <br />
                       <div className="row">
-                        {this.state.recipesuggested.map(recipe => (<Recipe recipe={recipe} />))}
+                        {/*{this.state.recipesuggested.map(recipe => (<Recipe recipe={recipe} />))} }
                       </div>
                     </div> */}
                   </div>
