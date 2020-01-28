@@ -209,6 +209,7 @@ class Homehub extends Component {
 
   grabUsers = userHome => {
     console.log("[Homehub.js grabUsers]")
+    console.log(userHome)
     API.getAllHomeUsers({
       home_id: userHome
     })
@@ -451,19 +452,19 @@ class Homehub extends Component {
     // const { selectedAddOption } = this.state;
 
     switch (modalFunc) {
-      case "pet":
-        return (
-          <div>
-            <p>Pet Name: {this.props.pet.pet_name}</p>
-            <p>Pet Aage: {this.props.pet.age}</p>
-            <hr />
-            <p>Primary Vet: {this.props.pet.primary_vet_info.practice_name}</p>
-            <p>Phone Number: {this.props.pet.primary_vet_info.phone_number}</p>
-            <p>Address: {this.props.pet.primary_vet_info.street}, {this.props.pet.primary_vet_info.city}, {this.props.pet.primary_vet_info.state} {this.props.pet.primary_vet_info.zip}</p>
-            <hr />
-            <p className="card-text">Pets description</p>
-          </div>
-        );
+      // case "pet":
+      //   return (
+      //     <div>
+      //       <p>Pet Name: {this.props.pet.pet_name}</p>
+      //       <p>Pet Aage: {this.props.pet.age}</p>
+      //       <hr />
+      //       <p>Primary Vet: {this.props.pet.primary_vet_info.practice_name}</p>
+      //       <p>Phone Number: {this.props.pet.primary_vet_info.phone_number}</p>
+      //       <p>Address: {this.props.pet.primary_vet_info.street}, {this.props.pet.primary_vet_info.city}, {this.props.pet.primary_vet_info.state} {this.props.pet.primary_vet_info.zip}</p>
+      //       <hr />
+      //       <p className="card-text">Pets description</p>
+      //     </div>
+      //   );
       case "newPet":
         return (
           <NewPetForm

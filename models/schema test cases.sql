@@ -6,7 +6,7 @@
 --Additonal Notes
 --Passwords on seeded users is "password"
 
-use rlgigpc1ws56zull;
+use vesta_test;
 
 INSERT INTO Homes
     (street,city,state,zip,home_name,home_admin,master_key,invitation_key,createdAt,updatedAt)
@@ -129,7 +129,7 @@ INSERT INTO pantries
 VALUES 
     (1,"bananas","Produce",6,"units",0,18284,18289,'2020-1-24 19:52:39','2020-1-24 19:52:39');
 INSERT INTO pantries
-    (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out,createdAt,updatedAt) 
+    (home_id,item_name,item_type,quantity,quantity_unit,low_quantity,date_in,date_out,createdAt,updatedAt) 
 VALUES 
     (1,"apple juice","Beverages",3,"cups",0,18284,18290,'2020-1-24 19:52:39','2020-1-24 19:52:39');
 INSERT INTO pantries
