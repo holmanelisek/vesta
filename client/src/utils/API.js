@@ -175,6 +175,17 @@ export default {
   // Deletes item from pantry
   deletePantryItem: itemData => {
     return axios.post("/api/delete/pantry", itemData);
-  }
+  },
   //----------------------//
+
+  //Recipe API Call//
+  getRecipe: queryURL => {
+    return axios ({
+      url: queryURL,
+      method: "get"
+    })
+  }
+  //-----------------//
 };
+
+

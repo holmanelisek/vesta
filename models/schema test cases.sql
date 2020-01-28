@@ -103,7 +103,36 @@ INSERT INTO Notes
 VALUES
     (1, 3, false, "Graduation is coming up, if we want to make dinner reservations for afterwards we should talk about where.", "2020-01-11 12:15:00", "2020-01-11 12:15:00");
 
-INSERT INTO Pantries
+
+INSERT INTO pantries
+    (home_id,item_name,item_type,quantity,quantity_unit,low_quantity,date_in,date_out,createdAt,updatedAt) 
+VALUES 
+    (1,"granny smith apples","Produce",3,"units",3,18284,18289,'2020-1-24 19:52:39','2020-1-24 19:52:39');
+INSERT INTO pantries
+    (home_id,item_name,item_type,quantity,quantity_unit,low_quantity,date_in,date_out,createdAt,updatedAt)
+VALUES
+    (1,"vanilla extract","Condiments/Spices & Bake",6,"tbsp",0,18284,18285,'2020-1-24 19:52:39','2020-1-24 19:52:39');
+INSERT INTO pantries
+    (home_id,item_name,item_type,quantity,quantity_unit,low_quantity,date_in,date_out,createdAt,updatedAt)
+VALUES 
+    (1,"Rice Krispies Cereal","Breakfast & Cereal",6,"cups",0,18284,18300,'2020-1-24 19:52:39','2020-1-24 19:52:39');
+INSERT INTO pantries
+    (home_id,item_name,item_type,quantity,quantity_unit,low_quantity,date_in,date_out,createdAt,updatedAt) 
+VALUES 
+    (1,"milk",'Dairy, Eggs & Cheese',16,"cups",5,18284,18290,'2020-1-24 19:52:39','2020-1-24 19:52:39');
+INSERT INTO pantries
+    (home_id,item_name,item_type,quantity,quantity_unit,low_quantity,date_in,date_out,createdAt,updatedAt) 
+VALUES 
+    (1,"ground beef",'Meat & Seafood',3,"cups",0,18284,18285,'2020-1-24 19:52:39','2020-1-24 19:52:39');
+INSERT INTO pantries
+    (home_id,item_name,item_type,quantity,quantity_unit,low_quantity,date_in,date_out,createdAt,updatedAt) 
+VALUES 
+    (1,"bananas","Produce",6,"units",0,18284,18289,'2020-1-24 19:52:39','2020-1-24 19:52:39');
+INSERT INTO pantries
+    (home_id,item_name,quantity,quantity_unit,low_quantity,date_in,date_out,createdAt,updatedAt) 
+VALUES 
+    (1,"apple juice","Beverages",3,"cups",0,18284,18290,'2020-1-24 19:52:39','2020-1-24 19:52:39');
+INSERT INTO pantries
     (home_id,item_name,item_type,quantity,date_in,createdAt,updatedAt)
 VALUES
     (1, "Nestle Hot Cocoa Mix", "Beverages", 1, "October 19,2020", "2020-01-11 12:15:00", "2020-01-11 12:15:00");

@@ -14,7 +14,7 @@ function pickRecipe(pantry){
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-       recipe = pickBest(response);
+       recipe = pickBest(response.data);
     })
     return recipe
 }
