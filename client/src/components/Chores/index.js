@@ -65,7 +65,7 @@ class Chores extends React.Component {
         return (
             <div>
                 <ul className="list-group list-group-flush">
-                    <li className="list-group-item list-group-item-success">{this.props.choreName}<br />
+                    <li className="list-group-item list-group-item-warning">{this.props.choreName}<br />
                         <button type="button" className="btn btn-secondary" style={{ margin: 5 }} onClick={this.openModal}>More Info...</button>
                         <button type="button" className="btn btn-success" onClick={() => this.markCompleted(this.props.id, this.props.first_name, this.props.user_id, this.props.completedByPoints)} style={{ margin: 5 }}>Completed!</button>
                     </li>

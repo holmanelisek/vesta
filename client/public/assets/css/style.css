@@ -5,30 +5,19 @@ body {
 }
 
 /* NAV */
-#nav-icon {
-    width: 100px
-}
+#nav-icon {width: 100px}
 
-li.no-padding {
-    padding: 0px;
-}
+li {padding: 10px;}
 
-nav li {
-    padding: 10px;
-}
-
-nav li li {
+li li {
     padding-left: 0px;
     padding-right: 0px;
 }
 
-nav ul {
-    white-space: nowrap;
-}
+ul {white-space: nowrap;}
 
-.nav-color {
-    background-color: #4280a4;
-}
+.nav-color {background-color: #4280a4;}
+
 
 /* BUTTONS */
 
@@ -144,6 +133,7 @@ nav ul {
 
 .add-chore {
     margin: 1rem 0rem;
+    width: 20%
 }
 
 @media only screen and (max-width: 450px) {
@@ -231,6 +221,7 @@ element.style {
   }
 
 /* INFORMATION */
+
 h1, h2, h3, h5, p {
     font-family: 'Montserrat', sans-serif;
 }
@@ -244,6 +235,28 @@ h1, h2, h3, h5, p {
 }
 
 /* HOMEHUB */
+
+#home-hub-jumbo {
+  text-align: center;
+  clear: both;
+  background-image: url("../images/home-hub-hero.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: relative;
+  height: 400px;
+  color: white;
+}
+
+#home-hub-jumbo h1 {
+  font-size: 60px;
+  padding-top: 125px;
+  margin-top: 0;
+}
+
+#home-hub-jumbo h2 {
+  font-family: 'Caveat', cursive;
+}
 
 #chores-tab {
     font-family: 'Caveat', cursive;
@@ -281,6 +294,11 @@ h1, h2, h3, h5, p {
     }
   }
 
+  .trashIcon {
+    color: #4281a4;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 /* FOOTER   */
 .footer {
