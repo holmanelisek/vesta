@@ -245,6 +245,10 @@ h1, h2, h3, h5, p {
   padding-top: 20px;
 }
 
+.add-chore {
+  margin-bottom: 20px;
+}
+
 #home-hub-jumbo {
   text-align: center;
   clear: both;
