@@ -148,7 +148,8 @@ router.get("/user_data", function (req, res) {
         email: dbUser.email,
         first_name: dbUser.first_name,
         last_name: dbUser.last_name,
-        home_id: dbUser.home_id
+        home_id: dbUser.home_id,
+        points: dbUser.points
       });
     });
   }
@@ -226,6 +227,22 @@ router.post("/users/password_update", (req, res) => {
         }
       })
   })
+})
+
+router.post("/users/add_points", (req, res) => {
+  console.log(req.body)
+  db.User.update({
+    points: req.body.points
+  }, {
+    where: {
+      id: req.body.id
+    }
+  })
+    .then(pointData => {
+      res.json(pointData)
+    }).catch(err => {
+      console.log(err)
+    })
 })
 
 //------------------------------//
@@ -386,10 +403,13 @@ router.post("/delete/chores", function (req, res) {
 // Post for changing the 'completed' to true
 router.post("/edit/complete-chore", function (req, res) {
   db.Chore.update({
-    completed: 1
+    completed: 1,
+    completed_by: req.body.completed_by,
+    completed_by_id: req.body.completed_by_id,
+    completed_by_points: req.body.completed_by_points
   }, {
     where: {
-      id: req.body.choreData
+      id: req.body.id
     }
   })
     .then(function (dbChore) {
@@ -403,10 +423,13 @@ router.post("/edit/complete-chore", function (req, res) {
 // Post for changing the 'completed' to false
 router.post("/edit/uncomplete-chore", function (req, res) {
   db.Chore.update({
-    completed: 0
+    completed: 0,
+    completed_by: null,
+    completed_by_id: null,
+    completed_by_points: null
   }, {
     where: {
-      id: req.body.choreData
+      id: req.body.id
     }
   })
     .then(function (dbChore) {

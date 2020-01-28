@@ -23,6 +23,7 @@ class Vesta extends Component {
       password: undefined,
       firstname: undefined,
       lastname: undefined,
+      points: undefined,
       email: undefined,
       home_id: undefined,
       home_name: undefined,
@@ -61,6 +62,7 @@ class Vesta extends Component {
           lastname: res.data.last_name,
           home_id: res.data.home_id,
           user_id: res.data.id,
+          points: res.data.points,
           email: res.data.email
         });
         console.log(res.data)
