@@ -19,7 +19,7 @@ var Secret_Key = process.env.AWS_SECRET_ACCESS_KEY;
 //-------------------------------//
 //-----Upload to Amazon S3-------//
 //-------------------------------//
-router.get('/sign-s3', function(req, res) {
+router.get('/sign-s3', function (req, res) {
   var s3 = new aws.S3({
     accessKeyId: User_Key,
     secretAccessKey: Secret_Key,
@@ -27,7 +27,7 @@ router.get('/sign-s3', function(req, res) {
 
   var fileName = req.query['file-name'];
   var fileType = req.query['file-type'];
-  var uniqueName = Date.now()+""+fileName;
+  var uniqueName = Date.now() + "" + fileName;
   var s3Params = {
     Bucket: Bucket_Name,
     Key: uniqueName,
@@ -36,14 +36,14 @@ router.get('/sign-s3', function(req, res) {
     ACL: 'public-read'
   };
 
-  s3.getSignedUrl('putObject', s3Params, function(err, data) {
-    if(err){
+  s3.getSignedUrl('putObject', s3Params, function (err, data) {
+    if (err) {
       console.log(err);
       return res.end();
     }
     var returnData = {
       signedRequest: data,
-      url: "https://"+Bucket_Name+".s3.amazonaws.com/"+uniqueName
+      url: "https://" + Bucket_Name + ".s3.amazonaws.com/" + uniqueName
     };
     res.write(JSON.stringify(returnData));
     res.end();
@@ -87,21 +87,21 @@ router.post("/signup", function (req, res) {
 });
 
 //Remove user from home
-router.post("/users/remove_from_home", (req, res)=>{
+router.post("/users/remove_from_home", (req, res) => {
   db.User.update({
     home_id: null
   },
-  {
-    where: {
-      id: req.body.user_id
-    }
-  }).then( response => {
-    console.log(response)
-    res.json(response)
-  }).catch( err =>{
-    console.log(err)
-    res.status(401).json(err)
-  })
+    {
+      where: {
+        id: req.body.user_id
+      }
+    }).then(response => {
+      console.log(response)
+      res.json(response)
+    }).catch(err => {
+      console.log(err)
+      res.status(401).json(err)
+    })
 })
 
 // Route for joining a home
@@ -167,11 +167,11 @@ router.post("/get/users", function (req, res) {
 
 //Update user account info
 // Post for changing the 'completed' to true
-router.post("/users/account_update",  (req, res) => {
+router.post("/users/account_update", (req, res) => {
   db.User.update(
     {
       [req.body.field]: req.body.value
-    }, 
+    },
     {
       where: {
         id: req.body.user_id
@@ -193,31 +193,31 @@ router.post("/users/password_update", (req, res) => {
     where: {
       id: req.body.user_id
     }
-  }).then(dbUser =>{
+  }).then(dbUser => {
     //Compare database password with user input old password
     bcrypt.compare(req.body.old_password, dbUser.password)
-      .then( result=>{
+      .then(result => {
         //if result === true
-        if(result){
+        if (result) {
           //Hash the new password
-          bcrypt.hash(req.body.password, saltRounds, (err, hash) =>{
+          bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
             //update the db with the new hased password
             db.User.update({
               password: hash
-            },{
+            }, {
               where: {
                 id: req.body.user_id
               }
-            }).then( userData=>{
+            }).then(userData => {
               //return userData
               res.json(userData)
-            }).catch(err =>{
+            }).catch(err => {
               //return error
               res.status(401).json(err.errors[0].message)
             })
           })
-        //if result === false
-        }else{
+          //if result === false
+        } else {
           //return failure
           res.json({
             update: "Failed",
@@ -250,26 +250,26 @@ router.post("/home/create", (req, res) => {
 })
 
 //Route to update home address
-router.post("/home/update_address", (req, res)=>{
+router.post("/home/update_address", (req, res) => {
   db.Homes.update({
-      home_name:  req.body.home_name,
-      street: req.body.home_street,
-      city: req.body.home_city,
-      state: req.body.home_state,
-      zip: req.body.home_zip,
-      master_key:  req.body.master_key,
-      invitation_key:  req.body.home_key,
-      home_admin:  req.body.home_admin
-    },
+    home_name: req.body.home_name,
+    street: req.body.home_street,
+    city: req.body.home_city,
+    state: req.body.home_state,
+    zip: req.body.home_zip,
+    master_key: req.body.master_key,
+    invitation_key: req.body.home_key,
+    home_admin: req.body.home_admin
+  },
     {
       where: {
         id: req.body.home_id
       }
-    }).then( homeData => {
+    }).then(homeData => {
       res.json(homeData)
-    }).catch( err =>{
-    res.status(401).json({ error: err.errors[0].message });
-  })
+    }).catch(err => {
+      res.status(401).json({ error: err.errors[0].message });
+    })
 })
 
 // Route for finding home by invitation key
@@ -387,6 +387,23 @@ router.post("/delete/chores", function (req, res) {
 router.post("/edit/complete-chore", function (req, res) {
   db.Chore.update({
     completed: 1
+  }, {
+    where: {
+      id: req.body.choreData
+    }
+  })
+    .then(function (dbChore) {
+      res.json(dbChore);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+});
+
+// Post for changing the 'completed' to false
+router.post("/edit/uncomplete-chore", function (req, res) {
+  db.Chore.update({
+    completed: 0
   }, {
     where: {
       id: req.body.choreData
