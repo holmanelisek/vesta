@@ -49,15 +49,25 @@ class AdminChoreDisplay extends React.Component {
             })
     }
 
-    addPoints = (id, pointValue) => {
-        const newPointTotal = parseInt(pointValue) + parseInt(this.props.points[this.props.completedById - 1])
+    addPoints = (completedById, points) => {
+        const id = completedById
+        const users = this.props.users
+
+        const compUser = users.find((user) => {
+            if (user.id === id) {
+                return user
+            }
+        })
+
+        const compUserPoints = compUser.points + points
+
         API.addUserPoints({
             id: id,
-            points: newPointTotal
+            points: compUserPoints
         })
             .then(res => {
                 console.log(res)
-                this.props.getPoints(this.props.home_id)
+                this.props.grabUsers(this.props.home_id)
                 this.deleteChore(this.props.id)
                 this.props.getChores(this.props.home_id)
             })
@@ -72,7 +82,7 @@ class AdminChoreDisplay extends React.Component {
 
     render() {
         return (
-            <div style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "center" }} >
                 <ul className="list-group list-group-flush">
                     <li className="list-group-item list-group-item-success">{this.props.choreName}<br />
                         <button type="button" className="btn btn-secondary completed-btn-group" style={{ margin: 10 }} onClick={this.openModal}>More Info...</button>
