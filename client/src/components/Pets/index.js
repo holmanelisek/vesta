@@ -3,7 +3,14 @@ import { Modal } from 'react-bootstrap';
 import DeletePet from "../DeletPet";
 import {NewPetTitle} from "../NewPetForm";
 import API from "../../utils/API"
-
+const petImage = {
+  objectFit: "cover",
+  maxWidth: "fit-content(100%)",
+  maxHeight: "250px",
+  display: "block",
+  marginLeft: "auto",
+  marginRight: "auto"
+}
 class Pets extends Component {
 
   state = {
@@ -87,7 +94,7 @@ class Pets extends Component {
   render() {
     return (
         <div className="card">
-          <img src={this.props.pet.image_url} className="card-img-top img-responsive" alt="Cute Puppy" />
+          <img src={this.props.pet.image_url} className="card-img-top img-responsive" style={petImage} alt="Cute Puppy" />
           <div className="card-body">
             <h5 className="card-title">{this.props.pet.pet_name}</h5>
             <p className="card-text">Age:{this.props.pet.age}</p>
