@@ -44,6 +44,9 @@ class Homeless extends Component{
                 user_id: this.props.state.user_id
             }).then(res=>{
                 console.log(res)
+                this.props.authenticate()
+                this.props.getHomeInformation(this.state.home_id)
+                this.props.getHomeMembers(this.state.home_id)
                 this.handleClose()
                 this.props.history.push("/Homehub");
             }).catch(err=>{
@@ -93,8 +96,8 @@ class Homeless extends Component{
             zip: this.state.homeZip
         }).then( response => {
             this.setState({home_id: response.data.id})
-            this.handleClose()
             this.handleJoinSubmit();
+            this.handleClose()
         })
 
     }
@@ -227,51 +230,57 @@ class Homeless extends Component{
         return(
             <div>
                 {this.props.authenticated ? 
-                    <div id="homeless">    
-                        <div className="jumbotron" id="homeless-jumbo">
-                        <h1>Find Your Home</h1>
-                        <h2>Time to find your home sweet home!</h2>
-                        </div>
-                        <Container>
-                            <div className="row">
-                                <div className="card-deck">
-                                    <div className="card">
-                                        <img className="card-img-top createHomeImg" id="createHomeImg" src="./assets/images/createhome.png" alt="Create a Home" />
-                                        <div className="card-body">
-                                            <h2>Create My Home</h2>
-                                            <p2>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum sodales risus, at auctor nunc cursus at.
-                                            </p2>
-                                        </div>
-                                        <div className="card-footer">
-                                            <button className="btn btn-info" onClick={this.handleCreateModal}>Create My Home</button>
-                                        </div>
-                                    </div>
-                                    <div className="card">
-                                        <img className="card-img-top findHomeImg" id="findHomeImg" src="./assets/images/findhome.jpg" alt="Create a Home" />
-                                        <div className="card-body">
-                                            <h2>Find My Home</h2>
-                                            <p2>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum sodales risus, at auctor nunc cursus at.
-                                            </p2>
-                                        </div>
-                                        <div className="card-footer">
-                                            <button className="btn btn-info" onClick={this.handleFindHomeModal}>Find My Home</button>
-                                        </div>
-                                    </div>
+                    <div>
+                        {this.props.state.home_id ? 
+                            <Redirect to="/Homehub" />
+                        :
+                            <div id="homeless">    
+                                <div className="jumbotron" id="homeless-jumbo">
+                                <h1>Find Your Home</h1>
+                                <h2>Time to find your home sweet home!</h2>
                                 </div>
+                                    <Container>
+                                        <div className="row">
+                                            <div className="card-deck">
+                                                <div className="card">
+                                                    <img className="card-img-top createHomeImg" id="createHomeImg" src="./assets/images/createhome.png" alt="Create a Home" />
+                                                    <div className="card-body">
+                                                        <h2>Create My Home</h2>
+                                                        <p2>
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum sodales risus, at auctor nunc cursus at.
+                                                        </p2>
+                                                    </div>
+                                                    <div className="card-footer">
+                                                        <button className="btn btn-info" onClick={this.handleCreateModal}>Create My Home</button>
+                                                    </div>
+                                                </div>
+                                                <div className="card">
+                                                    <img className="card-img-top findHomeImg" id="findHomeImg" src="./assets/images/findhome.jpg" alt="Create a Home" />
+                                                    <div className="card-body">
+                                                        <h2>Find My Home</h2>
+                                                        <p2>
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum sodales risus, at auctor nunc cursus at.
+                                                        </p2>
+                                                    </div>
+                                                    <div className="card-footer">
+                                                        <button className="btn btn-info" onClick={this.handleFindHomeModal}>Find My Home</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Container>
+                                    <Modal show={this.state.modalShow} onHide={this.handleClose} backdrop='static'>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>
+                                                {this.modalTitleSwitch(this.state.modalFunc)}
+                                            </Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            {this.modalBodySwitch(this.state.modalFunc)}
+                                        </Modal.Body>
+                                    </Modal>
                             </div>
-                        </Container>
-                        <Modal show={this.state.modalShow} onHide={this.handleClose} backdrop='static'>
-                            <Modal.Header closeButton>
-                                <Modal.Title>
-                                    {this.modalTitleSwitch(this.state.modalFunc)}
-                                </Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                {this.modalBodySwitch(this.state.modalFunc)}
-                            </Modal.Body>
-                        </Modal>
+                        }
                     </div>
                 :
                     <Redirect to="/" />

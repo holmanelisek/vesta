@@ -105,23 +105,39 @@ class Account extends Component{
 
     getHomeMembers = homeId => {
         console.log("[Account.js getHomeMembers]")
-        API.getAllHomeUsers({home_id: homeId})
-          .then(response => {
-            console.log("[Account.js getHomeMember - Complete]")
-            this.setState({ home_members: response.data})
-            this.setState({
-                home_street: this.props.state.home_street,
-                home_city: this.props.state.home_city,
-                home_state: this.props.state.home_state,
-                home_zip: this.props.state.home_zip,
-                home_name: this.props.state.home_name,
-                home_key: this.props.state_home_key,
+        if(homeId){
+            API.getAllHomeUsers({home_id: homeId})
+            .then(response => {
+              console.log("[Account.js getHomeMember - Complete]")
+              this.setState({ home_members: response.data})
+              this.setState({
+                  home_street: this.props.state.home_street,
+                  home_city: this.props.state.home_city,
+                  home_state: this.props.state.home_state,
+                  home_zip: this.props.state.home_zip,
+                  home_name: this.props.state.home_name,
+                  home_key: this.props.state_home_key,
+              })
+              this.findAdminName(this.props.state.home_admin);
+              this.buildMembersSelection(response.data);
+            }).catch(err => {
+              console.log(err)
             })
-            this.findAdminName(this.props.state.home_admin);
-            this.buildMembersSelection(response.data);
-          }).catch(err => {
-            console.log(err)
-          })
+        }else{
+            console.log("[Vesta.js getHomeMembers - No Home]")
+            this.setState({ home_members: 
+                [{
+                    id: this.props.state.user_id,
+                    username: this.props.state.username,
+                    email: this.props.state.email,
+                    first_name: this.props.state.firstname,
+                    last_name: this.props.state.lastname,
+                    points: this.props.state.points,
+                    home_id: this.props.state.home_id
+                }]
+            })
+            console.log( this.state.home_members)
+        }
       }
 
     findAdminName = adminId =>{
