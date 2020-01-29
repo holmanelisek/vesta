@@ -30,7 +30,6 @@ class Homehub extends Component {
       uncompletedChores: [],
       completedChores: [],
       petData: [],
-      // users: []
       pantryItems: [],
       orderedPantryItems: [],
       user_id: undefined,
@@ -203,8 +202,8 @@ class Homehub extends Component {
   }
 
 
-  storeUsernames = array => {
-    return array.username;
+  storeUserPoints = array => {
+    return { [array.id]: [array.points] };
   }
 
   getPoints = userHome => {
@@ -227,7 +226,17 @@ class Homehub extends Component {
       home_id: userHome
     })
       .then(res => {
-        let usersArray = res.data.map(this.storeUsernames)
+        console.log(res)
+        console.log(res.data)
+        // let usersArray = res.data.map(this.storeUserPoints)
+        let usersArray = res.data.map((user) => {
+          return {
+            id: user.id,
+            points: user.points
+          }
+        });
+        console.log(usersArray)
+
         this.setState({ users: usersArray });
         console.log("[Homehub.js grabUsers - Complete]")
       })
@@ -581,6 +590,7 @@ class Homehub extends Component {
                                   completedBy={chore.completed_by}
                                   completedById={chore.completed_by_id}
                                   completedByPoints={chore.completed_by_points}
+                                  users={this.state.users}
                                   points={this.state.points}
                                   choreName={chore.chore_name}
                                   createdBy={chore.created_by}
@@ -591,6 +601,7 @@ class Homehub extends Component {
                                   repeatInterval={chore.repeat_interval}
                                   getChores={this.getChores}
                                   getPoints={this.getPoints}
+                                  grabUsers={this.grabUsers}
                                 />
                               ))
                               :

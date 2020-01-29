@@ -118,6 +118,7 @@ export class AddPantryItem extends Component {
                 </div>
                 <div className="my-2">
                     {/*Date In*/}
+                    <span>Date added: </span>
                     <DatePicker
                         selected={this.state.date_in}
                         onChange={this.handleDateChange}

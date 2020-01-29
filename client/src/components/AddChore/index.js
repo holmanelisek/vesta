@@ -141,6 +141,7 @@ export class AddChore extends Component {
                 </div>
                 <div className="my-2">
                     {/*Chore start*/}
+                    <span>Start date: </span>
                     <DatePicker
                         selected={this.state.startDate}
                         onChange={this.handleStartDateChange}
@@ -154,6 +155,7 @@ export class AddChore extends Component {
                 </div>
                 <div className="my-2">
                     {/*Be done before*/}
+                    <span>End date: </span>
                     <DatePicker
                         selected={this.state.endDate}
                         onChange={this.handleEndDateChange}
