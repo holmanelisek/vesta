@@ -4,6 +4,13 @@ body {
     height: 100%;
 }
 
+p {
+  font-family: 'Montserrat', sans-serif;
+}
+.modal-body {
+    font-family: 'Montserrat', sans-serif;
+}
+
 /* NAV */
 #nav-icon {width: 100px}
 
@@ -23,6 +30,19 @@ ul {white-space: nowrap;}
   font-weight: bolder;
 }
 
+/* INFORMATION */
+
+h1, h5, p {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.subheader, .questions, h3, h4 {
+  font-family: 'Caveat', cursive;
+}
+
+.headshot {
+  width: 60%;
+}
 
 /* BUTTONS */
 
@@ -34,6 +54,7 @@ ul {white-space: nowrap;}
     color: #FFF;
     border-bottom: solid 4px #33637f;
     border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .btn_blue_dark{
@@ -44,9 +65,11 @@ ul {white-space: nowrap;}
     color: #FFF;
     border-bottom: solid 4px #234960;
     border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
-.btn_green{
+.btn_green, .btn-info {
     display: inline-block;
     padding: 0.5em 1em;
     text-decoration: none;
@@ -54,6 +77,8 @@ ul {white-space: nowrap;}
     color: #FFF;
     border-bottom: solid 4px #32807e;
     border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 .btn_green_dark{
@@ -64,6 +89,8 @@ ul {white-space: nowrap;}
     color: #FFF;
     border-bottom: solid 4px #256968;
     border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 .btn_cream{
@@ -74,6 +101,8 @@ ul {white-space: nowrap;}
     color: #FFF;
     border-bottom: solid 4px #aba8a6;
     border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 .btn_cream_dark{
@@ -84,6 +113,8 @@ ul {white-space: nowrap;}
     color: #FFF;
     border-bottom: solid 4px #80807f;
     border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 .btn_yellow{
@@ -94,6 +125,8 @@ ul {white-space: nowrap;}
     color: #FFF;
     border-bottom: solid 4px #9d8763;
     border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 .btn_yellow_dark{
@@ -104,6 +137,8 @@ ul {white-space: nowrap;}
     color: #FFF;
     border-bottom: solid 4px #7f6e4f;
     border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 .btn_red{
@@ -114,6 +149,8 @@ ul {white-space: nowrap;}
     color: #FFF;
     border-bottom: solid 4px #964e53;
     border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 .btn_red_dark{
@@ -124,6 +161,8 @@ ul {white-space: nowrap;}
     color: #FFF;
     border-bottom: solid 4px #773b40;
     border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 .deleteThisPet {
@@ -134,6 +173,8 @@ ul {white-space: nowrap;}
         color: #FFF;
         border-bottom: solid 4px #964e53;
         border-radius: 3px;
+        font-family: 'Montserrat', sans-serif;
+
 }
 
 @media only screen and (max-width: 450px) {
@@ -187,6 +228,7 @@ element.style {
 }
 
 /* HERO */
+
 .hero {
     height: 500px;
     background-size: cover;
@@ -225,20 +267,6 @@ element.style {
     font-family: 'Caveat', cursive;
     color:white;
   }
-
-/* INFORMATION */
-
-h1, h2, h3, h5, p {
-    font-family: 'Montserrat', sans-serif;
-}
-
-.subheader, .questions, h4 {
-    font-family: 'Caveat', cursive;
-}
-
-.headshot {
-    width: 60%;
-}
 
 /* HOMEHUB */
 
@@ -327,7 +355,41 @@ h1, h2, h3, h5, p {
   margin-left: 10px;
 }
 
+/* HOMELESS */
+
+#homeless h2 {
+  font-family: 'Caveat', cursive;
+}
+
+#homeless p {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.subheader, .questions, h3, h4 {
+  font-family: 'Caveat', cursive;
+}
+
+#homeless-jumbo {
+  text-align: center;
+  clear: both;
+  background-image: url("../images/homeless-jumbo.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  height: 400px;
+  color: white;
+}
+
+#homeless-jumbo h1 {
+  font-size: 60px;
+  padding-top: 130px;
+  margin-top: 0;
+}
+
+
 /* ACCOUNT */
+
 #account-jumbo {
   text-align: center;
   clear: both;

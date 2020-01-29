@@ -227,9 +227,10 @@ class Homeless extends Component{
         return(
             <div>
                 {this.props.authenticated ? 
-                    <div>    
-                        <div style={{ textAlign: "center", height: 200, clear: "both", paddingTop: 120 }} className="jumbotron">
-                        <h1>Homeless</h1>
+                    <div id="homeless">    
+                        <div className="jumbotron" id="homeless-jumbo">
+                        <h1>Find Your Home</h1>
+                        <h2>Time to find your home sweet home!</h2>
                         </div>
                         <Container>
                             <div className="row">
