@@ -50,11 +50,10 @@ class AdminChoreDisplay extends React.Component {
     }
 
     addPoints = (id, pointValue) => {
-        const newPointTotal = pointValue + this.props.points[this.props.completedById - 1]
-        // console.log(typeof (newPointTotal))
+        const newPointTotal = parseInt(pointValue) + parseInt(this.props.points[this.props.completedById - 1])
         API.addUserPoints({
             id: id,
-            points: parseInt(newPointTotal)
+            points: newPointTotal
         })
             .then(res => {
                 console.log(res)
