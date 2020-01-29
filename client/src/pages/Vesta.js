@@ -59,13 +59,13 @@ class Vesta extends Component {
           authenticated: true,
           firstname: res.data.first_name,
           lastname: res.data.last_name,
+          username: res.data.username,
           home_id: res.data.home_id,
           user_id: res.data.id,
           points: res.data.points,
           email: res.data.email
         });
         console.log(res.data)
-        console.log("[Vesta.js Authentication - Complete]")
         this.getHomeInformation(res.data.home_id)
         this.getHomeMembers(res.data.home_id)
       }
@@ -74,13 +74,26 @@ class Vesta extends Component {
 
   getHomeMembers = home_id => {
     console.log("[Vesta.js getHomeMembers]")
-    API.getAllHomeUsers({ home_id: home_id })
-      .then(response => {
-        console.log("[Vesta.js getHomeMembers - Complete]")
-        this.setState({ home_members: response.data })
-      }).catch(err => {
-        console.log(err)
-      })
+    if(home_id !== null){
+      API.getAllHomeUsers({ home_id: home_id })
+        .then(response => {
+          console.log("[Vesta.js getHomeMembers - Complete]")
+          this.setState({ home_members: response.data })
+        }).catch(err => {
+          console.log(err)
+        })
+    }else{
+        console.log("[Vesta.js getHomeMembers - No Home]")
+        this.setState({ home_members: [{
+          id: this.state.user_id,
+          username: this.state.username,
+          email: this.state.email,
+          first_name: this.state.firstname,
+          last_name: this.state.lastname,
+          points: this.state.points,
+          home_id: this.state.home_id
+        }] })
+    }
   }
 
   getHomeInformation = home_id => {
@@ -154,7 +167,9 @@ class Vesta extends Component {
       fName: this.state.firstname,
       lName: this.state.lastname
     }).then(res => {
+      console.log(res.data)
       this.setState({
+        authenticated: true,
         firstname: res.data.first_name,
         lastname: res.data.last_name,
         home_id: null,
@@ -283,7 +298,15 @@ class Vesta extends Component {
 
           <Switch>
             <Route path="/" exact render={Home} />
-            <Route path="/Homeless" exact render={props => (<Homeless {...props} state={this.state} authenticated={this.state.authenticated} authenticate={this.authentication} />)} />
+            <Route path="/Homeless" exact render={props => (
+              <Homeless 
+                {...props} 
+                state={this.state} 
+                authenticated={this.state.authenticated} 
+                authenticate={this.authentication} />)}
+                getHomeInformation = {this.getHomeInformation}
+                getHomeMembers = {this.getHomeMembers}
+              />
             <Route path="/Account" exact render={props => (
               <Account
                 {...props}

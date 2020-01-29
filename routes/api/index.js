@@ -75,7 +75,8 @@ router.post("/signup", function (req, res) {
     password: req.body.password,
     username: req.body.username,
     first_name: req.body.fName,
-    last_name: req.body.lName
+    last_name: req.body.lName,
+    points: 0
   })
     .then(function (dbUser) {
       req.login(dbUser, function (err) {
@@ -98,7 +99,8 @@ router.post("/users/remove_from_home", (req, res) => {
   console.log("[Remove User From home - 98]")
   console.log("===================================")
   db.User.update({
-    home_id: null
+    home_id: null,
+    points: 0
   },
     {
       where: {
