@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Select from 'react-select';
 import API from "../../utils/API";
-import {ToggleButtonGroup, ToggleButton, ButtonToolbar} from "react-bootstrap"
+import { ToggleButtonGroup, ToggleButton, ButtonToolbar } from "react-bootstrap"
 
 const abbrStates = ['AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY'];
 console.log("[NewVetForm]")
@@ -36,8 +36,8 @@ export class NewVetForm extends Component {
         })
     }
 
-    handleEmergencyClinic = val =>{
-        this.setState({emergency_clinic: val})
+    handleEmergencyClinic = val => {
+        this.setState({ emergency_clinic: val })
     }
 
     handleSelectionState = selection => {
@@ -52,7 +52,7 @@ export class NewVetForm extends Component {
             street: this.state.street,
             city: this.state.city,
             state: this.state.us_state,
-            zip: this.state.zip,
+            zip: parseInt(this.state.zip),
             email: this.state.email,
             emergency_clinic: this.state.emergency_clinic
         }).then(response => {
@@ -80,13 +80,23 @@ export class NewVetForm extends Component {
                             className="form-control"
                             placeholder="Practice Name" />
                     </div>
+                    {/* Emergency CLinic */}
+                    <div className="my-2">
+                        <label>Emergency Clinic</label>
+                        <ButtonToolbar>
+                            <ToggleButtonGroup type="radio" name="options" defaultValue={1} onChange={this.handleEmergencyClinic}>
+                                <ToggleButton value={1}>Yes</ToggleButton>
+                                <ToggleButton value={2}>No</ToggleButton>
+                            </ToggleButtonGroup>
+                        </ButtonToolbar>
+                    </div>
                     {/* Phone Number */}
                     <div className="my-2">
                         <label>Phone Number</label>
                         <input
                             value={this.state.phone_number}
                             onChange={this.handleInputChange}
-                            type="number"
+                            type="text"
                             name="phone_number"
                             id="phone_number"
                             className="form-control validate"
@@ -131,9 +141,10 @@ export class NewVetForm extends Component {
                         <input
                             value={this.state.zip}
                             onChange={this.handleInputChange}
-                            type="number"
+                            type="text"
                             name="zip"
                             id="zip"
+                            maxLength="5"
                             className="form-control validate"
                             placeholder="Zip Code" />
                     </div>
@@ -150,7 +161,7 @@ export class NewVetForm extends Component {
                             placeholder="Email Address" />
                     </div>
                     {/* Emergency CLinic */}
-                    <div className="my-2">
+                    {/* <div className="my-2">
                         <label>Emergency Clinic</label>
                         <ButtonToolbar>
                             <ToggleButtonGroup type="radio" name="options" defaultValue={1} onChange={this.handleEmergencyClinic}>
@@ -158,11 +169,13 @@ export class NewVetForm extends Component {
                                 <ToggleButton value={2}>No</ToggleButton>
                             </ToggleButtonGroup>
                         </ButtonToolbar>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
                     {/* Submit Button */}
                     <button disabled={!this.state.practice_name || !this.state.phone_number || !this.state.street || !this.state.city || !this.state.us_state || !this.state.zip || !this.state.email || !this.state.emergency_clinic} type="submit" onClick={this.submitNewVet} className="btn btn-deep-orange">Add Vet</button>
+                    {/* <button disabled={!this.state.practice_name || !this.state.phone_number || !this.state.street || !this.state.city || !this.state.us_state || !this.state.zip || !this.state.email || !this.state.emergency_clinic} type="submit" onClick={this.submitNewVet} className="btn btn-deep-orange">Add Vet</button> */}
+                    {/* <button disabled={!this.state.practice_name || !this.state.phone_number || !this.state.street || !this.state.city || !this.state.us_state || !this.state.zip || !this.state.emergency_clinic} type="submit" onClick={this.submitNewVet} className="btn btn-deep-orange">Add Vet</button> */}
                 </div>
             </div>
         );

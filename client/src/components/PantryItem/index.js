@@ -106,9 +106,24 @@ class PantryItem extends Component {
                     console.log(err)
                 });
         } else {
-            alert("This item is at 0");
+            // alert("This item is at 0");
+            this.deleteItem(id)
         }
 
+    }
+
+    deleteItem = id => {
+        console.log(this.state.item_id)
+        API.deletePantryItem({
+            item_id: id
+        })
+            .then(res => {
+                console.log(res)
+                this.props.listPantry(this.props.home_id)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     render() {

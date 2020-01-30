@@ -609,7 +609,8 @@ router.post("/add/vet", (req, res) => {
       data: response
     })
   }).catch(err => {
-    res.status(401).json(err);
+    console.log(err)
+    res.status(401).json({ error: err.errors[0].message });
   })
 })
 
