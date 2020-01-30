@@ -175,7 +175,6 @@ export class NewPetForm extends Component {
                             value={this.state.age}
                             onChange={this.handleInputChange}
                             type="number"
-                            min="0"
                             name="age"
                             id="age"
                             className="form-control validate"
@@ -215,18 +214,18 @@ export class NewPetForm extends Component {
                             name="emergency_vet_id"
                         />
                     </div>
-                    <br />
+                    <br/>
                     <div>
                         <label htmlFor="Image">Upload Image</label>
                         <br />
                         <input
-                            id="Image"
-                            type="file"
-                            accept="image/*"
-                            capture="camera"
-                            name="photo"
+                            id="Image" 
+                            type="file" 
+                            accept="image/*" 
+                            capture="camera" 
+                            name="photo" 
                             onChange={this.getPetImage}
-                        />
+                            />
                     </div>
                     <br />
                     <div className="row justify-content-center">
