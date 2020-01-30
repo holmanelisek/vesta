@@ -247,7 +247,7 @@ class Homeless extends Component{
                                                     <div className="card-body">
                                                         <h2>Create My Home</h2>
                                                         <p2>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum sodales risus, at auctor nunc cursus at.
+                                                            
                                                         </p2>
                                                     </div>
                                                     <div className="card-footer">
@@ -259,7 +259,7 @@ class Homeless extends Component{
                                                     <div className="card-body">
                                                         <h2>Find My Home</h2>
                                                         <p2>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum sodales risus, at auctor nunc cursus at.
+                                                            
                                                         </p2>
                                                     </div>
                                                     <div className="card-footer">
