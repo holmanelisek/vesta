@@ -539,7 +539,6 @@ class Homehub extends Component {
             listPantry={this.listPantry}
             closeModal={this.closeModal}
             pantry={this.state.pantryItems}
-            deleteItem={this.deleteItem}
           />
         );
     }
