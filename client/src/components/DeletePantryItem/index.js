@@ -39,7 +39,7 @@ export class DeletePantryItem extends Component {
                     onChange={this.handleChange}
                     options={this.buildOptions()}
                 />
-                <button disabled={!this.state.item_id} type='button' className='btn btn-danger' onClick={this.deleteItem}>Delete</button>
+                <button disabled={!this.state.item_id} type='button' className='btn btn-danger' onClick={this.props.deleteItem}>Delete</button>
             </div>
         )
     }

@@ -23,6 +23,7 @@ class Homehub extends Component {
     super();
 
     this.state = {
+      petDisplay: undefined,
       selectedDeleteOption: undefined,
       selectedAddOption: undefined,
       mondalFunc: undefined,
@@ -174,6 +175,14 @@ class Homehub extends Component {
           <h4>Completed chores</h4>
         </div>
       )
+    }
+  }
+
+  noPetsDisplay = () => {
+    if (this.state.petData.length > 0) {
+      this.setState({ petDisplay: "card-deck" })
+    } else {
+      this.setState({ petDisplay: "" })
     }
   }
 
@@ -330,6 +339,7 @@ class Homehub extends Component {
             this.setState({
               petData: this.insertVetToPet(res.data, vetData.data)
             })
+            this.noPetsDisplay();
           }).catch()
       }).catch()
   }
@@ -529,6 +539,7 @@ class Homehub extends Component {
             listPantry={this.listPantry}
             closeModal={this.closeModal}
             pantry={this.state.pantryItems}
+            deleteItem={this.deleteItem}
           />
         );
     }
@@ -649,7 +660,7 @@ class Homehub extends Component {
                     <hr />
                     <div className="row">
                       <div className="col">
-                        <div className="card-deck">
+                        <div className={this.state.petDisplay}>
                           {this.state.petData.length > 0 ?
                             this.state.petData.map(pet => (
                               <Pets
@@ -664,7 +675,7 @@ class Homehub extends Component {
                               />
                             ))
                             :
-                            // TODO not centered
+                            /* // TODO not centered */
                             <h5>No Pets</h5>
                           }
                         </div>
